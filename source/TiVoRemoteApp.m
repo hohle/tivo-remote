@@ -52,7 +52,7 @@
 
     struct CGRect navRect = CGRectMake(rect.origin.x, rect.origin.y, rect.size.width, 48);
     navBar = [[UINavigationBar alloc] initWithFrame: navRect];
-    [navBar showButtonsWithLeftTitle:@"Swap" rightTitle:@"Settings"];
+    [navBar showButtonsWithLeftTitle:@"Channels" rightTitle:@"Settings"];
     [navBar setBarStyle:5];
     [navBar setDelegate:self];
 
@@ -95,8 +95,11 @@
     case 1: // page
     {
        page = (page + 1) % 2;
+       [navBar showButtonsWithLeftTitle: 
+                     (page == 0 ? @"Channels" : @"Playback")
+                     rightTitle:@"Settings"];
        [remoteView setPage:page];
-        break;
+       break;
      }
      }
 }

@@ -39,11 +39,6 @@
     butHeight = rect.size.height / HEIGHT;
 
     connection = [[TiVoConnection alloc] init];
-    UIImageView *background = [[UIImageView alloc] 
-        initWithFrame:
-          CGRectMake(0, 0, 460, 460)];
-    [background setImage:[UIImage applicationImageNamed:@"Default.png"]];
-//    [self addSubview:background];
     buttons = [[NSMutableArray alloc] init];
 
     return self;
@@ -75,13 +70,12 @@
 
 
     // tivo navigation
-//    [self addButton:2:0:@"TiVo":"TIVO"];
     [self addButton:2:0:@"/\\":"UP"];
     [self addButton:4:0:@"LiveTV":"LIVETV"];
     [self addButton:1:1:@"<":"LEFT"];
     [self addButton:3:1:@">":"RIGHT"];
     [self addButton:4:1:@"Info":"DISPLAY"];
-//    [self addButton:0:2:@"Aspect":""];
+    [self addButton:0:2:@"Aspect":"WINDOW"];
     [self addButton:2:2:@"\\/":"DOWN"];
     [self addButton:4:2:@"Guide":"GUIDE"];
     [self addButton:0:3:@"ThDn":"THUMBSDOWN"];

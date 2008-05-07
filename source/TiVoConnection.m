@@ -108,8 +108,8 @@ NSLog(@"Closing");
     if (cmd == NULL) {
         return;
     }
-    char *buffer = malloc(25);
-    sprintf(buffer, "IRCODE %s\r\n", cmd);
+    char buffer[25];
+    sprintf(buffer, "IRCODE %s\r", cmd);
     NSLog(@"sending '%s' (%d)", buffer, strlen(buffer));
     int sockFD = [self getSocket];
     if (sockFD>= 0) {
