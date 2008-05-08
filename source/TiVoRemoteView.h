@@ -23,6 +23,7 @@
 @class UIView;
 @class UIImageView;
 @class UISliderControl;
+@class TiVoButton;
 
 #define WIDTH 5
 #define HEIGHT 8
@@ -31,17 +32,15 @@
 {
 	TiVoConnection *connection;
 	int             page;
-	NSMutableArray *buttons;
+	NSMutableArray *pages;
 	int	        butWidth;
 	int             butHeight;
-	UIAlertSheet   *alertSheet;
 }
 
 - (id)initWithFrame:(struct CGRect)rect;
-- (void)buttonEvent:(UIPushButton *)button;
 - (void)setPage:(int) page;
-- (void)addButton:(int) xLoc :(int) yLoc: (NSString *) title: (char *)cmd;
-- (void)showAlert:(NSString *)alert;
-- (void)close;
+- (int)numPages;
+-(void) initPages:(NSNotification *) notification;
+- (TiVoButton *)createButton:(int) xLoc :(int) yLoc: (NSString *) title: (char *)cmd;
 
 @end

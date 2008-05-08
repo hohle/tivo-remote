@@ -18,6 +18,8 @@
 
 #import <CoreFoundation/CoreFoundation.h>
 #import <Foundation/Foundation.h>
+#import <Foundation/NSArray.h>
+#import <Foundation/NSEnumerator.h>
 #import <CoreGraphics/CoreGraphics.h>
 #import <GraphicsServices/GraphicsServices.h>
 #import <UIKit/CDStructures.h>
@@ -29,127 +31,115 @@
 
 #import "TiVoRemoteView.h"
 #import "TiVoButton.h"
+#import "TiVoDefaults.h"
+#import "RemotePage.h"
 
 @implementation TiVoRemoteView
 - (id)initWithFrame:(struct CGRect)rect
 {
     [super initWithFrame:rect];
-    connection = NULL;
+    int i;
     butWidth = rect.size.width / WIDTH;
     butHeight = rect.size.height / HEIGHT;
 
-    connection = [[TiVoConnection alloc] init];
-    buttons = [[NSMutableArray alloc] init];
+    page = 0;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(initPages:) name:@"Standby" object:nil];
 
+    pages = [[NSMutableArray alloc] init];
+    for (i = 0; i < 2; i++) {
+        RemotePage *pageView = [[RemotePage alloc] initWithFrame:CGRectMake(0, 0, rect.size.width, rect.size.height)];
+        [pages addObject:pageView];
+    }
+    [self initPages:NULL];
     return self;
 }
 
-- (void)addButton:(int) xLoc :(int) yLoc: (NSString *) title: (char *)cmd
+- (TiVoButton *)createButton:(int) xLoc :(int) yLoc: (NSString *) title: (char *)cmd
 {
-    float yOffs = 0.0;
     TiVoButton *button = [[TiVoButton alloc] initWithTitle: title];
-    [button setFrame:  CGRectMake(butWidth * xLoc, butHeight* yLoc + yOffs,  butWidth, butHeight)];
+    [button setFrame:  CGRectMake(butWidth * xLoc, butHeight* yLoc,  butWidth, butHeight)];
 
-    [button addTarget: self action:@selector(buttonEvent:) forEvents:1];
     [button setCommand: cmd];
-    [self addSubview:button];
-    [buttons addObject: button];
+    return button;
+}
+
+-(void) initPages:(NSNotification *) notification
+{
+    int i;
+
+    for (i = 0; i < 2; i++) {
+        RemotePage *pageView = [pages objectAtIndex:i];
+        [pageView clear];
+
+        if ([[TiVoDefaults sharedDefaults] showStandby]) {
+           TiVoButton *standby = [self createButton:0:0:@"Standby":"STANDBY"];
+           [standby setConfirm:YES];
+           [pageView addButton:standby];
+        }
+        // tivo navigation
+        [pageView addButton:[self createButton:2:0:@"/\\":"UP"]];
+        [pageView addButton:[self createButton:4:0:@"LiveTV":"LIVETV"]];
+        [pageView addButton:[self createButton:1:1:@"<":"LEFT"]];
+        [pageView addButton:[self createButton:3:1:@">":"RIGHT"]];
+        [pageView addButton:[self createButton:4:1:@"Info":"DISPLAY"]];
+        [pageView addButton:[self createButton:0:2:@"Aspect":"WINDOW"]];
+        [pageView addButton:[self createButton:2:2:@"\\/":"DOWN"]];
+        [pageView addButton:[self createButton:4:2:@"Guide":"GUIDE"]];
+        [pageView addButton:[self createButton:0:3:@"ThDn":"THUMBSDOWN"]];
+        [pageView addButton:[self createButton:2:3:@"Select":"SELECT"]];
+        [pageView addButton:[self createButton:4:3:@"ThUp":"THUMBSUP"]];
+    
+        if (i == 0) {
+            // playback
+            [pageView addButton:[self createButton:0:4:@"Rec":"RECORD"]];
+            [pageView addButton:[self createButton:2:4:@"|>":"PLAY"]];
+            [pageView addButton:[self createButton:4:4:@"Ch+":"CHANNELUP"]];
+            [pageView addButton:[self createButton:1:5:@"<<":"REVERSE"]];
+            [pageView addButton:[self createButton:2:5:@"||":"PAUSE"]];
+            [pageView addButton:[self createButton:3:5:@">>":"FORWARD"]];
+            [pageView addButton:[self createButton:4:5:@"Ch-":"CHANNELDOWN"]];
+            [pageView addButton:[self createButton:0:6:@"Repl":"REPLAY"]];
+            [pageView addButton:[self createButton:2:6:@"| |>":"SLOW"]];
+            [pageView addButton:[self createButton:4:6:@"->|":"ADVANCE"]];
+            [pageView addButton:[self createButton:0:7:@"Clear":"CLEAR"]];
+            [pageView addButton:[self createButton:4:7:@"Enter":"ENTER"]];
+        } else if (i == 1) {
+            // channel
+            [pageView addButton:[self createButton:0:4:@"Rec":"RECORD"]];
+            [pageView addButton:[self createButton:1:4:@"1":"NUM1"]];
+            [pageView addButton:[self createButton:2:4:@"2":"NUM2"]];
+            [pageView addButton:[self createButton:3:4:@"3":"NUM3"]];
+            [pageView addButton:[self createButton:4:4:@"Ch+":"CHANNELUP"]];
+            [pageView addButton:[self createButton:1:5:@"4":"NUM4"]];
+            [pageView addButton:[self createButton:2:5:@"5":"NUM5"]];
+            [pageView addButton:[self createButton:3:5:@"6":"NUM6"]];
+            [pageView addButton:[self createButton:4:5:@"Ch-":"CHANNELDOWN"]];
+            [pageView addButton:[self createButton:1:6:@"7":"NUM7"]];
+            [pageView addButton:[self createButton:2:6:@"8":"NUM8"]];
+            [pageView addButton:[self createButton:3:6:@"9":"NUM9"]];
+            [pageView addButton:[self createButton:4:6:@"->|":"ADVANCE"]];
+            [pageView addButton:[self createButton:0:7:@"Clear":"CLEAR"]];
+            [pageView addButton:[self createButton:2:7:@"0":"NUM0"]];
+            [pageView addButton:[self createButton:4:7:@"Enter":"ENTER"]];
+        }
+    }
+    [self setPage:page];
 }
 
 
 - (void) setPage:(int) newPage
 {
+    RemotePage *oldPage = [pages objectAtIndex:page];
+    [oldPage removeFromSuperview];
+
     page = newPage;
-    TiVoButton *button;
-    NSEnumerator *enumerator = [buttons objectEnumerator];
-    while ( button = [enumerator nextObject]) {
-        [button removeFromSuperview];
-        [button release];
-    }
-    [buttons removeAllObjects];
-
-
-    // tivo navigation
-    [self addButton:2:0:@"/\\":"UP"];
-    [self addButton:4:0:@"LiveTV":"LIVETV"];
-    [self addButton:1:1:@"<":"LEFT"];
-    [self addButton:3:1:@">":"RIGHT"];
-    [self addButton:4:1:@"Info":"DISPLAY"];
-    [self addButton:0:2:@"Aspect":"WINDOW"];
-    [self addButton:2:2:@"\\/":"DOWN"];
-    [self addButton:4:2:@"Guide":"GUIDE"];
-    [self addButton:0:3:@"ThDn":"THUMBSDOWN"];
-    [self addButton:2:3:@"Select":"SELECT"];
-    [self addButton:4:3:@"ThUp":"THUMBSUP"];
-
-    if (page == 0) {
-        // playback
-        [self addButton:0:4:@"Rec":"RECORD"];
-        [self addButton:2:4:@"|>":"PLAY"];
-        [self addButton:4:4:@"Ch+":"CHANNELUP"];
-        [self addButton:1:5:@"<<":"REVERSE"];
-        [self addButton:2:5:@"||":"PAUSE"];
-        [self addButton:3:5:@">>":"FORWARD"];
-        [self addButton:4:5:@"Ch-":"CHANNELDOWN"];
-        [self addButton:0:6:@"Repl":"REPLAY"];
-        [self addButton:2:6:@"| |>":"SLOW"];
-        [self addButton:4:6:@"->|":"ADVANCE"];
-        [self addButton:0:7:@"Clear":"CLEAR"];
-        [self addButton:4:7:@"Enter":"ENTER"];
-    } else if (page == 1) {
-        // channel
-        [self addButton:0:4:@"Rec":"RECORD"];
-        [self addButton:1:4:@"1":"NUM1"];
-        [self addButton:2:4:@"2":"NUM2"];
-        [self addButton:3:4:@"3":"NUM3"];
-        [self addButton:4:4:@"Ch+":"CHANNELUP"];
-        [self addButton:1:5:@"4":"NUM4"];
-        [self addButton:2:5:@"5":"NUM5"];
-        [self addButton:3:5:@"6":"NUM6"];
-        [self addButton:4:5:@"Ch-":"CHANNELDOWN"];
-        [self addButton:1:6:@"7":"NUM7"];
-        [self addButton:2:6:@"8":"NUM8"];
-        [self addButton:3:6:@"9":"NUM9"];
-        [self addButton:4:6:@"->|":"ADVANCE"];
-        [self addButton:0:7:@"Clear":"CLEAR"];
-        [self addButton:2:7:@"0":"NUM0"];
-        [self addButton:4:7:@"Enter":"ENTER"];
-    }
+    RemotePage *newPageView = [pages objectAtIndex:page];
+    [self addSubview: newPageView];
 }
-- (void)showAlert:(NSString *) alert
+
+- (int) numPages
 {
-    NSString *bodyText = [NSString stringWithFormat:alert];
-    CGRect rect = [[UIWindow keyWindow] bounds];
-    alertSheet = [[UIAlertSheet alloc] initWithFrame:CGRectMake(0,rect.size.height - 240, rect.size.width,240)];
-    [alertSheet setTitle:@"Alert!"];
-    [alertSheet setBodyText:bodyText];
-    [alertSheet addButtonWithTitle:@"OK"];
-    [alertSheet setDelegate: self];
-    [alertSheet popupAlertAnimated:YES];
+    return [pages count];
 }
 
-- (void)alertSheet:(UIAlertSheet *)sheet buttonClicked:(int) button
-{
-    [sheet dismissAnimated:YES];
-}
-
-
-- (void) buttonEvent:(UIPushButton *) button
-{
-    char *command = [(TiVoButton *) button getCommand];
-    if (command != NULL && connection != NULL) {
-        @try {
-            [connection sendCommand:command];
-        } @catch (NSString *alert) {
-            [self showAlert:alert];
-        }
-    }
-}
-
-- (void)close
-{
-    if (connection != NULL) {
-        [connection close];
-     }
-}
 @end

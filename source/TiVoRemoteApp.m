@@ -65,7 +65,6 @@
     TiVoButton *button = [[TiVoButton alloc] initWithTitle: @"TiVo"];
     [button setFrame:  CGRectMake(128, 0,  64, 48)];
 
-    [button addTarget: remoteView action:@selector(buttonEvent:) forEvents:1];
     [button setCommand: "TIVO"];
     [navBar addSubview: button];
 
@@ -89,7 +88,7 @@
 
         // network settings might change
         // (any time a command is sent, it will open the socket (if it is closed))
-        [remoteView close];
+        [[ConnectionManager getInstance] close];
         break;
     }
     case 1: // page
@@ -105,6 +104,6 @@
 }
 
 - (void) applicationWillSuspend {
-    [remoteView close];
+    [[ConnectionManager getInstance] close];
 }   
 @end

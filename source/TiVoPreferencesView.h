@@ -19,17 +19,19 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import <UIKit/UIPreferencesTextTableCell.h>
+#import <UIKit/UIPreferencesControlTableCell.h>
 #import <UIKit/UIPreferencesTable.h>
 
 @class TiVoDefaults;
 
 @interface TiVoPreferencesView: UIView
 {
-    TiVoDefaults               *defaults;
-    UINavigationBar            *navBar;
-    UIPreferencesTable         *preferencesTable;
-    UIPreferencesTextTableCell *ipCell;
-    UIAlertSheet               *alertSheet;
+    TiVoDefaults                  *defaults;
+    UINavigationBar               *navBar;
+    UIPreferencesTable            *preferencesTable;
+    UIPreferencesTextTableCell    *ipCell;
+    UIPreferencesControlTableCell *standbyCell;
+    UIAlertSheet                  *alertSheet;
 }
 
 - (id)initWithFrame:(struct CGRect)rect;

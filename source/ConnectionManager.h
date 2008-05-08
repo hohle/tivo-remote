@@ -1,4 +1,4 @@
-// TiVoDefaults
+// ConnectionManager
 /*
 
  This program is free software; you can redistribute it and/or
@@ -16,20 +16,25 @@
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
-#import <Foundation/Foundation.h>
-@class NSUserDefaults;
+#import <Foundation/NSObject.h>
+#import <Foundation/NSDictionary.h>
 
-@interface TiVoDefaults: NSObject
-{
-	NSUserDefaults *defaults;
-}
+@class TiVoDefaults;
 
-- (id) init;
-- (NSString *)getIpAddr;
-- (void)setIpAddr:(NSString *)addr;
-- (BOOL)showStandby;
-- (void)setShowStandby:(BOOL)show;
-- (void)synchronize;
+@protocol RemoteConnection
 
-+ (TiVoDefaults *)sharedDefaults;
+- (id)init;
+- (void)sendCommand:(char *)cmd;
+- (void)close;
+
 @end
+
+@interface ConnectionManager: NSObject
+{
+    NSMutableDictionary *connections;
+}
+- (id <RemoteConnection> )getConnection: (NSString *) connectionName;
+- (void)close;
++ (ConnectionManager *)getInstance;
+@end
+

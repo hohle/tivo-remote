@@ -18,16 +18,24 @@
 */
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import <UIKit/UIAlertSheet.h>
+#import "ConnectionManager.h"
 
 @class UIPushButton;
 
 @interface TiVoButton: UIPushButton
 {
-	char       *cmd;
+	char             *cmd;
+	id <RemoteConnection> connection;
+	UIAlertSheet    *alertSheet;
+        BOOL             confirm;
 }
 
 - (id) initWithTitle: (NSString *)title;
 - (char *) getCommand;
 - (void) setCommand: (char *) command;
+- (void) buttonEvent:(UIPushButton *) button;
+- (void) setConfirm:(BOOL) conf;
+- (void) showAlert:(NSString *) alert:(BOOL) conf;
 
 @end

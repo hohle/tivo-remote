@@ -1,4 +1,4 @@
-// TiVoDefaults
+// RemotePage
 /*
 
  This program is free software; you can redistribute it and/or
@@ -17,19 +17,17 @@
 
 */
 #import <Foundation/Foundation.h>
-@class NSUserDefaults;
+#import <UIKit/UIKit.h>
 
-@interface TiVoDefaults: NSObject
+@class TiVoButton;
+
+@interface RemotePage: UIView
 {
-	NSUserDefaults *defaults;
+	NSMutableArray *buttons;
 }
 
-- (id) init;
-- (NSString *)getIpAddr;
-- (void)setIpAddr:(NSString *)addr;
-- (BOOL)showStandby;
-- (void)setShowStandby:(BOOL)show;
-- (void)synchronize;
+- (id)initWithFrame:(struct CGRect)rect;
+- (void)clear;
+- (void)addButton:(TiVoButton *) button;
 
-+ (TiVoDefaults *)sharedDefaults;
 @end

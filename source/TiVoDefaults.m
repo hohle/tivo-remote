@@ -28,11 +28,13 @@
     defaults = [[NSUserDefaults standardUserDefaults] retain];
     temp = [[NSMutableDictionary alloc] init];
     [temp setObject:@"192.168.1.100" forKey:@"IP Address"];
+    [temp setObject:[NSNumber numberWithInt: NO] forKey:@"Show Standby"];
 
     [defaults registerDefaults:temp];
     [temp release];
     return self;
 }
+
 -(NSString *) getIpAddr
 {
     return [defaults stringForKey:@"IP Address"];
@@ -43,6 +45,16 @@
     if (addr != NULL) {
         [defaults setObject:addr forKey:@"IP Address"];
     }
+}
+
+-(BOOL) showStandby
+{
+    return [defaults boolForKey:@"Show Standby"];
+}
+
+-(void) setShowStandby:(BOOL)standby
+{
+    [defaults setObject:[NSNumber numberWithInt: standby] forKey:@"Show Standby"];
 }
 
 -(void) synchronize

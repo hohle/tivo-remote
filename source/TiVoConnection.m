@@ -30,6 +30,7 @@
 
 - (id)init
 {
+    [super init];
     fd = -1;
     defaults = [TiVoDefaults sharedDefaults];
     return self;

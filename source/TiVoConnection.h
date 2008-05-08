@@ -16,11 +16,11 @@
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
-#import <Foundation/NSObject.h>
+#import "ConnectionManager.h"
 
 @class TiVoDefaults;
 
-@interface TiVoConnection: NSObject
+@interface TiVoConnection: NSObject <RemoteConnection>
 {
 	int           fd;
 	TiVoDefaults *defaults;
@@ -28,7 +28,8 @@
 
 - (id)init;
 - (void)sendCommand:(char *)cmd;
-- (int)getSocket;
 - (void)close;
+
+- (int)getSocket;
 
 @end

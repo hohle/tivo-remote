@@ -24,6 +24,7 @@
 #import <UIKit/UIView.h>
 #import <UIKit/UIImageView.h>
 #import <UIKit/UIImage.h>
+#import <UIKit/UISwitchControl.h>
 #import <UIKit/UIViewTapInfo.h>
 #import <UIKit/UIView-Geometry.h>
 #import <UIKit/UIPreferencesTable.h>
@@ -50,6 +51,13 @@
     [[ipCell textField] setText:[defaults getIpAddr]];
     [ipCell setEnabled:YES];
 
+    standbyCell = [[UIPreferencesControlTableCell alloc] init];
+    [standbyCell setTitle:@"Show Standby"];
+    UISwitchControl *standbyControl = [[UISwitchControl alloc] initWithFrame:CGRectMake(bodyRect.size.width - 114.0, 11.0f, 114.0f, 48.0f)];
+    [standbyControl setValue: [defaults showStandby]];
+    [standbyCell setControl:standbyControl];
+    [standbyCell setEnabled:YES];
+
     preferencesTable = [[UIPreferencesTable alloc] initWithFrame:bodyRect];
     [preferencesTable setDataSource:self];
     [preferencesTable setDelegate:self];
@@ -62,13 +70,15 @@
 
 - (int)numberOfGroupsInPreferencesTable:(id)preferencesTable
 {
-    return 1;
+    return 2;
 }
 
 - (int)preferencesTable:(id)preferencesTable numberOfRowsInGroup:(int)group
 {
     switch (group) {
     case 0:
+        return 1;
+    case 1:
         return 1;
     }
 }
@@ -78,6 +88,8 @@
     switch (group) {
     case 0:
         return @"Network Settings";
+    case 1:
+        return @"Interface";
     }
 }
 
@@ -93,12 +105,22 @@
         case 0:
             return ipCell;
         }
+    case 1:
+        switch (row) {
+        case 0:
+            return standbyCell;
+        }
     }
 }
 
 - (void) finished {
     NSString *newIp = [ipCell value];
+    BOOL standby = [[[standbyCell control] valueForKey:@"value"] boolValue];
     [defaults setIpAddr: newIp];
+    if ([defaults showStandby] != standby) {
+        [defaults setShowStandby: standby];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"Standby" object:self];
+    }
 }
 
 - (void)aboutAlert
@@ -145,6 +167,8 @@
 {
     [navBar release];
     [ipCell release];
+    [[standbyCell control] release];
+    [standbyCell release];
     [preferencesTable release];
     [super dealloc];
 }

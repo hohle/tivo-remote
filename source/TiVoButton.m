@@ -28,6 +28,7 @@
 #import <UIKit/UIView-Geometry.h>
 
 #import "TiVoButton.h"
+#import "ConnectionManager.h"
 
 
 static UIPushButton * buttonImg = NULL;
@@ -47,6 +48,9 @@ static UIPushButton * buttonImg = NULL;
     [self setDrawContentsCentered: YES];
     [self setBackground:buttonImg forState:0];
     [self setBackground:buttonImg forState:1];
+    [self addTarget: self action:@selector(buttonEvent:) forEvents:1];
+
+    connection = [[ConnectionManager getInstance] getConnection: @"TiVo"];
 
     return self;
 }
@@ -58,15 +62,53 @@ static UIPushButton * buttonImg = NULL;
 
 - (void)setCommand:(char *)command
 {
-//    cmd = strdup(command);
     cmd = command;
 }
 
-- (void)release
+- (void) setConfirm:(BOOL)conf
 {
-    // can crash
-//    free(cmd);
-    [super release];
+    confirm = conf;
+}
+
+- (void) buttonEvent:(UIPushButton *) button
+{
+    if (confirm) {
+        [self showAlert:@"Are you sure?": YES];
+    } else {
+        @try {
+            [connection sendCommand: cmd];
+        } @catch (NSString *alert) {
+            [self showAlert:alert : NO];
+        }
+    }
+}
+
+- (void)showAlert:(NSString *) alert:(BOOL) conf
+{
+    NSString *bodyText = [NSString stringWithFormat:alert];
+    CGRect rect = [[UIWindow keyWindow] bounds];
+    alertSheet = [[UIAlertSheet alloc] initWithFrame:CGRectMake(0,rect.size.height - 240, rect.size.width,240)];
+    [alertSheet setTitle:@"Alert!"];
+    [alertSheet setBodyText:bodyText];
+    if (conf) {
+        [alertSheet addButtonWithTitle:@"Cancel"];
+    }
+    [alertSheet addButtonWithTitle:@"OK"];
+    [alertSheet setDelegate: self];
+    [alertSheet popupAlertAnimated:YES];
+}
+
+- (void)alertSheet:(UIAlertSheet *)sheet buttonClicked:(int) button
+{
+    [sheet dismissAnimated:YES];
+NSLog(@"button = %d", button);
+    if (button == 2) {
+        @try {
+            [connection sendCommand: cmd];
+        } @catch (NSString *alert) {
+            [self showAlert:alert : NO];
+        }
+    }
 }
 
 @end
