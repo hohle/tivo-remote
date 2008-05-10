@@ -77,7 +77,7 @@ clean:
 
 obj/Info.plist: Info.plist.tmpl
 	@echo "Building Info.plist for version 0.05."
-	@sed -e 's|__VERSION__|0.03|g' < $< > $@
+	@sed -e 's|__VERSION__|0.05|g' < $< > $@
 
 //TiVoRemote.app: obj/TiVoRemote obj/Info.plist $(IMAGES)
 TiVoRemote.app: obj/TiVoRemote obj/Info.plist $(IMAGES) $(METADATA)
