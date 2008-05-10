@@ -23,8 +23,8 @@
 
 @protocol RemoteConnection
 
-- (id)init;
-- (void)sendCommand:(char *)cmd;
+- (id)initWithName:(NSString *)connName;
+- (void)sendCommand:(const char *)cmd;
 - (void)close;
 
 @end
@@ -34,6 +34,7 @@
     NSMutableDictionary *connections;
 }
 - (id <RemoteConnection> )getConnection: (NSString *) connectionName;
+- (id <RemoteConnection> )createConnection: (NSString *) connectionName;
 - (void)close;
 + (ConnectionManager *)getInstance;
 @end

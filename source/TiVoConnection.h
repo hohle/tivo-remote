@@ -24,10 +24,11 @@
 {
 	int           fd;
 	TiVoDefaults *defaults;
+	NSString     *ipField;
 }
 
-- (id)init;
-- (void)sendCommand:(char *)cmd;
+- (id)initWithName:(NSString *)connName;
+- (void)sendCommand:(const char *)cmd;
 - (void)close;
 
 - (int)getSocket;

@@ -25,17 +25,14 @@
 
 @interface TiVoButton: UIPushButton
 {
-	char             *cmd;
+	const char           *cmd;
 	id <RemoteConnection> connection;
-	UIAlertSheet    *alertSheet;
-        BOOL             confirm;
+	UIAlertSheet         *alertSheet;
+        NSString             *confirm;
 }
 
-- (id) initWithTitle: (NSString *)title;
-- (char *) getCommand;
-- (void) setCommand: (char *) command;
+- (id) initButton: (NSDictionary *) buttonProps;
 - (void) buttonEvent:(UIPushButton *) button;
-- (void) setConfirm:(BOOL) conf;
-- (void) showAlert:(NSString *) alert:(BOOL) conf;
+- (void) showConfirm:(NSString *) alert;
 
 @end

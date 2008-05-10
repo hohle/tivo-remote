@@ -32,6 +32,9 @@
 
 #import "TiVoDefaults.h"
 #import "TiVoPreferencesView.h"
+#import "SimpleDialog.h"
+
+#import <Foundation/NSPathUtilities.h>
 
 @implementation TiVoPreferencesView
 - (id)initWithFrame:(struct CGRect)rect
@@ -65,6 +68,7 @@
 
     [self addSubview:navBar];
     [self addSubview:preferencesTable];
+
     return self;
 }
 
@@ -117,32 +121,7 @@
     NSString *newIp = [ipCell value];
     BOOL standby = [[[standbyCell control] valueForKey:@"value"] boolValue];
     [defaults setIpAddr: newIp];
-    if ([defaults showStandby] != standby) {
-        [defaults setShowStandby: standby];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"Standby" object:self];
-    }
-}
-
-- (void)aboutAlert
-{
-    NSString *version = [[NSBundle mainBundle]
-                objectForInfoDictionaryKey:@"CFBundleVersion"];
-    if (nil == version)
-        version = @"??";
-    NSString *bodyText = [NSString stringWithFormat:@"TiVoRemote.app version %@, by Dustin Puckett.", version];
-    CGRect rect = [[UIWindow keyWindow] bounds];
-    alertSheet = [[UIAlertSheet alloc] initWithFrame:CGRectMake(0,rect.size.height - 240, rect.size.width,240)];
-    [alertSheet setTitle:@"About TiVoRemote"];
-    [alertSheet setBodyText:bodyText];
-    [alertSheet addButtonWithTitle:@"OK"];
-    [alertSheet setDelegate: self];
-    [alertSheet popupAlertAnimated:YES];
-}
-
-- (void)alertSheet:(UIAlertSheet *)sheet buttonClicked:(int) button
-{
-    [sheet dismissAnimated:YES];
-    [alertSheet release];
+    [defaults setShowStandby: standby];
 }
 
 - (void)navigationBar:(UINavigationBar*)navbar buttonClicked:(int)button 
@@ -157,7 +136,13 @@
     }
     case 1: // about
     {
-        [self aboutAlert];
+        NSString *version = [[NSBundle mainBundle]
+                objectForInfoDictionaryKey:@"CFBundleVersion"];
+        if (nil == version)
+            version = @"??";
+        NSString *bodyText = [NSString stringWithFormat:@"TiVoRemote.app version %@, by Dustin Puckett.", version];
+        [SimpleDialog showDialog:@"About TiVoRemote":bodyText];
+//        [self aboutAlert];
         break;
      }
      }

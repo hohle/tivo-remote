@@ -18,6 +18,7 @@
 
 #import <stdio.h>
 #import "TiVoDefaults.h"
+#import "SimpleDialog.h"
 
 @implementation TiVoDefaults
 
@@ -32,7 +33,26 @@
 
     [defaults registerDefaults:temp];
     [temp release];
+
+    NSString * path = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"remote.xml"];
+    @try {
+// this crashes things?
+//        dictionary = [NSDictionary dictionaryWithContentsOfFile:path];
+        dictionary = [[NSDictionary alloc] initWithContentsOfFile:path];
+        if ([dictionary count] == 0) {
+            @throw @"Empty dictionary";
+        }
+    } @catch (id exc) {
+        NSString *alertStr = [NSString stringWithFormat:@"Unable to parse file %@", path];
+        [SimpleDialog showDialog:@"Parse Error":alertStr];
+    }
+
     return self;
+}
+
+-(NSUserDefaults *) getDefaults
+{
+    return defaults;
 }
 
 -(NSString *) getIpAddr
@@ -42,8 +62,9 @@
 
 -(void) setIpAddr:(NSString *)addr
 {
-    if (addr != NULL) {
+    if (addr != NULL && [addr compare:[self getIpAddr]]) {
         [defaults setObject:addr forKey:@"IP Address"];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"IP Address" object:self];
     }
 }
 
@@ -54,7 +75,30 @@
 
 -(void) setShowStandby:(BOOL)standby
 {
-    [defaults setObject:[NSNumber numberWithInt: standby] forKey:@"Show Standby"];
+    if ([self showStandby] != standby) {
+        [defaults setObject:[NSNumber numberWithInt: standby] forKey:@"Show Standby"];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"Show Standby" object:self];
+    }
+}
+
+-(NSDictionary *) getConnectionSettings:(NSString *)connection
+{
+    return [[dictionary objectForKey:@"connections"] objectForKey:connection];
+}
+
+-(NSDictionary *) getFunctionSettings:(NSString *)func
+{
+    return [[dictionary objectForKey:@"functions"] objectForKey:func];
+}
+
+-(NSDictionary *) getSectionSettings:(NSString *)section
+{
+    return [[dictionary objectForKey:@"sections"] objectForKey:section];
+}
+
+-(NSArray *) getPageSettings
+{
+    return [dictionary objectForKey:@"pages"];
 }
 
 -(void) synchronize
@@ -70,8 +114,8 @@ static TiVoDefaults *sharedDefaults = NULL;
         if (sharedDefaults == NULL) {
             sharedDefaults = [[self alloc] init];
         }
+        return sharedDefaults;
     }
-    return sharedDefaults;
 }
 
 @end

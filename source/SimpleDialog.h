@@ -1,4 +1,4 @@
-// TiVoRemoteView
+// SimpleDialog
 /*
 
  This program is free software; you can redistribute it and/or
@@ -16,31 +16,15 @@
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
-#import "TiVoConnection.h"
+#import <Foundation/NSObject.h>
+#import <Foundation/NSDictionary.h>
+#import <UIKit/UIAlertSheet.h>
 
-@class UIView;
-@class UIImageView;
-@class UISliderControl;
-@class TiVoButton;
 
-#define WIDTH 5
-#define HEIGHT 8
-
-@interface TiVoRemoteView : UIView
+@interface SimpleDialog: NSObject
 {
-	TiVoConnection *connection;
-	int             page;
-	NSMutableArray *pages;
-	int	        butWidth;
-	int             butHeight;
+    UIAlertSheet *alertSheet;
 }
-
-- (id)initWithFrame:(struct CGRect)rect;
-- (void)setPage:(int) page;
-- (int)numPages;
-- (NSString *)nextTitle;
--(void) initPages:(NSNotification *) notification;
-
++ (void)showDialog:(NSString *)title: (NSString *)text;
 @end
+

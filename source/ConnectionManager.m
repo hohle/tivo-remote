@@ -18,7 +18,7 @@
 #import <Foundation/NSEnumerator.h>
 #import <stdio.h>
 #import "ConnectionManager.h"
-#import "TiVoConnection.h"
+#import "TiVoDefaults.h"
 
 @implementation ConnectionManager
 
@@ -49,11 +49,19 @@ static ConnectionManager *instance = NULL;
     }
 }
 
+- (id <RemoteConnection>)createConnection:(NSString *) connName
+{
+    NSDictionary *connDict = [[TiVoDefaults sharedDefaults] getConnectionSettings:connName];
+    NSString *connClass = [connDict objectForKey:@"class"];
+    id<RemoteConnection> ret = [[NSClassFromString(connClass) alloc] initWithName:connName];
+    return ret;
+}
+
 - (id <RemoteConnection>)getConnection:(NSString *) connName
 {
     id<RemoteConnection> conn = [connections objectForKey: connName];
     if (conn == NULL) {
-        conn = [[TiVoConnection alloc] init];
+        conn = [self createConnection:connName];
         [connections setObject: conn forKey: connName];
     }
     return conn;

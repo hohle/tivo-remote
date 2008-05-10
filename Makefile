@@ -19,6 +19,8 @@ OBJECTS=$(patsubst source/%,obj/%, \
 
 IMAGES=$(wildcard images/*.png)
 
+METADATA=$(wildcard metadata/*.xml)
+
 
 QUIET=true
 
@@ -74,11 +76,11 @@ clean:
 
 
 obj/Info.plist: Info.plist.tmpl
-	@echo "Building Info.plist for version 0.03."
+	@echo "Building Info.plist for version 0.05."
 	@sed -e 's|__VERSION__|0.03|g' < $< > $@
 
 //TiVoRemote.app: obj/TiVoRemote obj/Info.plist $(IMAGES)
-TiVoRemote.app: obj/TiVoRemote obj/Info.plist $(IMAGES)
+TiVoRemote.app: obj/TiVoRemote obj/Info.plist $(IMAGES) $(METADATA)
 	@echo "Creating application bundle."
 	@rm -fr TiVoRemote.app
 	@mkdir -p TiVoRemote.app

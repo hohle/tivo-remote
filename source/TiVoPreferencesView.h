@@ -41,7 +41,6 @@
 - (id)preferencesTable:(id)preferencesTable titleForGroup:(int)group;
 - (float)preferencesTable:(id)preferencesTable heightForRow:(int)row inGroup:(int)group withProposedHeight:(float)proposedHeight;
 - (id)preferencesTable:(id)preferencesTable cellForRow:(int)row inGroup:(int)group;
-- (void) aboutAlert;
 - (void) finished;
 
 

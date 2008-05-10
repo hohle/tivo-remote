@@ -30,6 +30,7 @@
 #import <Foundation/NSEnumerator.h>
 
 #import "RemotePage.h"
+#import "TiVoDefaults.h"
 #import "TiVoButton.h"
 
 @implementation RemotePage
@@ -37,11 +38,15 @@
 {
     [super initWithFrame:rect];
     buttons = [[NSMutableArray alloc] init];
+    title = @"";
     return self;
 }
 
--(void) clear
+-(void) loadPage:(NSDictionary *)pageSettings
 {
+    // title
+    title = [pageSettings objectForKey:@"title"];
+
     NSEnumerator *enumerator = [buttons objectEnumerator];
     TiVoButton *button;
     while (button = [enumerator nextObject]) {
@@ -49,12 +54,42 @@
         [button release];
     }
     [buttons removeAllObjects];
+
+
+    // load sections
+    enumerator = [[pageSettings objectForKey:@"sections"] objectEnumerator];
+    NSString *sectionName;
+    while (sectionName = [enumerator nextObject]) {
+        [self loadSection:sectionName];
+    }
+}
+
+- (void)loadSection:(NSString *)section
+{
+    NSDictionary *sectionSettings = [[TiVoDefaults sharedDefaults] getSectionSettings:section];
+    NSArray *buttonArr = [sectionSettings objectForKey:@"buttons"];
+    NSEnumerator *enumerator = [buttonArr objectEnumerator];
+    NSDictionary *buttonSettings;
+    while (buttonSettings = [enumerator nextObject]) {
+        if ([@"Show Standby" compare:[buttonSettings objectForKey:@"tag"]] == 0) {
+            if (![[TiVoDefaults sharedDefaults] showStandby]) {
+                continue;
+            }
+        }
+        TiVoButton *button = [[TiVoButton alloc] initButton:buttonSettings];
+        [self addButton:button];
+    }
 }
 
 -(void) addButton:(TiVoButton *) button
 {
     [self addSubview:button];
     [buttons addObject:button];
+}
+
+-(NSString *) getTitle
+{
+    return title;
 }
 
 @end

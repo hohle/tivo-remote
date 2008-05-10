@@ -28,11 +28,15 @@
 
 @implementation TiVoConnection
 
-- (id)init
+- (id)initWithName:(NSString *)connName
 {
     [super init];
     fd = -1;
     defaults = [TiVoDefaults sharedDefaults];
+    NSDictionary *connSettings = [defaults getConnectionSettings:connName];
+    ipField = [connSettings objectForKey:@"ipField"];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(connChange:) name:ipField object:nil];
     return self;
 }
 
@@ -104,7 +108,7 @@ NSLog(@"Closing");
     }
 }
 
-- (void)sendCommand:(char *) cmd
+- (void)sendCommand:(const char *) cmd
 {
     if (cmd == NULL) {
         return;
@@ -116,6 +120,11 @@ NSLog(@"Closing");
     if (sockFD>= 0) {
         send(sockFD, buffer, strlen(buffer), 0);
     }
+}
+
+-(void) connChange:(NSNotification *) notification
+{
+    [self close];
 }
 
 @end

@@ -37,6 +37,7 @@
 #import "TiVoRemoteView.h"
 #import "TiVoPreferencesView.h"
 #import "TiVoButton.h"
+#import "TiVoDefaults.h"
 
 #include <stdio.h>
 
@@ -52,28 +53,31 @@
 
     struct CGRect navRect = CGRectMake(rect.origin.x, rect.origin.y, rect.size.width, 48);
     navBar = [[UINavigationBar alloc] initWithFrame: navRect];
-    [navBar showButtonsWithLeftTitle:@"Channels" rightTitle:@"Settings"];
     [navBar setBarStyle:5];
     [navBar setDelegate:self];
-
-    page = 0;
-    remoteView = [[TiVoRemoteView alloc] 
-        initWithFrame:
-          CGRectMake(0, 48, rect.size.width, rect.size.height - 48)];
-    [remoteView setPage:page];
-
-    TiVoButton *button = [[TiVoButton alloc] initWithTitle: @"TiVo"];
-    [button setFrame:  CGRectMake(128, 0,  64, 48)];
-
-    [button setCommand: "TIVO"];
-    [navBar addSubview: button];
-
     [window orderFront: self];
     [window makeKey: self];
     [window _setHidden: NO];
     [window setContentView: mainView];
     [mainView addSubview:navBar];
-    [mainView addSubview:remoteView];
+
+    page = 0;
+    @try {
+        remoteView = [[TiVoRemoteView alloc] initWithFrame:
+          CGRectMake(0, 48, rect.size.width, rect.size.height - 48)];
+        [remoteView setPage:page];
+
+        NSString *nextTitle = [remoteView nextTitle];
+        [navBar showButtonsWithLeftTitle:nextTitle rightTitle:@"Settings"];
+
+        NSDictionary *buttonDict = [[[[TiVoDefaults sharedDefaults] 
+                  getPageSettings] objectAtIndex:0] objectForKey:@"button"];
+        TiVoButton *navButton = [[TiVoButton alloc] initButton:buttonDict];
+        [navBar addSubview:navButton];
+
+        [mainView addSubview:remoteView];
+    } @catch (id) {
+    }
 }
 
 - (void)navigationBar:(UINavigationBar*)navbar buttonClicked:(int)button 
@@ -86,18 +90,14 @@
           CGRectMake(0, 0, rect.size.width, rect.size.height)];
         [mainView addSubview:prefs];
 
-        // network settings might change
-        // (any time a command is sent, it will open the socket (if it is closed))
-        [[ConnectionManager getInstance] close];
         break;
     }
     case 1: // page
     {
-       page = (page + 1) % 2;
-       [navBar showButtonsWithLeftTitle: 
-                     (page == 0 ? @"Channels" : @"Playback")
-                     rightTitle:@"Settings"];
+       page = (page + 1) % [remoteView numPages];
        [remoteView setPage:page];
+       NSString *nextTitle = [remoteView nextTitle];
+       [navBar showButtonsWithLeftTitle:nextTitle rightTitle:@"Settings"];
        break;
      }
      }

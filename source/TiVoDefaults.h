@@ -22,13 +22,23 @@
 @interface TiVoDefaults: NSObject
 {
 	NSUserDefaults *defaults;
+	NSDictionary   *dictionary;
 }
 
 - (id) init;
+
+- (NSUserDefaults *)getDefaults;
+
 - (NSString *)getIpAddr;
 - (void)setIpAddr:(NSString *)addr;
 - (BOOL)showStandby;
 - (void)setShowStandby:(BOOL)show;
+
+- (NSDictionary *)getConnectionSettings:(NSString *) conn;
+- (NSDictionary *)getFunctionSettings:(NSString *) func;
+- (NSDictionary *)getSectionSettings: (NSString *) section;
+- (NSArray *)getPageSettings;
+
 - (void)synchronize;
 
 + (TiVoDefaults *)sharedDefaults;

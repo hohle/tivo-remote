@@ -24,10 +24,13 @@
 @interface RemotePage: UIView
 {
 	NSMutableArray *buttons;
+	NSString       *title;
 }
 
 - (id)initWithFrame:(struct CGRect)rect;
-- (void)clear;
+- (void)loadPage:(NSDictionary *)pageSettings;
+- (void)loadSection:(NSString *)sectionName;
 - (void)addButton:(TiVoButton *) button;
+- (NSString *)getTitle;
 
 @end

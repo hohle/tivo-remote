@@ -28,19 +28,24 @@
 #import <UIKit/UIView-Geometry.h>
 
 #import "TiVoButton.h"
+#import "TiVoDefaults.h"
 #import "ConnectionManager.h"
+#import "SimpleDialog.h"
 
 
 static UIPushButton * buttonImg = NULL;
 
 @implementation TiVoButton
-- (id)initWithTitle:(NSString *)title
+- (id)initButton:(NSDictionary *) buttonProps
 {
-    [super initWithTitle:title autosizesToFit:NO];
-    if (buttonImg == NULL) {
-        buttonImg = [UIImage applicationImageNamed:@"button.png"];
-    }
-    cmd = NULL;
+    [super initWithTitle: [buttonProps objectForKey:@"title"] autosizesToFit:NO];
+    UIImage *buttonImg = [UIImage applicationImageNamed:[buttonProps objectForKey:@"icon"]];
+    NSDictionary *function = [[TiVoDefaults sharedDefaults] getFunctionSettings:[buttonProps objectForKey:@"function"]];
+
+
+    cmd = strdup([[function objectForKey:@"command"] UTF8String]);
+    confirm = [buttonProps objectForKey:@"confirm"];
+
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
     float backParts[4] = {0, 0, 0, .9};
     [self setTitleColor : CGColorCreate( colorSpace, backParts) forState:0];
@@ -50,49 +55,36 @@ static UIPushButton * buttonImg = NULL;
     [self setBackground:buttonImg forState:1];
     [self addTarget: self action:@selector(buttonEvent:) forEvents:1];
 
-    connection = [[ConnectionManager getInstance] getConnection: @"TiVo"];
+    int xCoord = [[buttonProps objectForKey:@"xCoord"] intValue];
+    int yCoord = [[buttonProps objectForKey:@"yCoord"] intValue];
+    [self setFrame:  CGRectMake(xCoord, yCoord,  [buttonImg size].width, [buttonImg size].height)];
+
+    connection = [[ConnectionManager getInstance] getConnection: [buttonProps objectForKey:@"connection"]];
 
     return self;
 }
 
-- (char *)getCommand
-{
-    return cmd;
-}
-
-- (void)setCommand:(char *)command
-{
-    cmd = command;
-}
-
-- (void) setConfirm:(BOOL)conf
-{
-    confirm = conf;
-}
-
 - (void) buttonEvent:(UIPushButton *) button
 {
-    if (confirm) {
-        [self showAlert:@"Are you sure?": YES];
+    if (confirm != NULL) {
+        [self showConfirm:confirm];
     } else {
         @try {
             [connection sendCommand: cmd];
         } @catch (NSString *alert) {
-            [self showAlert:alert : NO];
+            [SimpleDialog showDialog: @"Connection Error":alert];
         }
     }
 }
 
-- (void)showAlert:(NSString *) alert:(BOOL) conf
+- (void)showConfirm:(NSString *) alert
 {
     NSString *bodyText = [NSString stringWithFormat:alert];
     CGRect rect = [[UIWindow keyWindow] bounds];
     alertSheet = [[UIAlertSheet alloc] initWithFrame:CGRectMake(0,rect.size.height - 240, rect.size.width,240)];
     [alertSheet setTitle:@"Alert!"];
     [alertSheet setBodyText:bodyText];
-    if (conf) {
-        [alertSheet addButtonWithTitle:@"Cancel"];
-    }
+    [alertSheet addButtonWithTitle:@"Cancel"];
     [alertSheet addButtonWithTitle:@"OK"];
     [alertSheet setDelegate: self];
     [alertSheet popupAlertAnimated:YES];
@@ -101,12 +93,11 @@ static UIPushButton * buttonImg = NULL;
 - (void)alertSheet:(UIAlertSheet *)sheet buttonClicked:(int) button
 {
     [sheet dismissAnimated:YES];
-NSLog(@"button = %d", button);
     if (button == 2) {
         @try {
             [connection sendCommand: cmd];
         } @catch (NSString *alert) {
-            [self showAlert:alert : NO];
+            [SimpleDialog showDialog: @"Connection Error":alert];
         }
     }
 }
