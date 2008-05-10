@@ -272,9 +272,9 @@
 						<key>connection</key>
 						<string>TiVo</string>
 						<key>title</key>
-						<string>Standby</string>
+						<string></string>
 						<key>icon</key>
-						<string>button.png</string>
+						<string>TiVo_stdby.png</string>
 						<key>xCoord</key>
 						<integer>0</integer>
 						<key>yCoord</key>
@@ -290,11 +290,11 @@
 						<key>connection</key>
 						<string>TiVo</string>
 						<key>title</key>
-						<string>/\</string>
+						<string></string>
 						<key>icon</key>
-						<string>button.png</string>
+						<string>TiVo_cursor_up_us.png</string>
 						<key>xCoord</key>
-						<integer>128</integer>
+						<integer>135</integer>
 						<key>yCoord</key>
 						<integer>0</integer>
 					</dict>
@@ -304,9 +304,9 @@
 						<key>connection</key>
 						<string>TiVo</string>
 						<key>title</key>
-						<string>LiveTV</string>
+						<string></string>
 						<key>icon</key>
-						<string>button.png</string>
+						<string>TiVo_live_tv.png</string>
 						<key>xCoord</key>
 						<integer>256</integer>
 						<key>yCoord</key>
@@ -318,13 +318,13 @@
 						<key>connection</key>
 						<string>TiVo</string>
 						<key>title</key>
-						<string>&lt;</string>
+						<string></string>
 						<key>icon</key>
-						<string>button.png</string>
+						<string>TiVo_cursor_left_us.png</string>
 						<key>xCoord</key>
-						<integer>64</integer>
+						<integer>90</integer>
 						<key>yCoord</key>
-						<integer>48</integer>
+						<integer>43</integer>
 					</dict>
 					<dict>
 						<key>function</key>
@@ -332,13 +332,13 @@
 						<key>connection</key>
 						<string>TiVo</string>
 						<key>title</key>
-						<string>&gt;</string>
+						<string></string>
 						<key>icon</key>
-						<string>button.png</string>
+						<string>TiVo_cursor_right_us.png</string>
 						<key>xCoord</key>
 						<integer>192</integer>
 						<key>yCoord</key>
-						<integer>48</integer>
+						<integer>43</integer>
 					</dict>
 					<dict>
 						<key>function</key>
@@ -346,11 +346,11 @@
 						<key>connection</key>
 						<string>TiVo</string>
 						<key>title</key>
-						<string>Info</string>
+						<string></string>
 						<key>icon</key>
-						<string>button.png</string>
+						<string>TiVo_info.png</string>
 						<key>xCoord</key>
-						<integer>256</integer>
+						<integer>276</integer>
 						<key>yCoord</key>
 						<integer>48</integer>
 					</dict>
@@ -360,11 +360,11 @@
 						<key>connection</key>
 						<string>TiVo</string>
 						<key>title</key>
-						<string>Aspect</string>
+						<string></string>
 						<key>icon</key>
-						<string>button.png</string>
+						<string>TiVo_window.png</string>
 						<key>xCoord</key>
-						<integer>0</integer>
+						<integer>20</integer>
 						<key>yCoord</key>
 						<integer>96</integer>
 					</dict>
@@ -374,11 +374,11 @@
 						<key>connection</key>
 						<string>TiVo</string>
 						<key>title</key>
-						<string>\/</string>
+						<string></string>
 						<key>icon</key>
-						<string>button.png</string>
+						<string>TiVo_cursor_down_us.png</string>
 						<key>xCoord</key>
-						<integer>128</integer>
+						<integer>135</integer>
 						<key>yCoord</key>
 						<integer>96</integer>
 					</dict>
@@ -388,9 +388,9 @@
 						<key>connection</key>
 						<string>TiVo</string>
 						<key>title</key>
-						<string>Guide</string>
+						<string></string>
 						<key>icon</key>
-						<string>button.png</string>
+						<string>TiVo_guide.png</string>
 						<key>xCoord</key>
 						<integer>256</integer>
 						<key>yCoord</key>
@@ -402,11 +402,11 @@
 						<key>connection</key>
 						<string>TiVo</string>
 						<key>title</key>
-						<string>ThDn</string>
+						<string></string>
 						<key>icon</key>
-						<string>button.png</string>
+						<string>TiVo_thumbs_down_black.png</string>
 						<key>xCoord</key>
-						<integer>0</integer>
+						<integer>60</integer>
 						<key>yCoord</key>
 						<integer>144</integer>
 					</dict>
@@ -416,11 +416,11 @@
 						<key>connection</key>
 						<string>TiVo</string>
 						<key>title</key>
-						<string>Select</string>
+						<string></string>
 						<key>icon</key>
-						<string>button.png</string>
+						<string>TiVo_select.png</string>
 						<key>xCoord</key>
-						<integer>128</integer>
+						<integer>131</integer>
 						<key>yCoord</key>
 						<integer>144</integer>
 					</dict>
@@ -430,11 +430,11 @@
 						<key>connection</key>
 						<string>TiVo</string>
 						<key>title</key>
-						<string>ThUp</string>
+						<string></string>
 						<key>icon</key>
-						<string>button.png</string>
+						<string>TiVo_thumbs_up_black.png</string>
 						<key>xCoord</key>
-						<integer>256</integer>
+						<integer>216</integer>
 						<key>yCoord</key>
 						<integer>144</integer>
 					</dict>
@@ -444,13 +444,13 @@
 						<key>connection</key>
 						<string>TiVo</string>
 						<key>title</key>
-						<string>Rec</string>
+						<string></string>
 						<key>icon</key>
-						<string>button.png</string>
+						<string>TiVo_record_us_small.png</string>
 						<key>xCoord</key>
-						<integer>0</integer>
+						<integer>10</integer>
 						<key>yCoord</key>
-						<integer>192</integer>
+						<integer>212</integer>
 					</dict>
 					<dict>
 						<key>function</key>
@@ -458,13 +458,13 @@
 						<key>connection</key>
 						<string>TiVo</string>
 						<key>title</key>
-						<string>Ch+</string>
+						<string></string>
 						<key>icon</key>
-						<string>button.png</string>
+						<string>TiVo_cursor_up_us.png</string>
 						<key>xCoord</key>
-						<integer>256</integer>
+						<integer>259</integer>
 						<key>yCoord</key>
-						<integer>192</integer>
+						<integer>207</integer>
 					</dict>
 					<dict>
 						<key>function</key>
@@ -472,13 +472,13 @@
 						<key>connection</key>
 						<string>TiVo</string>
 						<key>title</key>
-						<string>Ch-</string>
+						<string></string>
 						<key>icon</key>
-						<string>button.png</string>
+						<string>TiVo_cursor_down_us.png</string>
 						<key>xCoord</key>
-						<integer>256</integer>
+						<integer>259</integer>
 						<key>yCoord</key>
-						<integer>240</integer>
+						<integer>255</integer>
 					</dict>
 					<dict>
 						<key>function</key>
@@ -486,13 +486,13 @@
 						<key>connection</key>
 						<string>TiVo</string>
 						<key>title</key>
-						<string>-&gt;|</string>
+						<string></string>
 						<key>icon</key>
-						<string>button.png</string>
+						<string>TiVo_end.png</string>
 						<key>xCoord</key>
-						<integer>256</integer>
+						<integer>266</integer>
 						<key>yCoord</key>
-						<integer>288</integer>
+						<integer>308</integer>
 					</dict>
 					<dict>
 						<key>function</key>
@@ -500,13 +500,13 @@
 						<key>connection</key>
 						<string>TiVo</string>
 						<key>title</key>
-						<string>Clear</string>
+						<string></string>
 						<key>icon</key>
-						<string>button.png</string>
+						<string>TiVo_clear.png</string>
 						<key>xCoord</key>
-						<integer>0</integer>
+						<integer>10</integer>
 						<key>yCoord</key>
-						<integer>336</integer>
+						<integer>356</integer>
 					</dict>
 					<dict>
 						<key>function</key>
@@ -514,13 +514,13 @@
 						<key>connection</key>
 						<string>TiVo</string>
 						<key>title</key>
-						<string>Enter</string>
+						<string></string>
 						<key>icon</key>
-						<string>button.png</string>
+						<string>TiVo_enter.png</string>
 						<key>xCoord</key>
-						<integer>256</integer>
+						<integer>266</integer>
 						<key>yCoord</key>
-						<integer>336</integer>
+						<integer>356</integer>
 					</dict>
 				</array>
 			</dict>
@@ -534,13 +534,13 @@
 						<key>connection</key>
 						<string>TiVo</string>
 						<key>title</key>
-						<string>|&gt;</string>
+						<string></string>
 						<key>icon</key>
-						<string>button.png</string>
+						<string>TiVo_play.png</string>
 						<key>xCoord</key>
-						<integer>128</integer>
+						<integer>138</integer>
 						<key>yCoord</key>
-						<integer>192</integer>
+						<integer>207</integer>
 					</dict>
 					<dict>
 						<key>function</key>
@@ -548,13 +548,13 @@
 						<key>connection</key>
 						<string>TiVo</string>
 						<key>title</key>
-						<string>&lt;&lt;</string>
+						<string></string>
 						<key>icon</key>
-						<string>button.png</string>
+						<string>TiVo_rewind.png</string>
 						<key>xCoord</key>
-						<integer>64</integer>
+						<integer>78</integer>
 						<key>yCoord</key>
-						<integer>240</integer>
+						<integer>245</integer>
 					</dict>
 					<dict>
 						<key>function</key>
@@ -562,13 +562,13 @@
 						<key>connection</key>
 						<string>TiVo</string>
 						<key>title</key>
-						<string>||</string>
+						<string></string>
 						<key>icon</key>
-						<string>button.png</string>
+						<string>TiVo_pause.png</string>
 						<key>xCoord</key>
-						<integer>128</integer>
+						<integer>129</integer>
 						<key>yCoord</key>
-						<integer>240</integer>
+						<integer>265</integer>
 					</dict>
 					<dict>
 						<key>function</key>
@@ -576,13 +576,13 @@
 						<key>connection</key>
 						<string>TiVo</string>
 						<key>title</key>
-						<string>&gt;&gt;</string>
+						<string></string>
 						<key>icon</key>
-						<string>button.png</string>
+						<string>TiVo_forward.png</string>
 						<key>xCoord</key>
-						<integer>192</integer>
+						<integer>202</integer>
 						<key>yCoord</key>
-						<integer>240</integer>
+						<integer>245</integer>
 					</dict>
 					<dict>
 						<key>function</key>
@@ -590,13 +590,13 @@
 						<key>connection</key>
 						<string>TiVo</string>
 						<key>title</key>
-						<string>Repl</string>
+						<string></string>
 						<key>icon</key>
-						<string>button.png</string>
+						<string>TiVo_replay.png</string>
 						<key>xCoord</key>
-						<integer>0</integer>
+						<integer>10</integer>
 						<key>yCoord</key>
-						<integer>288</integer>
+						<integer>308</integer>
 					</dict>
 					<dict>
 						<key>function</key>
@@ -604,13 +604,13 @@
 						<key>connection</key>
 						<string>TiVo</string>
 						<key>title</key>
-						<string>| |&gt;</string>
+						<string></string>
 						<key>icon</key>
-						<string>button.png</string>
+						<string>TiVo_slow.png</string>
 						<key>xCoord</key>
-						<integer>128</integer>
+						<integer>138</integer>
 						<key>yCoord</key>
-						<integer>288</integer>
+						<integer>343</integer>
 					</dict>
 				</array>
 			</dict>
@@ -624,13 +624,13 @@
 						<key>connection</key>
 						<string>TiVo</string>
 						<key>title</key>
-						<string>1</string>
+						<string></string>
 						<key>icon</key>
-						<string>button.png</string>
+						<string>TiVo_1.png</string>
 						<key>xCoord</key>
-						<integer>64</integer>
+						<integer>92</integer>
 						<key>yCoord</key>
-						<integer>192</integer>
+						<integer>212</integer>
 					</dict>
 					<dict>
 						<key>function</key>
@@ -638,13 +638,13 @@
 						<key>connection</key>
 						<string>TiVo</string>
 						<key>title</key>
-						<string>2</string>
+						<string></string>
 						<key>icon</key>
-						<string>button.png</string>
+						<string>TiVo_2.png</string>
 						<key>xCoord</key>
-						<integer>128</integer>
+						<integer>142</integer>
 						<key>yCoord</key>
-						<integer>192</integer>
+						<integer>212</integer>
 					</dict>
 					<dict>
 						<key>function</key>
@@ -652,13 +652,13 @@
 						<key>connection</key>
 						<string>TiVo</string>
 						<key>title</key>
-						<string>3</string>
+						<string></string>
 						<key>icon</key>
-						<string>button.png</string>
+						<string>TiVo_3.png</string>
 						<key>xCoord</key>
 						<integer>192</integer>
 						<key>yCoord</key>
-						<integer>192</integer>
+						<integer>212</integer>
 					</dict>
 					<dict>
 						<key>function</key>
@@ -666,13 +666,13 @@
 						<key>connection</key>
 						<string>TiVo</string>
 						<key>title</key>
-						<string>4</string>
+						<string></string>
 						<key>icon</key>
-						<string>button.png</string>
+						<string>TiVo_4.png</string>
 						<key>xCoord</key>
-						<integer>64</integer>
+						<integer>92</integer>
 						<key>yCoord</key>
-						<integer>240</integer>
+						<integer>260</integer>
 					</dict>
 					<dict>
 						<key>function</key>
@@ -680,13 +680,13 @@
 						<key>connection</key>
 						<string>TiVo</string>
 						<key>title</key>
-						<string>5</string>
+						<string></string>
 						<key>icon</key>
-						<string>button.png</string>
+						<string>TiVo_5.png</string>
 						<key>xCoord</key>
-						<integer>128</integer>
+						<integer>142</integer>
 						<key>yCoord</key>
-						<integer>240</integer>
+						<integer>260</integer>
 					</dict>
 					<dict>
 						<key>function</key>
@@ -694,13 +694,13 @@
 						<key>connection</key>
 						<string>TiVo</string>
 						<key>title</key>
-						<string>6</string>
+						<string></string>
 						<key>icon</key>
-						<string>button.png</string>
+						<string>TiVo_6.png</string>
 						<key>xCoord</key>
 						<integer>192</integer>
 						<key>yCoord</key>
-						<integer>240</integer>
+						<integer>260</integer>
 					</dict>
 					<dict>
 						<key>function</key>
@@ -708,13 +708,13 @@
 						<key>connection</key>
 						<string>TiVo</string>
 						<key>title</key>
-						<string>7</string>
+						<string></string>
 						<key>icon</key>
-						<string>button.png</string>
+						<string>TiVo_7.png</string>
 						<key>xCoord</key>
-						<integer>64</integer>
+						<integer>92</integer>
 						<key>yCoord</key>
-						<integer>288</integer>
+						<integer>308</integer>
 					</dict>
 					<dict>
 						<key>function</key>
@@ -722,13 +722,13 @@
 						<key>connection</key>
 						<string>TiVo</string>
 						<key>title</key>
-						<string>8</string>
+						<string></string>
 						<key>icon</key>
-						<string>button.png</string>
+						<string>TiVo_8.png</string>
 						<key>xCoord</key>
-						<integer>128</integer>
+						<integer>142</integer>
 						<key>yCoord</key>
-						<integer>288</integer>
+						<integer>308</integer>
 					</dict>
 					<dict>
 						<key>function</key>
@@ -736,13 +736,13 @@
 						<key>connection</key>
 						<string>TiVo</string>
 						<key>title</key>
-						<string>9</string>
+						<string></string>
 						<key>icon</key>
-						<string>button.png</string>
+						<string>TiVo_9.png</string>
 						<key>xCoord</key>
 						<integer>192</integer>
 						<key>yCoord</key>
-						<integer>288</integer>
+						<integer>308</integer>
 					</dict>
 					<dict>
 						<key>function</key>
@@ -750,13 +750,13 @@
 						<key>connection</key>
 						<string>TiVo</string>
 						<key>title</key>
-						<string>0</string>
+						<string></string>
 						<key>icon</key>
-						<string>button.png</string>
+						<string>TiVo_0.png</string>
 						<key>xCoord</key>
-						<integer>128</integer>
+						<integer>142</integer>
 						<key>yCoord</key>
-						<integer>336</integer>
+						<integer>356</integer>
 					</dict>
 				</array>
 			</dict>
@@ -778,13 +778,13 @@
 					<key>connection</key>
 					<string>TiVo</string>
 					<key>title</key>
-					<string>TiVo</string>
+					<string></string>
 					<key>icon</key>
-					<string>button.png</string>
+					<string>TiVo_small_logo.png</string>
 					<key>xCoord</key>
-					<integer>128</integer>
+					<integer>141</integer>
 					<key>yCoord</key>
-					<integer>0</integer>
+					<integer>4</integer>
 				</dict>
 			</dict>
 			<dict>
@@ -802,13 +802,13 @@
 					<key>connection</key>
 					<string>TiVo</string>
 					<key>title</key>
-					<string>TiVo</string>
+					<string></string>
 					<key>icon</key>
-					<string>button.png</string>
+					<string>TiVo_small_logo.png</string>
 					<key>xCoord</key>
-					<integer>128</integer>
+					<integer>141</integer>
 					<key>yCoord</key>
-					<integer>0</integer>
+					<integer>4</integer>
 				</dict>
 			</dict>
 		</array>
