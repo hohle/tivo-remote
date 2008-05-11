@@ -34,11 +34,18 @@
 #import "TiVoButton.h"
 
 @implementation RemotePage
+
 - (id)initWithFrame:(struct CGRect)rect
 {
     [super initWithFrame:rect];
     buttons = [[NSMutableArray alloc] init];
     title = @"";
+    background = [[UIImageView alloc] 
+        initWithFrame:rect];
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    float backParts[4] = {0, 0, 0, 1};
+    [background  setBackgroundColor:CGColorCreate( colorSpace, backParts)];
+    [self addSubview:background];
     return self;
 }
 
@@ -55,6 +62,11 @@
     }
     [buttons removeAllObjects];
 
+    // setbackground
+    NSString *bgImage = [pageSettings objectForKey:@"background"];
+    if (bgImage != NULL) {
+        [background setImage:[UIImage applicationImageNamed:bgImage]];
+    }
 
     // load sections
     enumerator = [[pageSettings objectForKey:@"sections"] objectEnumerator];

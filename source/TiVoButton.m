@@ -40,6 +40,11 @@ static UIPushButton * buttonImg = NULL;
 {
     [super initWithTitle: [buttonProps objectForKey:@"title"] autosizesToFit:NO];
     UIImage *buttonImg = [UIImage applicationImageNamed:[buttonProps objectForKey:@"icon"]];
+    UIImage *pressedImg = buttonImg;
+    NSString *pressedIcon = [buttonProps objectForKey:@"pressed-icon"];
+    if (pressedIcon != NULL) {
+        pressedImg = [UIImage applicationImageNamed:[buttonProps objectForKey:@"pressed-icon"]];
+    }
     NSDictionary *function = [[TiVoDefaults sharedDefaults] getFunctionSettings:[buttonProps objectForKey:@"function"]];
 
 
@@ -52,7 +57,7 @@ static UIPushButton * buttonImg = NULL;
 
     [self setDrawContentsCentered: YES];
     [self setBackground:buttonImg forState:0];
-    [self setBackground:buttonImg forState:1];
+    [self setBackground:pressedImg forState:1];
     [self addTarget: self action:@selector(buttonEvent:) forEvents:1];
 
     int xCoord = [[buttonProps objectForKey:@"xCoord"] intValue];

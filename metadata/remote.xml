@@ -322,9 +322,9 @@
 						<key>icon</key>
 						<string>TiVo_cursor_left_us.png</string>
 						<key>xCoord</key>
-						<integer>90</integer>
+						<integer>99</integer>
 						<key>yCoord</key>
-						<integer>43</integer>
+						<integer>36</integer>
 					</dict>
 					<dict>
 						<key>function</key>
@@ -336,9 +336,9 @@
 						<key>icon</key>
 						<string>TiVo_cursor_right_us.png</string>
 						<key>xCoord</key>
-						<integer>192</integer>
+						<integer>186</integer>
 						<key>yCoord</key>
-						<integer>43</integer>
+						<integer>36</integer>
 					</dict>
 					<dict>
 						<key>function</key>
@@ -352,7 +352,7 @@
 						<key>xCoord</key>
 						<integer>276</integer>
 						<key>yCoord</key>
-						<integer>48</integer>
+						<integer>52</integer>
 					</dict>
 					<dict>
 						<key>function</key>
@@ -380,7 +380,7 @@
 						<key>xCoord</key>
 						<integer>135</integer>
 						<key>yCoord</key>
-						<integer>96</integer>
+						<integer>87</integer>
 					</dict>
 					<dict>
 						<key>function</key>
@@ -422,7 +422,7 @@
 						<key>xCoord</key>
 						<integer>131</integer>
 						<key>yCoord</key>
-						<integer>144</integer>
+						<integer>139</integer>
 					</dict>
 					<dict>
 						<key>function</key>
@@ -462,7 +462,7 @@
 						<key>icon</key>
 						<string>TiVo_cursor_up_us.png</string>
 						<key>xCoord</key>
-						<integer>259</integer>
+						<integer>269</integer>
 						<key>yCoord</key>
 						<integer>207</integer>
 					</dict>
@@ -476,7 +476,7 @@
 						<key>icon</key>
 						<string>TiVo_cursor_down_us.png</string>
 						<key>xCoord</key>
-						<integer>259</integer>
+						<integer>269</integer>
 						<key>yCoord</key>
 						<integer>255</integer>
 					</dict>
@@ -490,9 +490,9 @@
 						<key>icon</key>
 						<string>TiVo_end.png</string>
 						<key>xCoord</key>
-						<integer>266</integer>
+						<integer>276</integer>
 						<key>yCoord</key>
-						<integer>308</integer>
+						<integer>312</integer>
 					</dict>
 					<dict>
 						<key>function</key>
@@ -504,9 +504,9 @@
 						<key>icon</key>
 						<string>TiVo_clear.png</string>
 						<key>xCoord</key>
-						<integer>10</integer>
+						<integer>39</integer>
 						<key>yCoord</key>
-						<integer>356</integer>
+						<integer>366</integer>
 					</dict>
 					<dict>
 						<key>function</key>
@@ -518,9 +518,9 @@
 						<key>icon</key>
 						<string>TiVo_enter.png</string>
 						<key>xCoord</key>
-						<integer>266</integer>
+						<integer>246</integer>
 						<key>yCoord</key>
-						<integer>356</integer>
+						<integer>366</integer>
 					</dict>
 				</array>
 			</dict>
@@ -552,9 +552,9 @@
 						<key>icon</key>
 						<string>TiVo_rewind.png</string>
 						<key>xCoord</key>
-						<integer>78</integer>
+						<integer>68</integer>
 						<key>yCoord</key>
-						<integer>245</integer>
+						<integer>255</integer>
 					</dict>
 					<dict>
 						<key>function</key>
@@ -568,7 +568,7 @@
 						<key>xCoord</key>
 						<integer>129</integer>
 						<key>yCoord</key>
-						<integer>265</integer>
+						<integer>275</integer>
 					</dict>
 					<dict>
 						<key>function</key>
@@ -580,9 +580,9 @@
 						<key>icon</key>
 						<string>TiVo_forward.png</string>
 						<key>xCoord</key>
-						<integer>202</integer>
+						<integer>212</integer>
 						<key>yCoord</key>
-						<integer>245</integer>
+						<integer>255</integer>
 					</dict>
 					<dict>
 						<key>function</key>
@@ -594,9 +594,9 @@
 						<key>icon</key>
 						<string>TiVo_replay.png</string>
 						<key>xCoord</key>
-						<integer>10</integer>
+						<integer>9</integer>
 						<key>yCoord</key>
-						<integer>308</integer>
+						<integer>312</integer>
 					</dict>
 					<dict>
 						<key>function</key>
@@ -610,7 +610,7 @@
 						<key>xCoord</key>
 						<integer>138</integer>
 						<key>yCoord</key>
-						<integer>343</integer>
+						<integer>367</integer>
 					</dict>
 				</array>
 			</dict>
@@ -628,7 +628,7 @@
 						<key>icon</key>
 						<string>TiVo_1.png</string>
 						<key>xCoord</key>
-						<integer>92</integer>
+						<integer>87</integer>
 						<key>yCoord</key>
 						<integer>212</integer>
 					</dict>
@@ -656,7 +656,7 @@
 						<key>icon</key>
 						<string>TiVo_3.png</string>
 						<key>xCoord</key>
-						<integer>192</integer>
+						<integer>197</integer>
 						<key>yCoord</key>
 						<integer>212</integer>
 					</dict>
@@ -670,9 +670,9 @@
 						<key>icon</key>
 						<string>TiVo_4.png</string>
 						<key>xCoord</key>
-						<integer>92</integer>
+						<integer>87</integer>
 						<key>yCoord</key>
-						<integer>260</integer>
+						<integer>266</integer>
 					</dict>
 					<dict>
 						<key>function</key>
@@ -686,7 +686,7 @@
 						<key>xCoord</key>
 						<integer>142</integer>
 						<key>yCoord</key>
-						<integer>260</integer>
+						<integer>266</integer>
 					</dict>
 					<dict>
 						<key>function</key>
@@ -698,9 +698,9 @@
 						<key>icon</key>
 						<string>TiVo_6.png</string>
 						<key>xCoord</key>
-						<integer>192</integer>
+						<integer>197</integer>
 						<key>yCoord</key>
-						<integer>260</integer>
+						<integer>266</integer>
 					</dict>
 					<dict>
 						<key>function</key>
@@ -712,9 +712,9 @@
 						<key>icon</key>
 						<string>TiVo_7.png</string>
 						<key>xCoord</key>
-						<integer>92</integer>
+						<integer>87</integer>
 						<key>yCoord</key>
-						<integer>308</integer>
+						<integer>320</integer>
 					</dict>
 					<dict>
 						<key>function</key>
@@ -728,7 +728,7 @@
 						<key>xCoord</key>
 						<integer>142</integer>
 						<key>yCoord</key>
-						<integer>308</integer>
+						<integer>320</integer>
 					</dict>
 					<dict>
 						<key>function</key>
@@ -740,9 +740,9 @@
 						<key>icon</key>
 						<string>TiVo_9.png</string>
 						<key>xCoord</key>
-						<integer>192</integer>
+						<integer>197</integer>
 						<key>yCoord</key>
-						<integer>308</integer>
+						<integer>320</integer>
 					</dict>
 					<dict>
 						<key>function</key>
@@ -756,7 +756,7 @@
 						<key>xCoord</key>
 						<integer>142</integer>
 						<key>yCoord</key>
-						<integer>356</integer>
+						<integer>376</integer>
 					</dict>
 				</array>
 			</dict>

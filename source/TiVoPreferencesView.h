@@ -30,7 +30,11 @@
     UINavigationBar               *navBar;
     UIPreferencesTable            *preferencesTable;
     UIPreferencesTextTableCell    *ipCell;
+    UIPreferencesTextTableCell    *nameCell;
+    UIPreferencesTableCell        *add;
     UIPreferencesControlTableCell *standbyCell;
+    NSMutableArray                *savedCells;
+    UIPreferencesTableCell        *delete;
     UIAlertSheet                  *alertSheet;
 }
 
@@ -42,6 +46,10 @@
 - (float)preferencesTable:(id)preferencesTable heightForRow:(int)row inGroup:(int)group withProposedHeight:(float)proposedHeight;
 - (id)preferencesTable:(id)preferencesTable cellForRow:(int)row inGroup:(int)group;
 - (void) finished;
+
+
+-(void) performAdd:(NSDictionary *)connInfo;
+-(void) checkIps;
 
 
 @end

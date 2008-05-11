@@ -25,6 +25,7 @@
 {
 	NSMutableArray *buttons;
 	NSString       *title;
+	UIImageView    *background;
 }
 
 - (id)initWithFrame:(struct CGRect)rect;

@@ -29,7 +29,9 @@
     defaults = [[NSUserDefaults standardUserDefaults] retain];
     temp = [[NSMutableDictionary alloc] init];
     [temp setObject:@"192.168.1.100" forKey:@"IP Address"];
+    [temp setObject:@"My TiVo" forKey:@"TiVo Name"];
     [temp setObject:[NSNumber numberWithInt: NO] forKey:@"Show Standby"];
+    [temp setObject:[[NSArray alloc] init] forKey:@"Saved Connections"];
 
     [defaults registerDefaults:temp];
     [temp release];
@@ -68,6 +70,19 @@
     }
 }
 
+-(NSString *) getTiVoName
+{
+    return [defaults stringForKey:@"TiVo Name"];
+}
+
+-(void) setTiVoName:(NSString *)name
+{
+    if (name != NULL && [name compare:[self getTiVoName]]) {
+        [defaults setObject:name forKey:@"TiVo Name"];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"TiVo Name" object:self];
+    }
+}
+
 -(BOOL) showStandby
 {
     return [defaults boolForKey:@"Show Standby"];
@@ -80,6 +95,17 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:@"Show Standby" object:self];
     }
 }
+
+-(NSArray *) getSavedConnections
+{
+    return [defaults objectForKey:@"Saved Connections"];
+}
+
+-(void) setSavedConnections:(NSArray *) saved
+{
+    [defaults setObject:saved forKey:@"Saved Connections"];
+}
+
 
 -(NSDictionary *) getConnectionSettings:(NSString *)connection
 {

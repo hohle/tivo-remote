@@ -31,8 +31,12 @@
 
 - (NSString *)getIpAddr;
 - (void)setIpAddr:(NSString *)addr;
+- (NSString *)getTiVoName;
+- (void)setTiVoName:(NSString *)name;
 - (BOOL)showStandby;
 - (void)setShowStandby:(BOOL)show;
+- (NSArray *)getSavedConnections;
+- (void)setSavedConnections:(NSArray *)connections;
 
 - (NSDictionary *)getConnectionSettings:(NSString *) conn;
 - (NSDictionary *)getFunctionSettings:(NSString *) func;
