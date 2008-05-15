@@ -1,4 +1,4 @@
-// TiVoConnection
+// TiVoBeacon
 /*
 
  This program is free software; you can redistribute it and/or
@@ -16,22 +16,14 @@
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
-#import "ConnectionManager.h"
+#import <Foundation/NSObject.h>
+#import <Foundation/NSDictionary.h>
 
-@class TiVoDefaults;
-
-@interface TiVoConnection: NSObject <RemoteConnection>
+@interface TiVoBeacon: NSObject
 {
-	int            fd;
-	TiVoDefaults  *defaults;
-	NSString      *ipField;
-	struct timeval lastCmdSent;
+    NSMutableDictionary *detected;
 }
-
-- (id)initWithName:(NSString *)connName;
-- (void)sendCommand:(const char *)cmd;
-- (void)close;
-
-- (int)getSocket;
-
+- (NSDictionary *)getDetectedTiVos;
++ (TiVoBeacon *)getInstance;
 @end
+

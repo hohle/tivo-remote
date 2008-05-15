@@ -17,7 +17,10 @@
 
 */
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
+#import <UIKit/UIView.h>
+#import <UIKit/UIView-Hierarchy.h>
+#import <UIKit/UIAlertSheet.h>
+#import <UIKit/UINavigationBar.h>
 #import <UIKit/UIPreferencesTextTableCell.h>
 #import <UIKit/UIPreferencesControlTableCell.h>
 #import <UIKit/UIPreferencesTable.h>
@@ -34,8 +37,9 @@
     UIPreferencesTableCell        *add;
     UIPreferencesControlTableCell *standbyCell;
     NSMutableArray                *savedCells;
+    NSMutableArray                *detectedCells;
+    UIPreferencesTableCell        *refresh;
     UIPreferencesTableCell        *delete;
-    UIAlertSheet                  *alertSheet;
 }
 
 - (id)initWithFrame:(struct CGRect)rect;
@@ -47,9 +51,12 @@
 - (id)preferencesTable:(id)preferencesTable cellForRow:(int)row inGroup:(int)group;
 - (void) finished;
 
+-(BOOL) validateIP;
 
--(void) performAdd:(NSDictionary *)connInfo;
--(void) checkIps;
+-(void) addSaved:(NSDictionary *)connInfo;
+-(void) addDetected:(NSDictionary *)connInfo;
+-(void) setData:(NSDictionary *)connInfo;
+-(void) refresh;
 
 
 @end

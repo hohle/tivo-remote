@@ -38,6 +38,7 @@
 #import "TiVoPreferencesView.h"
 #import "TiVoButton.h"
 #import "TiVoDefaults.h"
+#import "TiVoBeacon.h"
 
 #include <stdio.h>
 
@@ -60,6 +61,7 @@
     [window _setHidden: NO];
     [window setContentView: mainView];
     [mainView addSubview:navBar];
+    [TiVoBeacon getInstance];
 
     page = 0;
     @try {

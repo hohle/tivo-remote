@@ -92,6 +92,7 @@
             arg = fcntl(fd, F_GETFL, NULL); 
             arg &= (~O_NONBLOCK); 
             fcntl(fd, F_SETFL, arg); 
+            gettimeofday(&lastCmdSent, NULL);
         } else {
             @throw @"Unable to create socket.";
         }
@@ -117,8 +118,19 @@ NSLog(@"Closing");
     sprintf(buffer, "IRCODE %s\r", cmd);
     NSLog(@"sending '%s' (%d)", buffer, strlen(buffer));
     int sockFD = [self getSocket];
-    if (sockFD>= 0) {
-        send(sockFD, buffer, strlen(buffer), 0);
+    @synchronized (self) {
+        struct timeval curTime;
+        gettimeofday(&curTime, NULL);
+        int diff = (curTime.tv_sec - lastCmdSent.tv_sec) * 1000 
+             + ((curTime.tv_usec / 1000) - (lastCmdSent.tv_usec / 1000));
+        if (diff < 50) {
+            NSLog(@"Sleeping for %d", 50 - diff);
+            usleep( (50 - diff) * 1000);
+        }
+        gettimeofday(&lastCmdSent, NULL);
+        if (sockFD>= 0) {
+            send(sockFD, buffer, strlen(buffer), 0);
+        }
     }
 }
 
