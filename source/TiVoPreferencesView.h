@@ -32,13 +32,15 @@
     TiVoDefaults                  *defaults;
     UINavigationBar               *navBar;
     UIPreferencesTable            *preferencesTable;
-    UIPreferencesTextTableCell    *ipCell;
     UIPreferencesTextTableCell    *nameCell;
+    UIPreferencesTextTableCell    *ipCell;
+    UIPreferencesTextTableCell    *makCell;
+    UIPreferencesControlTableCell *groupCell;
+    UIPreferencesControlTableCell *sortCell;
     UIPreferencesTableCell        *add;
     UIPreferencesControlTableCell *standbyCell;
     NSMutableArray                *savedCells;
     NSMutableArray                *detectedCells;
-    UIPreferencesTableCell        *refresh;
     UIPreferencesTableCell        *delete;
 }
 
@@ -52,11 +54,14 @@
 - (void) finished;
 
 -(BOOL) validateIP;
+-(BOOL) validateMAK;
+
+-(void) makEdited;
 
 -(void) addSaved:(NSDictionary *)connInfo;
 -(void) addDetected:(NSDictionary *)connInfo;
 -(void) setData:(NSDictionary *)connInfo;
--(void) refresh;
+-(void) refresh:(id) param;
 
 
 @end

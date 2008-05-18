@@ -1,6 +1,9 @@
 #  
 # TiVoRemote.app Makefile
 #
+#-ObjC -framework CoreFoundation -framework Foundation \
+##		  -framework UIKit -framework LayerKit -framework Coregraphics -framework OfficeImport
+
 
 CC=arm-apple-darwin-gcc
 CFLAGS=-O3
@@ -9,7 +12,7 @@ LD=$(CC)
 LDFLAGS=-L$(HEAVENLY)/usr/lib -L/usr/local/lib/gcc/arm-apple-darwin/4.0.1 \
 	-lz -lobjc -lgcc -framework CoreFoundation -framework Foundation \
 	-framework UIKit -framework LayerKit -framework CoreGraphics \
-	-framework GraphicsServices -lcrypto
+	-framework GraphicsServices -framework OfficeImport -lcrypto
 
 SOURCES=$(wildcard source/*.m)
 OBJECTS=$(patsubst source/%,obj/%, \
@@ -76,8 +79,8 @@ clean:
 
 
 obj/Info.plist: Info.plist.tmpl
-	@echo "Building Info.plist for version 0.15."
-	@sed -e 's|__VERSION__|0.15|g' < $< > $@
+	@echo "Building Info.plist for version 0.20."
+	@sed -e 's|__VERSION__|0.20|g' < $< > $@
 
 //TiVoRemote.app: obj/TiVoRemote obj/Info.plist $(IMAGES)
 TiVoRemote.app: obj/TiVoRemote obj/Info.plist $(IMAGES) $(METADATA)

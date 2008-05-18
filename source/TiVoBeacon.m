@@ -90,7 +90,7 @@ static TiVoBeacon *instance = NULL;
         @synchronized (detected) {
             if ([detected objectForKey:ipAddr] == NULL) {
                 [detected setObject:dict forKey:ipAddr];
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"Detected TiVo" object:self];
+                [self performSelectorOnMainThread: @selector(newTiVo:) withObject: NULL waitUntilDone:NO];
             } else {
                 [dict release];
                 [ipAddr release];
@@ -98,6 +98,11 @@ static TiVoBeacon *instance = NULL;
         }
     }
     [autoreleasepool release];
+}
+
+-(void) newTiVo:(id) param
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"Detected TiVo" object:self];
 }
 
 @end

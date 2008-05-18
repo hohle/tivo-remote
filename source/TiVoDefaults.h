@@ -31,10 +31,18 @@
 
 - (NSString *)getIpAddr;
 - (void)setIpAddr:(NSString *)addr;
+- (NSString *)getMediaAccessKey;
+- (void)setMediaAccessKey:(NSString *)mak;
 - (NSString *)getTiVoName;
 - (void)setTiVoName:(NSString *)name;
+- (BOOL)useGroups;
+- (void)setUseGroups:(BOOL)use;
+- (BOOL)sortByDate;
+- (void)setSortByDate:(BOOL)sort;
+
 - (BOOL)showStandby;
 - (void)setShowStandby:(BOOL)show;
+
 - (NSArray *)getSavedConnections;
 - (void)setSavedConnections:(NSArray *)connections;
 
@@ -42,6 +50,7 @@
 - (NSDictionary *)getFunctionSettings:(NSString *) func;
 - (NSDictionary *)getSectionSettings: (NSString *) section;
 - (NSArray *)getPageSettings;
+- (int)getNavigationSetting:(NSString *)setting;
 
 - (void)synchronize;
 

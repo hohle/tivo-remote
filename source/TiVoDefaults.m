@@ -30,6 +30,9 @@
     temp = [[NSMutableDictionary alloc] init];
     [temp setObject:@"192.168.1.100" forKey:@"IP Address"];
     [temp setObject:@"My TiVo" forKey:@"TiVo Name"];
+    [temp setObject:@"" forKey:@"Media Access Key"];
+    [temp setObject:[NSNumber numberWithInt: YES] forKey:@"TiVo Uses Groups"];
+    [temp setObject:[NSNumber numberWithInt: YES] forKey:@"TiVo Sorts By Date"];
     [temp setObject:[NSNumber numberWithInt: NO] forKey:@"Show Standby"];
     [temp setObject:[[NSArray alloc] init] forKey:@"Saved Connections"];
 
@@ -83,6 +86,45 @@
     }
 }
 
+-(NSString *) getMediaAccessKey
+{
+    return [defaults stringForKey:@"Media Access Key"];
+}
+
+-(void) setMediaAccessKey:(NSString *)mak
+{
+    if (mak != NULL && [mak compare:[self getMediaAccessKey]]) {
+        [defaults setObject:mak forKey:@"Media Access Key"];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"Media Access Key" object:self];
+    }
+}
+
+-(BOOL) useGroups
+{
+    return [defaults boolForKey:@"TiVo Uses Groups"];
+}
+
+-(void) setUseGroups:(BOOL)use
+{
+    if ([self useGroups] != use) {
+        [defaults setObject:[NSNumber numberWithInt: use] forKey:@"TiVo Uses Groups"];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"TiVo Navigation" object:self];
+    }
+}
+
+-(BOOL) sortByDate
+{
+    return [defaults boolForKey:@"TiVo Sorts By Date"];
+}
+
+-(void) setSortByDate:(BOOL)sort
+{
+    if ([self sortByDate] != sort) {
+        [defaults setObject:[NSNumber numberWithInt: sort] forKey:@"TiVo Sorts By Date"];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"TiVo Navigation" object:self];
+    }
+}
+
 -(BOOL) showStandby
 {
     return [defaults boolForKey:@"Show Standby"];
@@ -126,6 +168,13 @@
 {
     return [dictionary objectForKey:@"pages"];
 }
+
+-(int) getNavigationSetting:(NSString *) setting
+{
+    NSNumber *num = [[dictionary objectForKey:@"navigation"] objectForKey:setting];
+    return [num intValue];
+}
+
 
 -(void) synchronize
 {

@@ -36,9 +36,11 @@
 #import "TiVoRemoteApp.h"
 #import "TiVoRemoteView.h"
 #import "TiVoPreferencesView.h"
+#import "TiVoNowPlayingView.h"
 #import "TiVoButton.h"
 #import "TiVoDefaults.h"
 #import "TiVoBeacon.h"
+#import "TiVoNPLConnection.h"
 
 #include <stdio.h>
 
@@ -62,6 +64,7 @@
     [window setContentView: mainView];
     [mainView addSubview:navBar];
     [TiVoBeacon getInstance];
+    [TiVoNPLConnection getInstance];
 
     page = 0;
     @try {
@@ -69,17 +72,16 @@
           CGRectMake(0, 48, rect.size.width, rect.size.height - 48)];
         [remoteView setPage:page];
 
-        NSString *nextTitle = [remoteView nextTitle];
-        [navBar showButtonsWithLeftTitle:nextTitle rightTitle:@"Settings"];
-
         NSDictionary *buttonDict = [[[[TiVoDefaults sharedDefaults] 
                   getPageSettings] objectAtIndex:0] objectForKey:@"button"];
         TiVoButton *navButton = [[TiVoButton alloc] initButton:buttonDict];
+        [self setNavBarButtons];
         [navBar addSubview:navButton];
 
         [mainView addSubview:remoteView];
     } @catch (id) {
     }
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(nowPlayingUpdate:) name:@"Now Playing Data" object:nil];
 }
 
 - (void)navigationBar:(UINavigationBar*)navbar buttonClicked:(int)button 
@@ -88,9 +90,16 @@
     case 0: // settings
     {
         struct CGRect rect = [UIHardware fullScreenApplicationContentRect];
-        TiVoPreferencesView *prefs = [[TiVoPreferencesView alloc] initWithFrame:
-          CGRectMake(0, 0, rect.size.width, rect.size.height)];
-        [mainView addSubview:prefs];
+        TiVoPreferencesView *newView;
+        if ([[TiVoNPLConnection getInstance] getState] != NPL_ERROR) {
+            TiVoNowPlayingView *newView= [[TiVoNowPlayingView alloc] initWithFrame:
+                   CGRectMake(0, 0, rect.size.width, rect.size.height)];
+            [mainView addSubview:newView];
+        } else {
+            TiVoPreferencesView *newView= [[TiVoPreferencesView alloc] initWithFrame:
+                   CGRectMake(0, 0, rect.size.width, rect.size.height)];
+            [mainView addSubview:newView];
+        }
 
         break;
     }
@@ -98,11 +107,24 @@
     {
        page = (page + 1) % [remoteView numPages];
        [remoteView setPage:page];
-       NSString *nextTitle = [remoteView nextTitle];
-       [navBar showButtonsWithLeftTitle:nextTitle rightTitle:@"Settings"];
+       [self setNavBarButtons];
        break;
      }
      }
+}
+
+-(void) nowPlayingUpdate:(NSNotification *) notification
+{
+    [self setNavBarButtons];
+}
+
+- (void) setNavBarButtons
+{
+    NSLog(@"nav buttons");
+    NSString *nextTitle = [remoteView nextTitle];
+    NSString *rightButton = (([[TiVoNPLConnection getInstance] getState] != NPL_ERROR)
+                                  ? @"Now Playing" : @"Settings");
+    [navBar showButtonsWithLeftTitle:nextTitle rightTitle:rightButton];
 }
 
 - (void) applicationWillSuspend {

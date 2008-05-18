@@ -21,6 +21,13 @@
 				<key>command</key>
 				<string>TIVO</string>
 			</dict>
+			<key>TiVo Now Playing</key>
+			<dict>
+				<key>connectionType</key>
+				<string>TiVo</string>
+				<key>command</key>
+				<string>NOWSHOWING</string>
+			</dict>
 			<key>TiVo Standby</key>
 			<dict>
 				<key>connectionType</key>
@@ -812,5 +819,22 @@
 				</dict>
 			</dict>
 		</array>
+		<key>navigation</key>
+		<dict>
+			<key>Now Playing Load</key>
+			<integer>1200</integer>
+			<key>Page Load</key>
+			<integer>900</integer>
+			<key>Base Page</key>
+			<integer>850</integer>
+			<key>Folder Size Factor</key>
+			<integer>20</integer>
+			<key>Page Down Factor</key>
+			<integer>50</integer>
+			<key>Down Factor</key>
+			<integer>25</integer>
+			<key>Entries Per Page</key>
+			<integer>7</integer>
+		</dict>
 	</dict>
 </plist>

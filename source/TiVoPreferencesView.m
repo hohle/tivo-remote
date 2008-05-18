@@ -39,8 +39,7 @@
 @implementation TiVoPreferencesView
 
 int SAVED_ROW_START = 1;
-int SAVE_ROW = 3;
-int DETECTED_ROW_START = 5;
+int SAVE_ROW = 6;
 
 - (id)initWithFrame:(struct CGRect)rect
 {
@@ -62,6 +61,13 @@ int DETECTED_ROW_START = 5;
     [[ipCell textField] setPreferredKeyboardType: 1];
     [ipCell setAction:@selector(ipEdited)];
 //    [ipCell setReturnAction:@selector(ipEdited)];
+    makCell = [[UIPreferencesTextTableCell alloc] init];
+    [makCell setTitle:@"Media Access Key"];
+    [[makCell textField] setText:[defaults getMediaAccessKey]];
+    [makCell setEnabled:YES];
+    [makCell setTarget:self];
+    [makCell setAction:@selector(makEdited)];
+    [[makCell textField] setPreferredKeyboardType: 1];
     nameCell = [[UIPreferencesTextTableCell alloc] init];
     [nameCell setTitle:@"Name"];
     [[nameCell textField] setText:[defaults getTiVoName]];
@@ -69,6 +75,19 @@ int DETECTED_ROW_START = 5;
     [nameCell setTarget:self];
     [nameCell setAction:@selector(nameEdited)];
 //    [nameCell setReturnAction:@selector(nameEdited)];
+
+    groupCell = [[UIPreferencesControlTableCell alloc] init];
+    [groupCell setTitle:@"Uses Groups"];
+    UISwitchControl *groupControl = [[UISwitchControl alloc] initWithFrame:CGRectMake(bodyRect.size.width - 114.0, 11.0f, 114.0f, 48.0f)];
+    [groupControl setValue: [defaults useGroups]];
+    [groupCell setControl:groupControl];
+
+    sortCell = [[UIPreferencesControlTableCell alloc] init];
+    [sortCell setTitle:@"Sorts By Date"];
+    UISwitchControl *sortControl = [[UISwitchControl alloc] initWithFrame:CGRectMake(bodyRect.size.width - 114.0, 11.0f, 114.0f, 48.0f)];
+    [sortControl setValue: [defaults sortByDate]];
+    [sortCell setControl:sortControl];
+    [self makEdited];
 
     standbyCell = [[UIPreferencesControlTableCell alloc] init];
     [standbyCell setTitle:@"Show Standby"];
@@ -102,10 +121,6 @@ int DETECTED_ROW_START = 5;
     add = [[UIPreferencesTableCell alloc] init];
     [add setTitle:@"Save"];
 
-    refresh = [[UIPreferencesTableCell alloc] init];
-    [refresh setTitle:@"Refresh"];;
-    [refresh setEnabled:YES];
-
     preferencesTable = [[UIPreferencesTable alloc] initWithFrame:bodyRect];
     [preferencesTable setDataSource:self];
     [preferencesTable setDelegate:self];
@@ -113,6 +128,7 @@ int DETECTED_ROW_START = 5;
 
     [self addSubview:navBar];
     [self addSubview:preferencesTable];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh:) name:@"Detected TiVo" object:nil];
 
     return self;
 }
@@ -142,26 +158,31 @@ int DETECTED_ROW_START = 5;
            if (![self validateIP]) {
                return;
             }
+           if (![self validateMAK]) {
+               return;
+            }
             // need to reset focus so the table doesn't get messed up
             [preferencesTable _setEditingCell:NULL];
             [preferencesTable setKeyboardVisible:NO];
-            NSString *ip = [[ipCell textField] text];
             NSString *name = [[nameCell textField] text];
+            NSString *ip = [[ipCell textField] text];
+            NSString *mak  = [[makCell textField] text];
+            NSNumber *group  = [[groupCell control] valueForKey:@"value"];
+            NSNumber *sort = [[sortCell control] valueForKey:@"value"];
             NSMutableDictionary *connInfo = [[NSMutableDictionary alloc] init];
-            [connInfo setObject:ip forKey:@"IP Address"];
             [connInfo setObject:name forKey:@"TiVo Name"];
+            [connInfo setObject:ip forKey:@"IP Address"];
+            [connInfo setObject:mak forKey:@"Media Access Key"];
+            [connInfo setObject:group  forKey:@"TiVo Uses Groups"];
+            [connInfo setObject:sort forKey:@"TiVo Sorts By Date"];
             [self addSaved:connInfo];
             [delete setEnabled:YES];
             [preferencesTable reloadData];
             return;
         }
-        row -= DETECTED_ROW_START;
+        row -= SAVE_ROW + 2;
         if (row >= 0 && row < [detectedCells count]) {
             [self setData:[[detectedCells objectAtIndex:row] value]];
-        } else {
-//            [preferencesTable selectRow: 0 byExtendingSelection:NO withFade:YES];
-            [self refresh];
-            [[preferencesTable cellAtRow: [preferencesTable selectedRow] column:0] setSelected:NO withFade:YES];
         }
     }
 }
@@ -176,13 +197,24 @@ int DETECTED_ROW_START = 5;
     }
 }
 
+- (void) nameEdited
+{
+    [preferencesTable setKeyboardVisible:NO];
+}
+
 - (void) ipEdited
 {
 }
 
-- (void) nameEdited
+- (void) makEdited
 {
-    [preferencesTable setKeyboardVisible:NO];
+    if ([[[makCell textField] text] length] > 0) {
+        [groupCell setEnabled:YES];
+        [sortCell setEnabled:YES];
+    } else {
+        [groupCell setEnabled:NO];
+        [sortCell setEnabled:NO];
+    }
 }
 
 - (BOOL) table:(UITable *) table canDeleteRow:(int) row 
@@ -206,9 +238,9 @@ int DETECTED_ROW_START = 5;
     case 0:
         return [savedCells count] + 1;
     case 1:
-        return 3;
+        return 6;
     case 2:
-        return [detectedCells count] + 1;
+        return [detectedCells count];
     case 3:
         return 1;
     }
@@ -220,7 +252,7 @@ int DETECTED_ROW_START = 5;
     case 0:
         return @"Saved Settings";
     case 1:
-        return @"Network Settings";
+        return @"TiVo Settings";
     case 2:
         return @"Detected TiVos";
     case 3:
@@ -244,18 +276,20 @@ int DETECTED_ROW_START = 5;
     case 1:
         switch (row) {
         case 0:
-            return ipCell;
-        case 1:
             return nameCell;
+        case 1:
+            return ipCell;
         case 2:
+            return makCell;
+        case 3:
+            return groupCell;
+        case 4:
+            return sortCell;
+        case 5:
             return add;
         }
     case 2:
-       if (row < [detectedCells count]) {
-            return [detectedCells objectAtIndex:row];
-       } else {
-           return refresh;
-       }
+        return [detectedCells objectAtIndex:row];
     case 3:
         switch (row) {
         case 0:
@@ -291,27 +325,60 @@ int DETECTED_ROW_START = 5;
     if (!ret) {
         [ipCell setHighlighted:YES];
         [[ipCell textField] becomeFirstResponder];
-        int row = SAVED_ROW_START + [savedCells count] + 1;
+        int row = SAVED_ROW_START + [savedCells count] + 2;
 //        [preferencesTable _setEditingCell:row];
         [SimpleDialog showDialog:@"IP Verification" :@"Illegal character in IP Address"];
     }
     return ret;
 }
 
+- (BOOL) validateMAK
+{
+    if ([[[makCell textField] text] length] == 0) {
+        return YES;
+    }
+    // MAK should consist only of characters [0-9]
+    // can't find regular expressions... this will be ugly
+    const char *makChars = [[[makCell textField] text] UTF8String];
+    BOOL ret = YES;
+    int len = strlen(makChars);
+    int i;
+    for (i = 0; i < len; i++) {
+        if ('0' <= makChars[i] && makChars[i] <= '9') {
+            continue; // character is an integer
+        }
+        ret = NO;
+        break;
+    }
+    if (!ret) {
+        [makCell setHighlighted:YES];
+        [[makCell textField] becomeFirstResponder];
+        int row = SAVED_ROW_START + [savedCells count] + 3;
+//        [preferencesTable _setEditingCell:row];
+        [SimpleDialog showDialog:@"MAK Verification" :@"Illegal character in Media Access Key"];
+    }
+    return ret;
+}
+
 - (void) finished
 {
-    NSString *newIp = [ipCell value];
     NSString *newName = [nameCell value];
+    NSString *newIp = [ipCell value];
+    NSString *newMak = [makCell value];
     int i;
     NSMutableArray *savedConnections = [[NSMutableArray alloc] init];
     for (i = 0; i < [savedCells count]; i++) {
         NSDictionary *dict = [[savedCells objectAtIndex:i] value];
         [savedConnections addObject:dict];
     }
+    BOOL group  = [[[groupCell control] valueForKey:@"value"] boolValue];
+    BOOL sort = [[[sortCell control] valueForKey:@"value"] boolValue];
     BOOL standby = [[[standbyCell control] valueForKey:@"value"] boolValue];
-    [defaults setIpAddr: newIp];
     [defaults setTiVoName: newName];
-    [defaults setShowStandby: standby];
+    [defaults setIpAddr: newIp];
+    [defaults setMediaAccessKey: newMak];
+    [defaults setUseGroups: group];
+    [defaults setSortByDate: sort];
     [defaults setSavedConnections: savedConnections];
 }
 
@@ -338,7 +405,7 @@ int DETECTED_ROW_START = 5;
     [savedCells addObject:savedCell];
 }
 
-- (void) refresh
+- (void) refresh:(id) param
 {
     UIPreferencesTableCell *detectedCell;
     NSEnumerator *enumerator = [detectedCells  objectEnumerator];
@@ -351,7 +418,10 @@ int DETECTED_ROW_START = 5;
     enumerator = [detected keyEnumerator];
     NSString *key;
     while ((key = [enumerator nextObject]) != NULL) {
-        NSDictionary *dict = [detected objectForKey:key];
+        NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithDictionary:[detected objectForKey:key]];
+        [dict setObject:@"" forKey:@"Media Access Key"];
+        [dict setObject:[NSNumber numberWithBool:YES] forKey:@"TiVo Uses Groups"];
+        [dict setObject:[NSNumber numberWithBool:YES] forKey:@"TiVo Sorts By Date"];
         [self addDetected: dict];
     }
     [preferencesTable reloadData];
@@ -371,7 +441,12 @@ int DETECTED_ROW_START = 5;
 - (void) setData:(NSDictionary *) connInfo
 {
     [ipCell setValue: [connInfo objectForKey:@"IP Address"]];
+    NSString *makVal = [connInfo objectForKey:@"Media Access Key"];
+    [makCell setValue: (makVal != NULL ? makVal : @"")];
     [nameCell setValue: [connInfo objectForKey:@"TiVo Name"]];
+    [[groupCell control] setValue: [[connInfo objectForKey:@"TiVo Uses Groups"] boolValue]];
+    [[sortCell control] setValue: [[connInfo objectForKey:@"TiVo Sorts By Date"]boolValue]];
+    [self makEdited];
 }
 
 - (void)navigationBar:(UINavigationBar*)navbar buttonClicked:(int)button 
@@ -380,6 +455,9 @@ int DETECTED_ROW_START = 5;
     case 0: // done
     {
         if (![self validateIP]) {
+            return;
+        }
+        if (![self validateMAK]) {
             return;
         }
         [self finished];
@@ -402,9 +480,15 @@ int DETECTED_ROW_START = 5;
 
 - (void)dealloc
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"Detected TiVo" object:nil];
     [navBar release];
-    [ipCell release];
     [nameCell release];
+    [ipCell release];
+    [makCell release];
+    [[groupCell control] release];
+    [groupCell release];
+    [[sortCell control] release];
+    [sortCell release];
     [add release];
     // loop through savedCells
     int i;
