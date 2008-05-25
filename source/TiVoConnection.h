@@ -29,9 +29,11 @@
 }
 
 - (id)initWithName:(NSString *)connName;
-- (void)sendCommand:(const char *)cmd;
+- (void)sendCommand:(NSString *)functionKey;
+- (void)batchSend:(NSArray *)functions;
 - (void)close;
 
 - (int)getSocket;
+- (void)waitForResponse:(int) sockFD: (NSString *)expectedResponse;
 
 @end

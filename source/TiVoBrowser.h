@@ -1,4 +1,4 @@
-// TiVoButton
+// TiVoBrowser
 /*
 
  This program is free software; you can redistribute it and/or
@@ -17,22 +17,26 @@
 
 */
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
-#import <UIKit/UIAlertSheet.h>
-#import "ConnectionManager.h"
+#import <UIKit/UIView.h>
+#import <UIKit/UIView-Hierarchy.h>
+#import <UIKit/UITextView.h>
+#import <UIKit/UINavigationBar.h>
+#import <UIKit/UINavigationItem.h>
+#import <UIKit/UIProgressHUD.h>
+#import <UIKit/UIImageAndTextTableCell.h>
+#import <UIKit/UITable.h>
+#import <UIKit/UITableColumn.h>
 
-@class UIPushButton;
-
-@interface TiVoButton: UIPushButton
+@interface TiVoBrowser: UIView
 {
-	NSString             *functionKey;
-	id <RemoteConnection> connection;
-	UIAlertSheet         *alertSheet;
-        NSString             *confirm;
+    UITable       *browserTable;
+    UITableColumn *col;
+    NSArray       *cells;
 }
 
-- (id) initButton: (NSDictionary *) buttonProps;
-- (void) buttonEvent:(UIPushButton *) button;
-- (void) showConfirm:(NSString *) alert;
+- (id)initWithFrame:(struct CGRect)rect :(NSArray *) cells;
+- (void) refresh:(id) param;
+- (UITable *) getTable;
+- (void) setCells:(NSArray *)cells;
 
 @end

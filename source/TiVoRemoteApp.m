@@ -91,7 +91,7 @@
     {
         struct CGRect rect = [UIHardware fullScreenApplicationContentRect];
         TiVoPreferencesView *newView;
-        if ([[TiVoNPLConnection getInstance] getState] != NPL_ERROR) {
+        if ([[TiVoNPLConnection getInstance] getState] != NPL_NO_CONNECTION) {
             TiVoNowPlayingView *newView= [[TiVoNowPlayingView alloc] initWithFrame:
                    CGRectMake(0, 0, rect.size.width, rect.size.height)];
             [mainView addSubview:newView];
@@ -122,7 +122,7 @@
 {
     NSLog(@"nav buttons");
     NSString *nextTitle = [remoteView nextTitle];
-    NSString *rightButton = (([[TiVoNPLConnection getInstance] getState] != NPL_ERROR)
+    NSString *rightButton = (([[TiVoNPLConnection getInstance] getState] != NPL_NO_CONNECTION)
                                   ? @"Now Playing" : @"Settings");
     [navBar showButtonsWithLeftTitle:nextTitle rightTitle:rightButton];
 }

@@ -76,7 +76,7 @@ static TiVoNPLConnection *instance = NULL;
         NSMutableURLRequest *theRequest=[NSMutableURLRequest 
                     requestWithURL: [NSURL URLWithString:urlStr]
                     cachePolicy:NSURLRequestUseProtocolCachePolicy
-                    timeoutInterval:60.0];
+                    timeoutInterval:15.0];
 
         int i;
         for (i =0; i < 2; i++) {
@@ -84,16 +84,23 @@ static TiVoNPLConnection *instance = NULL;
             [NSURLRequest setAllowsAnyHTTPSCertificate:YES 
                      forHost:ip];
 
-            NSData *data =[[NSURLConnection sendSynchronousRequest: theRequest returningResponse: &theResponse error: &nserror] retain];
+            NSData *data =[[NSURLConnection 
+                               sendSynchronousRequest: theRequest 
+                               returningResponse: &theResponse 
+                               error: &nserror] retain];
             if (nserror == NULL) {
                 return data;
+            }
+            if ([nserror code] != NSURLErrorServerCertificateUntrusted) {
+                return NULL;
             }
             nserror = NULL;
         }
     } @catch(id exc) {
         NSLog(@"exception = %@", exc);
-        NSLog(@"error = 0x%x code=%@ userInfo=%@", nserror, [nserror code], [nserror userInfo]);
+        NSLog(@"error = 0x%x code=%d userInfo=%@", nserror, [nserror code], [nserror userInfo]);
     }
+    return NULL;
 }
 
 -(void) reloadData:(NSNotification *) notification
@@ -122,15 +129,22 @@ static TiVoNPLConnection *instance = NULL;
     state = NPL_NO_DATA;
     NSString *mak = [[TiVoDefaults sharedDefaults] getMediaAccessKey];
     if (mak == NULL || [mak length] == 0) {
-        state = NPL_ERROR;
+        state = NPL_NO_CONNECTION;
         return;
     }
    
     NSData *data = [[self getNowPlayingData] retain];
+    if (state != NPL_NO_DATA) {
+        // there must be some other request changing our state
+        return;
+    }
     if (data == NULL) {
         state = NPL_ERROR;
-        [self performSelectorOnMainThread: @selector(finishedOrganizing:) withObject:@"Error" waitUntilDone:NO];
-        [self performSelectorOnMainThread: @selector(dataError:) withObject:@"Unable to retrieve Now Playing data" waitUntilDone:NO];
+        [self performSelectorOnMainThread: @selector(finishedOrganizing:) 
+                      withObject:@"Error" waitUntilDone:NO];
+        [self performSelectorOnMainThread: @selector(dataError:) 
+                      withObject:@"Unable to retrieve Now Playing data" 
+                      waitUntilDone:NO];
         items = NULL;
         return;
     }
@@ -149,6 +163,7 @@ static TiVoNPLConnection *instance = NULL;
 {
     NSMutableArray *npl = [[NSMutableArray alloc] init];
     NSMutableArray *suggestions = [[NSMutableArray alloc] init];
+    NSMutableArray *hdrecordings = [[NSMutableArray alloc] init];
     NSMutableDictionary *potentialGroups = [[NSMutableDictionary alloc] init];
     BOOL suggested = NO;
     BOOL groups = [[TiVoDefaults sharedDefaults] useGroups];
@@ -156,36 +171,63 @@ static TiVoNPLConnection *instance = NULL;
     int i;
     for (i = 0; i < [items count]; i++) {
         TiVoContainerItem *item = [items objectAtIndex:i];
-        // mark suggestions
+
+        // determine if this is the start of the suggested recordings
         if (!suggested && i > 0) {
             NSString *prevCaptureDate = [[items objectAtIndex: i - 1] getDetail:@"CaptureDate"];
             NSString *captureDate = [item getDetail:@"CaptureDate"];
+
+            // first suggestion will have a capture date more recent than
+            // the previous entry.
             if ([captureDate compare:prevCaptureDate] > 0) {
                 suggested = YES;
             }
         }
         if (groups) {
             NSMutableArray *group = [potentialGroups objectForKey:[item getDetail:@"Title"]];
+            // suggested items do not create new groups, but can be added to
+            // existing groups
             if (group == NULL && !suggested) {
+                // group does not exist already
                 group = [[NSMutableArray alloc] init];
                 [potentialGroups setObject: group forKey:[item getDetail:@"Title"]];
                 [npl addObject:group];
             }
             [group addObject:item];
+
+            // while the results are sorted by date, suggested recordings are
+            // separated from normal recordings, groups need to have those
+            // suggested recordings in their appropriate date sorted position.
+            [group sortUsingSelector: @selector(compareByDate:)];
+
+            if ([[item getDetail:@"HighDefinition"] isEqualToString:@"Yes"]) {
+                [hdrecordings addObject:item];
+            }
         } else {
+            // no groups, add everything to npl
             [npl addObject:item];
         }
+        // mark suggestions
         if (suggested) {
             [item setDetail:@"suggested" :@"Yes"];
             [suggestions addObject:item];
         }
     }
 
-    // TODO: sort npl
-    if (!sortByDate) {
+    if (sortByDate && groups) {
+        // if a group has a suggested recording as the most recent element,
+        // we need to make sure that this group is sorted according to that
+        // suggested recording
+        [npl sortUsingSelector: @selector(compareByDate:)];
+    } else if (!sortByDate) {
+        // sort by alpha
         [npl sortUsingSelector: @selector(compareByTitle:)];
     }
     if (groups) {
+        // now that the npl is sorted, add the hd and suggested folders
+        if ([hdrecordings count] > 0) {
+            [npl addObject:hdrecordings];
+        }
         [npl addObject:suggestions];
     }
     // create TiVoContainers
@@ -194,6 +236,8 @@ static TiVoNPLConnection *instance = NULL;
        if (groups) {
            TiVoContainer *parent = nowPlaying;
            NSArray *tempGroup = [npl objectAtIndex:i];
+           // if our array has more than one element, create a new group for it
+           // it will be the parent for each element in the array
            if ([tempGroup count] > 1) {
                parent = [[TiVoContainer alloc] init];
                [nowPlaying addChild:parent];
@@ -225,9 +269,20 @@ static TiVoNPLConnection *instance = NULL;
         [[NSNotificationCenter defaultCenter] postNotificationName:@"Now Playing Data" object:self];
     }
 }
+
 - (void) dataError:(NSString *) errmsg
 {
     [SimpleDialog showDialog:@"NPL Error" :errmsg];
+}
+
+- (void) removeItem:(TiVoContainerItem *) item
+{
+    [item removeFromParent];
+    int index = [items indexOfObject:item];
+    if (index >= 0) {
+        [items removeObjectAtIndex:index];
+    }
+    [self performSelectorOnMainThread: @selector(finishedOrganizing:) withObject:NULL waitUntilDone:NO];
 }
 
 - (void)parserDidStartDocument:(NSXMLParser *)parser

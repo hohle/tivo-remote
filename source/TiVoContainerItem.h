@@ -49,6 +49,7 @@ enum {
 
 - (void) setIndex: (int) index;
 - (void) setParent: (TiVoContainer *) parent;
+- (void) removeFromParent;
 
 + (NSString *)cleanTitle:(NSString *)title;
 
@@ -58,5 +59,6 @@ enum {
 
 @interface NSMutableArray (TiVoContainerItem)
 - (NSComparisonResult)compareByTitle:(NSMutableArray *)that;
+- (NSComparisonResult)compareByDate:(NSMutableArray *)that;
 @end
 

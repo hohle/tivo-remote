@@ -19,252 +19,254 @@
 				<key>connectionType</key>
 				<string>TiVo</string>
 				<key>command</key>
-				<string>TIVO</string>
+				<string>IRCODE TIVO</string>
 			</dict>
 			<key>TiVo Now Playing</key>
 			<dict>
 				<key>connectionType</key>
 				<string>TiVo</string>
 				<key>command</key>
-				<string>NOWSHOWING</string>
+				<string>TELEPORT NOWPLAYING</string>
+				<key>response</key>
+				<string>LIVETV_READY</string>
 			</dict>
 			<key>TiVo Standby</key>
 			<dict>
 				<key>connectionType</key>
 				<string>TiVo</string>
 				<key>command</key>
-				<string>STANDBY</string>
+				<string>IRCODE STANDBY</string>
 			</dict>
 			<key>TiVo Up</key>
 			<dict>
 				<key>connectionType</key>
 				<string>TiVo</string>
 				<key>command</key>
-				<string>UP</string>
+				<string>IRCODE UP</string>
 			</dict>
 			<key>TiVo LiveTV</key>
 			<dict>
 				<key>connectionType</key>
 				<string>TiVo</string>
 				<key>command</key>
-				<string>LIVETV</string>
+				<string>IRCODE LIVETV</string>
 			</dict>
 			<key>TiVo Left</key>
 			<dict>
 				<key>connectionType</key>
 				<string>TiVo</string>
 				<key>command</key>
-				<string>LEFT</string>
+				<string>IRCODE LEFT</string>
 			</dict>
 			<key>TiVo Right</key>
 			<dict>
 				<key>connectionType</key>
 				<string>TiVo</string>
 				<key>command</key>
-				<string>RIGHT</string>
+				<string>IRCODE RIGHT</string>
 			</dict>
 			<key>TiVo Info</key>
 			<dict>
 				<key>connectionType</key>
 				<string>TiVo</string>
 				<key>command</key>
-				<string>DISPLAY</string>
+				<string>IRCODE DISPLAY</string>
 			</dict>
 			<key>TiVo Aspect</key>
 			<dict>
 				<key>connectionType</key>
 				<string>TiVo</string>
 				<key>command</key>
-				<string>WINDOW</string>
+				<string>IRCODE WINDOW</string>
 			</dict>
 			<key>TiVo Down</key>
 			<dict>
 				<key>connectionType</key>
 				<string>TiVo</string>
 				<key>command</key>
-				<string>DOWN</string>
+				<string>IRCODE DOWN</string>
 			</dict>
 			<key>TiVo Guide</key>
 			<dict>
 				<key>connectionType</key>
 				<string>TiVo</string>
 				<key>command</key>
-				<string>GUIDE</string>
+				<string>IRCODE GUIDE</string>
 			</dict>
 			<key>TiVo Thumbs Down</key>
 			<dict>
 				<key>connectionType</key>
 				<string>TiVo</string>
 				<key>command</key>
-				<string>THUMBSDOWN</string>
+				<string>IRCODE THUMBSDOWN</string>
 			</dict>
 			<key>TiVo Select</key>
 			<dict>
 				<key>connectionType</key>
 				<string>TiVo</string>
 				<key>command</key>
-				<string>SELECT</string>
+				<string>IRCODE SELECT</string>
 			</dict>
 			<key>TiVo Thumbs Up</key>
 			<dict>
 				<key>connectionType</key>
 				<string>TiVo</string>
 				<key>command</key>
-				<string>THUMBSUP</string>
+				<string>IRCODE THUMBSUP</string>
 			</dict>
 			<key>TiVo Record</key>
 			<dict>
 				<key>connectionType</key>
 				<string>TiVo</string>
 				<key>command</key>
-				<string>RECORD</string>
+				<string>IRCODE RECORD</string>
 			</dict>
 			<key>TiVo Play</key>
 			<dict>
 				<key>connectionType</key>
 				<string>TiVo</string>
 				<key>command</key>
-				<string>PLAY</string>
+				<string>IRCODE PLAY</string>
 			</dict>
 			<key>TiVo Channel Up</key>
 			<dict>
 				<key>connectionType</key>
 				<string>TiVo</string>
 				<key>command</key>
-				<string>CHANNELUP</string>
+				<string>IRCODE CHANNELUP</string>
 			</dict>
 			<key>TiVo Channel Down</key>
 			<dict>
 				<key>connectionType</key>
 				<string>TiVo</string>
 				<key>command</key>
-				<string>CHANNELDOWN</string>
+				<string>IRCODE CHANNELDOWN</string>
 			</dict>
 			<key>TiVo Rewind</key>
 			<dict>
 				<key>connectionType</key>
 				<string>TiVo</string>
 				<key>command</key>
-				<string>REVERSE</string>
+				<string>IRCODE REVERSE</string>
 			</dict>
 			<key>TiVo Pause</key>
 			<dict>
 				<key>connectionType</key>
 				<string>TiVo</string>
 				<key>command</key>
-				<string>PAUSE</string>
+				<string>IRCODE PAUSE</string>
 			</dict>
 			<key>TiVo Forward</key>
 			<dict>
 				<key>connectionType</key>
 				<string>TiVo</string>
 				<key>command</key>
-				<string>FORWARD</string>
+				<string>IRCODE FORWARD</string>
 			</dict>
 			<key>TiVo Instant Replay</key>
 			<dict>
 				<key>connectionType</key>
 				<string>TiVo</string>
 				<key>command</key>
-				<string>REPLAY</string>
+				<string>IRCODE REPLAY</string>
 			</dict>
 			<key>TiVo Slow</key>
 			<dict>
 				<key>connectionType</key>
 				<string>TiVo</string>
 				<key>command</key>
-				<string>SLOW</string>
+				<string>IRCODE SLOW</string>
 			</dict>
 			<key>TiVo Skip to End</key>
 			<dict>
 				<key>connectionType</key>
 				<string>TiVo</string>
 				<key>command</key>
-				<string>ADVANCE</string>
+				<string>IRCODE ADVANCE</string>
 			</dict>
 			<key>TiVo Clear</key>
 			<dict>
 				<key>connectionType</key>
 				<string>TiVo</string>
 				<key>command</key>
-				<string>CLEAR</string>
+				<string>IRCODE CLEAR</string>
 			</dict>
 			<key>TiVo Enter</key>
 			<dict>
 				<key>connectionType</key>
 				<string>TiVo</string>
 				<key>command</key>
-				<string>ENTER</string>
+				<string>IRCODE ENTER</string>
 			</dict>
 			<key>TiVo 1</key>
 			<dict>
 				<key>connectionType</key>
 				<string>TiVo</string>
 				<key>command</key>
-				<string>NUM1</string>
+				<string>IRCODE NUM1</string>
 			</dict>
 			<key>TiVo 2</key>
 			<dict>
 				<key>connectionType</key>
 				<string>TiVo</string>
 				<key>command</key>
-				<string>NUM2</string>
+				<string>IRCODE NUM2</string>
 			</dict>
 			<key>TiVo 3</key>
 			<dict>
 				<key>connectionType</key>
 				<string>TiVo</string>
 				<key>command</key>
-				<string>NUM3</string>
+				<string>IRCODE NUM3</string>
 			</dict>
 			<key>TiVo 4</key>
 			<dict>
 				<key>connectionType</key>
 				<string>TiVo</string>
 				<key>command</key>
-				<string>NUM4</string>
+				<string>IRCODE NUM4</string>
 			</dict>
 			<key>TiVo 5</key>
 			<dict>
 				<key>connectionType</key>
 				<string>TiVo</string>
 				<key>command</key>
-				<string>NUM5</string>
+				<string>IRCODE NUM5</string>
 			</dict>
 			<key>TiVo 6</key>
 			<dict>
 				<key>connectionType</key>
 				<string>TiVo</string>
 				<key>command</key>
-				<string>NUM6</string>
+				<string>IRCODE NUM6</string>
 			</dict>
 			<key>TiVo 7</key>
 			<dict>
 				<key>connectionType</key>
 				<string>TiVo</string>
 				<key>command</key>
-				<string>NUM7</string>
+				<string>IRCODE NUM7</string>
 			</dict>
 			<key>TiVo 8</key>
 			<dict>
 				<key>connectionType</key>
 				<string>TiVo</string>
 				<key>command</key>
-				<string>NUM8</string>
+				<string>IRCODE NUM8</string>
 			</dict>
 			<key>TiVo 9</key>
 			<dict>
 				<key>connectionType</key>
 				<string>TiVo</string>
 				<key>command</key>
-				<string>NUM9</string>
+				<string>IRCODE NUM9</string>
 			</dict>
 			<key>TiVo 0</key>
 			<dict>
 				<key>connectionType</key>
 				<string>TiVo</string>
 				<key>command</key>
-				<string>NUM0</string>
+				<string>IRCODE NUM0</string>
 			</dict>
 		</dict>
 		<key>sections</key>
@@ -822,13 +824,13 @@
 		<key>navigation</key>
 		<dict>
 			<key>Now Playing Load</key>
-			<integer>1200</integer>
+			<integer>300</integer>
 			<key>Page Load</key>
-			<integer>900</integer>
+			<integer>1000</integer>
 			<key>Base Page</key>
-			<integer>850</integer>
+			<integer>1400</integer>
 			<key>Folder Size Factor</key>
-			<integer>20</integer>
+			<integer>25</integer>
 			<key>Page Down Factor</key>
 			<integer>50</integer>
 			<key>Down Factor</key>

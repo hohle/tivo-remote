@@ -59,6 +59,18 @@
     [children addObject:child];
 }
 
+- (void) removeChild: (int) childIndex
+{
+NSLog(@"removing child %d of %d", childIndex, [children count]);
+    if (childIndex < [children count]) {
+        [children removeObjectAtIndex:childIndex];
+        int i;
+        for (i = childIndex; i < [children count]; i++) {
+            [[children objectAtIndex:i] setIndex:i];
+        }
+    }
+}
+
 - (int) size
 {
     return [children count];

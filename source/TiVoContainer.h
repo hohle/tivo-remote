@@ -26,6 +26,7 @@
 
 - (id)init;
 - (void) addChild: (TiVoContainerItem *) child;
+- (void) removeChild: (int) index;
 - (int) size;
 
 @end

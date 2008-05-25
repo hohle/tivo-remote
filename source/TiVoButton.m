@@ -45,10 +45,8 @@ static UIPushButton * buttonImg = NULL;
     if (pressedIcon != NULL) {
         pressedImg = [UIImage applicationImageNamed:[buttonProps objectForKey:@"pressed-icon"]];
     }
-    NSDictionary *function = [[TiVoDefaults sharedDefaults] getFunctionSettings:[buttonProps objectForKey:@"function"]];
 
-
-    cmd = strdup([[function objectForKey:@"command"] UTF8String]);
+    functionKey = [buttonProps objectForKey:@"function"];
     confirm = [buttonProps objectForKey:@"confirm"];
 
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
@@ -75,7 +73,7 @@ static UIPushButton * buttonImg = NULL;
         [self showConfirm:confirm];
     } else {
         @try {
-            [connection sendCommand: cmd];
+            [connection sendCommand: functionKey];
         } @catch (NSString *alert) {
             [SimpleDialog showDialog: @"Connection Error":alert];
         }
@@ -100,7 +98,7 @@ static UIPushButton * buttonImg = NULL;
     [sheet dismissAnimated:YES];
     if (button == 2) {
         @try {
-            [connection sendCommand: cmd];
+            [connection sendCommand: functionKey];
         } @catch (NSString *alert) {
             [SimpleDialog showDialog: @"Connection Error":alert];
         }

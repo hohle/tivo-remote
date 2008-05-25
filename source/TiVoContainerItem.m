@@ -53,6 +53,12 @@
     parent = newParent;
 }
 
+- (void) removeFromParent
+{
+NSLog(@"removing %@ %d ", [self getDetail:@"Title"], index);
+    [parent removeChild:index];
+}
+
 - (NSMutableArray *) getCommands
 {
     NSMutableArray *ret;
@@ -131,6 +137,13 @@
     return [[that getDetail:@"CaptureDate"] compare:[self getDetail:@"CaptureDate"]];
 }
 
+- (NSComparisonResult) compareByDate:(TiVoContainerItem *) that
+{
+    NSString *date1 = [self getDetail:@"CaptureDate"];
+    NSString *date2 = [that getDetail:@"CaptureDate"];
+    return [date2 compare:date1];
+}
+
 + (NSString *) cleanTitle:(NSString *) title
 {
     if ([title hasPrefix:@"The "]) {
@@ -151,5 +164,12 @@
     TiVoContainerItem *item1 = [self objectAtIndex:0];
     TiVoContainerItem *item2 = [that objectAtIndex:0];
     return [item1 compareByTitle:item2];
+}
+
+- (NSComparisonResult)compareByDate:(NSMutableArray *)that
+{
+    TiVoContainerItem *item1 = [self objectAtIndex:0];
+    TiVoContainerItem *item2 = [that objectAtIndex:0];
+    return [item1 compareByDate:item2];
 }
 @end

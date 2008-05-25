@@ -1,4 +1,4 @@
-// TiVoNowPlayingView
+// TiVoProgramView
 /*
 
  This program is free software; you can redistribute it and/or
@@ -22,32 +22,27 @@
 #import <UIKit/UITextView.h>
 #import <UIKit/UINavigationBar.h>
 #import <UIKit/UINavigationItem.h>
-#import <UIKit/UITransitionView.h>
-#import <UIKit/UIProgressHUD.h>
+#import <UIKit/UIPreferencesTable.h>
+#import <UIKit/UIPreferencesTextTableCell.h>
 #import <UIKit/UIImageAndTextTableCell.h>
-#import <UIKit/UITable.h>
+#import <UIKit/UIAlertSheet.h>
 
-@interface TiVoNowPlayingView: UIView
+@class TiVoContainerItem;
+
+@interface TiVoProgramView: UIView
 {
-    UINavigationBar *navBar;
-    UINavigationBar *bottomNavBar;
-    UITransitionView *body;
-    UIProgressHUD   *progress;
-    NSMutableArray  *views;
-    NSMutableArray  *model;
-    struct CGRect    bodyRect;
-    BOOL             disclosure;
+    TiVoContainerItem *item;
+    UIPreferencesTable *detailTable;
+    UIPreferencesTextTableCell    *descriptionCell;
+    UIPreferencesTextTableCell    *durationCell;
+    UIPreferencesTextTableCell    *stationCell;
+    UIPreferencesTextTableCell    *hdCell;
+    UIPreferencesTextTableCell    *captureCell;
+    UIPreferencesTableCell    *play;
+    UIPreferencesTableCell    *delete;
+    UIAlertSheet              *alertSheet;
 }
 
-- (id)initWithFrame:(struct CGRect)rect;
-- (void) refresh:(id) param;
+- (id)initWithFrame:(struct CGRect)rect :(TiVoContainerItem*) item;
 
-@end
-
-@interface TiVoContainerItemTableCell:UIImageAndTextTableCell
-{
-    id value;
-}
--(void)setValue:(id) value;
--(id)getValue;
 @end

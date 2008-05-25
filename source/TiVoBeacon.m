@@ -42,6 +42,21 @@ static TiVoBeacon *instance = NULL;
 - (id)init
 {
     detected = [[NSMutableDictionary alloc] init];
+
+/*     
+    NSNetService does not appear to be available.
+*/
+/*
+    NSNetServiceBrowser *browser = [[NSNetServiceBrowser alloc] init];
+
+    [browser setDelegate:self];
+    // Passing in "" for the domain causes us to browse in the default browse domain,
+    // which currently will always be "local".  The service type should be registered
+    // with IANA, and it should be listed at <http://www.iana.org/assignments/port-numbers>.
+    // At minimum, the service type should be registered at <http://www.dns-sd.org/ServiceTypes.html>
+    [browser searchForServicesOfType:@"_tivo-videos._tcp." inDomain:@""];
+*/
+
     [NSThread detachNewThreadSelector:@selector(run:) toTarget:self withObject:nil];
     return self;
 }
@@ -49,6 +64,11 @@ static TiVoBeacon *instance = NULL;
 - (NSDictionary *)getDetectedTiVos
 {
     return detected;
+}
+
+// This object is the delegate of its NSNetServiceBrowser object. We're only interested in services-related methods,
+// so that's what we'll call.
+- (void)netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser didFindService:(NSNetService *)aNetService moreComing:(BOOL)moreComing {
 }
 
 - (void) run:(id) param
@@ -79,8 +99,15 @@ static TiVoBeacon *instance = NULL;
         NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
         int i = 0;
         for (i = 0; i < [components count]; i++) {
-            if ([[components objectAtIndex:i] rangeOfString:@"machine"].location == 0) {
-                [dict setObject:[[components objectAtIndex:i] substringFromIndex:8] forKey:@"TiVo Name"];
+            NSArray *toks = [[components objectAtIndex:i] componentsSeparatedByString:@"="];
+NSLog(@"%@", toks);
+            if ([toks count] < 2) {
+                continue;
+            }
+            if ([[toks objectAtIndex:0] isEqualToString:@"machine"]) {
+                [dict setObject:[toks objectAtIndex:1] forKey:@"TiVo Name"];
+            } else {
+                [dict setObject:[toks objectAtIndex:1] forKey:[toks objectAtIndex:0]];
             }
         }
         [components release];

@@ -115,7 +115,7 @@ int SAVE_ROW = 6;
 
 
     delete = [[UIPreferencesTableCell alloc] init];
-    [delete setTitle:@"Delete"];;
+    [delete setTitle:@"Delete"];
     [delete setEnabled:([savedCells count] > 0)];
 
     add = [[UIPreferencesTableCell alloc] init];
@@ -182,6 +182,9 @@ int SAVE_ROW = 6;
         }
         row -= SAVE_ROW + 2;
         if (row >= 0 && row < [detectedCells count]) {
+            NSDictionary *dict = [[detectedCells objectAtIndex:row] value];
+            [SimpleDialog showDialog:@"Detected TiVo" :
+              [NSString stringWithFormat:@"TiVo is version %@ %@, TiVoRemote requires Series3 9.1 or higher.",[dict objectForKey:@"platform"], [dict objectForKey:@"swversion"]]];
             [self setData:[[detectedCells objectAtIndex:row] value]];
         }
     }

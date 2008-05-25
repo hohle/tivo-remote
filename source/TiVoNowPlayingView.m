@@ -23,9 +23,7 @@
 #import <CoreGraphics/CoreGraphics.h>
 #import <GraphicsServices/GraphicsServices.h>
 #import <UIKit/CDStructures.h>
-#import <UIKit/UITable.h>
 #import <UIKit/UIHardware.h>
-#import <UIKit/UITableColumn.h>
 
 #import "TiVoDefaults.h"
 #import "TiVoNowPlayingView.h"
@@ -34,6 +32,8 @@
 #import "SimpleDialog.h"
 #import "TiVoNPLConnection.h"
 #import "TiVoContainerItem.h"
+#import "TiVoBrowser.h"
+#import "TiVoProgramView.h"
 
 @implementation TiVoNowPlayingView
 
@@ -41,14 +41,16 @@
 {
     [super initWithFrame:rect];
 
+    disclosure = NO;
+
     struct CGRect navRect = CGRectMake(rect.origin.x, rect.origin.y, rect.size.width, 48);
     navBar = [[UINavigationBar alloc] initWithFrame: navRect];
     [navBar showButtonsWithLeftTitle:@"Remote" rightTitle:@"Settings" leftBack:YES];
     [navBar setBarStyle:5];
     [navBar setDelegate:self];
 
-    navItem = [[UINavigationItem alloc] initWithTitle:@"Now Playing"];
-    [navBar pushNavigationItem:navItem];
+    UINavigationItem *navItem = [[UINavigationItem alloc] initWithTitle:@"Now Playing"];
+    [navBar pushNavigationItem:[navItem autorelease]];
 
     struct CGRect bottomNavRect = CGRectMake(rect.origin.x, rect.origin.y + rect.size.height - 48, rect.size.width, 48);
     bottomNavBar = [[UINavigationBar alloc] initWithFrame: bottomNavRect];
@@ -58,14 +60,10 @@
     [bottomNavBar setButton:1 enabled:NO];
     [bottomNavBar setButton:0 enabled:NO];
 
-    struct CGRect bodyRect = CGRectMake(rect.origin.x, rect.origin.y + 48, rect.size.width, rect.size.height - 2 * 48);
-
-    nowPlayingTable = [[UITable alloc] initWithFrame:bodyRect];
-    [nowPlayingTable setDataSource:self];
-    [nowPlayingTable setDelegate:self];
-    [nowPlayingTable setSeparatorStyle:1];
-
-    detailView = [[UITextView alloc] initWithFrame:bodyRect];
+    bodyRect = CGRectMake(rect.origin.x, rect.origin.y + 48, rect.size.width, rect.size.height - 2 * 48);
+    body = [[UITransitionView alloc] initWithFrame:bodyRect];
+    bodyRect.origin.x = 0;
+    bodyRect.origin.y = 0;
 
     float progX = (rect.origin.x + 10);
     float progY = (rect.origin.y + 100);
@@ -74,15 +72,13 @@
     [progress setText:@"Loading Now Playing Data"];
     [progress show:YES];
 
-    col = [[UITableColumn alloc] initWithTitle:@"Now Playing" identifier:@"nowplaying" width:320];
-    [nowPlayingTable addTableColumn:col];
-
-    cells = NULL;
+    views = [[NSMutableArray alloc] init];
     [self refresh:NULL];
+
 
     [self addSubview:navBar];
     [self addSubview:bottomNavBar];
-    [self addSubview:nowPlayingTable];
+    [self addSubview:body];
     [self addSubview:progress];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(makChange:) name:@"Media Access Key" object:nil];
@@ -99,63 +95,76 @@
     }
 }
 
+- (void)showDetails
+{
+    disclosure = YES;
+}
+
 - (void)tableRowSelected:(NSNotification *)notification
 {
-    int row = [nowPlayingTable selectedRow];
-    TiVoContainerItemTableCell *cell = [cells objectAtIndex:row];
-    [cell setSelected:NO withFade:NO];
-    [[[notification object]cellAtRow:[[notification object]selectedRow]column:0] setSelected:FALSE withFade:FALSE];
+    TiVoContainerItemTableCell *cell = 
+            [[notification object] cellAtRow: 
+                    [[notification object]selectedRow] column:0];
     if ([[cell getValue] isKindOfClass:[TiVoContainerItem class]]) {
-        TiVoContainerItem *item = [cell getValue];
-        NSArray *commands = [item getCommands];
-        id<RemoteConnection> conn = [[ConnectionManager getInstance] getConnection:@"TiVo"];
-        int i;
-        for (i = 0; i < [commands count]; i++) {
-            int sleepTime = [[commands objectAtIndex:i] intValue];
-            if (sleepTime > 0) {
-                usleep(1000 * sleepTime);
-            } else {
-                NSDictionary *function = [[TiVoDefaults sharedDefaults] getFunctionSettings:[commands objectAtIndex:i]];
-                [conn sendCommand:[[function objectForKey:@"command"] UTF8String]];
+        if (disclosure) {
+            disclosure = NO;
+            // Open a detailed view for the recorded show
+            TiVoProgramView *programView = 
+                   [[TiVoProgramView alloc] initWithFrame:bodyRect 
+                        :[cell getValue]];
+            UINavigationItem *navItem = [[UINavigationItem alloc] initWithTitle:[cell title]];
+            [navBar pushNavigationItem:[navItem autorelease]];
+            [body transition:1 toView:programView];
+            [views addObject: programView];
+            [bottomNavBar setButton:1 enabled:YES];
+        } else {
+            // play the show
+            @try {
+                TiVoContainerItem *item = [cell getValue];
+                NSMutableArray *commands = [item getCommands];
+                [commands addObject:@"TiVo Play"];
+                id<RemoteConnection> conn = [[ConnectionManager getInstance] getConnection:@"TiVo"];
+                [conn batchSend:commands];
+            } @catch (NSString *exc) {
+                [SimpleDialog showDialog:@"Connection Error" :exc];
             }
         }
-        NSDictionary *function = [[TiVoDefaults sharedDefaults] getFunctionSettings:@"TiVo Play"];
-        [conn sendCommand:[[function objectForKey:@"command"] UTF8String]];
-        [[[notification object]cellAtRow:[[notification object]selectedRow]column:0] setSelected:FALSE withFade:TRUE];
     } else {
-        [navItem setTitle:[cell title]];
+        // open the group
+        UINavigationItem *navItem = [[UINavigationItem alloc] initWithTitle:[cell title]];
+        [navBar pushNavigationItem:[navItem autorelease]];
         [bottomNavBar setButton:1 enabled:YES];
-        cells = [cell getValue];
-        [nowPlayingTable reloadData];
-        [[[notification object]cellAtRow:[[notification object]selectedRow]column:0] setSelected:FALSE withFade:FALSE];
+        TiVoBrowser *browser = [[TiVoBrowser alloc] initWithFrame:bodyRect :[cell getValue]];
+        [body transition:1 toView:browser];
+        [browser refresh:NULL];
+        [[browser getTable] setDelegate: self];
+        [views addObject: browser];
     }
-}
-
-- (void) table:(UITable *) table deleteRow:(int) row 
-{
-}
-
-- (BOOL) table:(UITable *) table canDeleteRow:(int) row 
-{
-    return NO;
+    [[[notification object]cellAtRow:[[notification object]selectedRow]column:0] setSelected:FALSE withFade:TRUE];
 }
 
 - (void) refresh:(id) param
 {
-    if ([[TiVoNPLConnection getInstance] getState] == NPL_ERROR) {
+    if ([[TiVoNPLConnection getInstance] getState] == NPL_NO_CONNECTION) {
+        // no longer have a MAK defined, don't show this view anymore
         [self release];
     }
-    int i;
-    for (i = 0; i < [cells count]; i++) {
-        [[cells objectAtIndex:i] release];
+
+    // clear views
+    UIView *view;
+    while (view = [views lastObject])  {
+        [views removeLastObject];
+        [view removeFromSuperview];
+        [view release];
     }
-    [cells removeAllObjects];
 
     NSArray *items = [[TiVoNPLConnection getInstance] getItems];
     if (items != NULL) {
+        // take the items, and arrange them for display
         NSMutableDictionary *groups = [[NSMutableDictionary alloc] init];
         NSMutableArray *suggestions = [[NSMutableArray alloc] init];
         model = [[NSMutableArray alloc] init];
+        int i;
         for (i = 0; i < [items count]; i++) {
             TiVoContainerItem *item = [items objectAtIndex:i];
             BOOL suggested = ([item getDetail:@"suggested"] != NULL);
@@ -164,6 +173,10 @@
             [cell setTitle: [item getDetail:@"Title"]];
             [cell setEnabled:YES];
             [cell setValue:item];
+            [cell setDisclosureStyle: 1];
+            [cell setShowDisclosure: YES];
+            [cell setDisclosureClickable: YES];
+            [[cell _disclosureView] addTarget:self action:@selector(showDetails) forEvents:64];
 
             if (group == NULL && !suggested) {
                 group = [[NSMutableArray alloc] init];
@@ -175,16 +188,18 @@
             }
             if (suggested) {
                 [suggestions addObject: cell];
-            } else {
-                [cells addObject:cell];
             }
         }
+        // each item has been examined, and placed into groups
+        // we no longer need the map from name -> group
         [groups release];
         for (i = 0; i < [model count]; i++) {
             NSArray *group = [model objectAtIndex:i];
             if ([group count] == 1) {
+                // this is a plain element
                 [model replaceObjectAtIndex:i withObject: [group objectAtIndex:0]];
             } else {
+                // this is a group
                 int j;
                 for (j = 0; j < [group count]; j++) {
                     TiVoContainerItemTableCell *cell = [group objectAtIndex:j];
@@ -193,39 +208,56 @@
                         [cell setTitle: episode];
                     }
                 }
+                // create the folder
                 TiVoContainerItemTableCell *cell = [[TiVoContainerItemTableCell alloc] init];
                 [cell setTitle: [[[group objectAtIndex: 0] getValue] getDetail:@"Title"]];
-                [cell setDisclosureStyle: 1];
+                [cell setDisclosureStyle: 2];
                 [cell setShowDisclosure: YES];
                 [cell setEnabled:YES];
                 [cell setValue:group];
                 [model replaceObjectAtIndex:i withObject: cell];
             }
         }
+        // add suggestions
         TiVoContainerItemTableCell *cell = [[TiVoContainerItemTableCell alloc] init];
         [cell setTitle: @"TiVo Suggestions"];
-        [cell setDisclosureStyle: 1];
+        [cell setDisclosureStyle: 2];
         [cell setShowDisclosure: YES];
         [cell setEnabled:YES];
         [cell setValue:suggestions];
         [model addObject:cell];
        
-        cells = model;
+        TiVoBrowser *browser = [[TiVoBrowser alloc] initWithFrame:bodyRect :model];
+        [views addObject: browser];
+        [[browser getTable] setDelegate: self];
+        [body transition:0 toView:browser];
+        UINavigationItem *navItem = [[UINavigationItem alloc] initWithTitle:@"Now Playing"];
+        [navBar pushNavigationItem:[navItem autorelease]];
+        [bottomNavBar setButton:1 enabled:NO];
+    } else {
+        NSString *text = @"";
+        if ([[TiVoNPLConnection getInstance] getState] == NPL_ERROR) {
+            text = @"\n\nError getting Now Playing data";
+        }
+        UITextView *flatView = [[UITextView alloc] initWithFrame:bodyRect];
+        [flatView setEnabled:NO];
+        [flatView setText:text];
+        [body transition:0 toView:flatView];
+    }
+    switch ([[TiVoNPLConnection getInstance] getState]) {
+    case NPL_ERROR:
+    case NPL_ORGANIZED:
         if (progress != NULL) {
             [progress show:NO];
             [progress removeFromSuperview];
             [progress release];
             progress = NULL;
-            [nowPlayingTable setEnabled:YES];
         }
-    } else {
-    }
-    if ([[TiVoNPLConnection getInstance] getState] == NPL_ORGANIZED) {
         [bottomNavBar setButton:0 enabled:YES];
-    } else {
+        break;
+    default:
         [bottomNavBar setButton:0 enabled:NO];
     }
-    [nowPlayingTable reloadData];
 }
 
 - (void)navigationBar:(UINavigationBar*)navbar buttonClicked:(int)button 
@@ -258,36 +290,27 @@
         }
         case 1: // back
         {
-            [navItem setTitle: @"Now Playing"];
-            [bottomNavBar setButton:1 enabled:NO];
-            cells = model;
-            [nowPlayingTable reloadData];
+            UIView *oldView = [views lastObject];
+            [views removeLastObject];
+            UIView *newView = [views lastObject];
+            [navBar popNavigationItem];
+            [body transition:2 toView:newView];
+            [bottomNavBar setButton:1 enabled:[views count] > 1];
+            [oldView release];
             break;
         }
         }
     }
 }
 
--(UITableCell*)table:(UITable*)table cellForRow:(int)row column:(UITableColumn *)column
-{
-    return [cells objectAtIndex:row];
-}
-
--(int)numberOfRowsInTable:(UITable *) table
-{
-    return [cells count];
-}
-
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"Media Access Key" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"Now Playing Data" object:nil];
+    [navBar removeFromSuperview];
     [navBar release];
+    [bottomNavBar removeFromSuperview];
     [bottomNavBar release];
-    [navItem release];
-    [nowPlayingTable release];
-    [col release];
-    [detailView release];
     if (progress != NULL) {
         [progress removeFromSuperview];
         [progress release];
@@ -298,15 +321,31 @@
         TiVoContainerItemTableCell *cell = [model objectAtIndex:i];
         if (![[cell getValue] isKindOfClass:[TiVoContainerItem class]]) {
             NSArray *group = [cell getValue];
+
+            BOOL suggestions = [@"TiVo Suggestions" isEqualToString:[cell title]];
+           
             int j;
             for (j = 0; j < [group count]; j++) {
                 TiVoContainerItemTableCell *cell2 = [group objectAtIndex:j];
-                [cell2 release];
+                BOOL suggested = [[cell2 getValue] getDetail:@"suggested"] != NULL;
+                if (suggestions || !suggested) {
+                    [cell2 release];
+                }
             }
             [group release];
         }
         [cell release];
     }
+    // release views
+    UIView *view;
+    while (view = [views lastObject])  {
+        [views removeLastObject];
+        [view removeFromSuperview];
+        [view release];
+    }
+    [views release];
+    [body removeFromSuperview];
+    [body dealloc];
     [model release];
     [super dealloc];
 }

@@ -100,6 +100,36 @@
     return fd;
 }
 
+-(void)waitForResponse:(int) sockFD :(NSString *)expectedResponse
+{
+    const char *exp = [expectedResponse UTF8String];
+    struct timeval tv;
+    fd_set readfds;
+    tv.tv_sec = 0;
+    tv.tv_usec = 50000;
+    int i;
+    for (i = 0; i < 40; i++) {
+        FD_ZERO(&readfds);
+        FD_SET(sockFD, &readfds);
+        select(sockFD + 1, &readfds, NULL, NULL, &tv);
+        if (FD_ISSET(sockFD, &readfds)) {
+            char response[128]; 
+            int numBytes = read(sockFD, response, 128);
+            if (numBytes > 0) {
+                NSLog(@"received '%s' (%d)", response, numBytes);
+              
+                if (expectedResponse == NULL || strstr(response, exp)) {
+                    return;
+                }
+            }
+        }
+        if (expectedResponse == NULL) {
+            return;
+        }
+    }
+    @throw @"Did not receive response.";
+}
+
 - (void)close
 {
     if (fd >= 0) {
@@ -109,13 +139,13 @@ NSLog(@"Closing");
     }
 }
 
-- (void)sendCommand:(const char *) cmd
+- (void)sendCommand:(NSString *) functionKey
 {
-    if (cmd == NULL) {
+    if (functionKey == NULL) {
         return;
     }
-    char buffer[25];
-    sprintf(buffer, "IRCODE %s\r", cmd);
+    NSDictionary *function = [defaults getFunctionSettings:functionKey];
+    const char *buffer = [[NSString stringWithFormat:@"%@\r", [function objectForKey:@"command"]] UTF8String];
     NSLog(@"sending '%s' (%d)", buffer, strlen(buffer));
     int sockFD = [self getSocket];
     @synchronized (self) {
@@ -127,9 +157,23 @@ NSLog(@"Closing");
             NSLog(@"Sleeping for %d", 50 - diff);
             usleep( (50 - diff) * 1000);
         }
-        gettimeofday(&lastCmdSent, NULL);
         if (sockFD>= 0) {
             send(sockFD, buffer, strlen(buffer), 0);
+            gettimeofday(&lastCmdSent, NULL);
+            [self waitForResponse:sockFD :[function objectForKey:@"response"]];
+        }
+    }
+}
+
+- (void)batchSend:(NSArray *) functions
+{
+    int i;
+    for (i = 0; i < [functions count]; i++) {
+        if ([[functions objectAtIndex:i] isKindOfClass:[NSString class]]) {
+            [self sendCommand:[functions objectAtIndex:i]];
+        } else {
+            int sleepTime = [[functions objectAtIndex:i] intValue];
+            usleep(1000 * sleepTime);
         }
     }
 }

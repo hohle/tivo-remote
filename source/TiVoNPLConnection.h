@@ -18,6 +18,7 @@
 */
 
 enum {
+        NPL_NO_CONNECTION = -2,
         NPL_ERROR = -1,
         NPL_NO_DATA = 0,
 	NPL_NOT_PARSED,
@@ -26,6 +27,8 @@ enum {
         NPL_PARSED,
         NPL_ORGANIZED
 };
+
+@class TiVoContainerItem;
 
 @interface TiVoNPLConnection: NSObject
 {
@@ -36,10 +39,11 @@ enum {
 - (id)init;
 - (void)refresh;
 - (void)organize;
--(void) reloadData:(NSNotification *) notification;
+- (void) reloadData:(NSNotification *) notification;
 - (NSArray *)getItems;
 - (NSData *)getNowPlayingData;
 - (int) getState;
+- (void) removeItem:(TiVoContainerItem *) item;
 
 + (TiVoNPLConnection *)getInstance;
 
