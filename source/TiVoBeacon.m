@@ -23,6 +23,7 @@
 #import <stdlib.h>
 #import <stdio.h>
 #import "TiVoBeacon.h"
+#import "CFBonjour.h"
 #import "SimpleDialog.h"
 
 @implementation TiVoBeacon
@@ -43,6 +44,13 @@ static TiVoBeacon *instance = NULL;
 {
     detected = [[NSMutableDictionary alloc] init];
 
+    CFBonjour *bonjour = [[CFBonjour alloc] init];
+    [bonjour CFBonjourStartBrowsingForServices:@"_tivo-videos._tcp." inDomain:@""];
+    [[NSNotificationCenter defaultCenter]
+        addObserver:self
+           selector:@selector(bonjourClientAdded:)
+               name:@"bonjourClientAdded"
+             object:nil];
 /*     
     NSNetService does not appear to be available.
 */
@@ -119,12 +127,32 @@ NSLog(@"%@", toks);
                 [detected setObject:dict forKey:ipAddr];
                 [self performSelectorOnMainThread: @selector(newTiVo:) withObject: NULL waitUntilDone:NO];
             } else {
+                NSMutableDictionary *existing = [detected objectForKey:ipAddr];
+                [existing addEntriesFromDictionary:dict];
                 [dict release];
                 [ipAddr release];
             }
         }
     }
     [autoreleasepool release];
+}
+
+-(void) bonjourClientAdded:(NSNotification *) notification
+{
+    NSLog(@"obj = %@", [notification userInfo]);
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    NSString *ipAddr = [[notification userInfo] objectForKey:@"resolvedIP"];
+    [dict setObject:[[notification userInfo] objectForKey:@"serviceName"] forKey:@"TiVo Name"];
+    [dict setObject:ipAddr forKey:@"IP Address"];
+    @synchronized (detected) {
+        if ([detected objectForKey:ipAddr] == NULL) {
+            [detected setObject:dict forKey:ipAddr];
+            [self performSelectorOnMainThread: @selector(newTiVo:) withObject: NULL waitUntilDone:NO];
+        } else {
+            [dict release];
+            [ipAddr release];
+        }
+    }
 }
 
 -(void) newTiVo:(id) param

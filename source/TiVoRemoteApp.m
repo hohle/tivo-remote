@@ -65,6 +65,7 @@
     [mainView addSubview:navBar];
     [TiVoBeacon getInstance];
     [TiVoNPLConnection getInstance];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(nowPlayingUpdate:) name:@"Now Playing Data" object:nil];
 
     page = 0;
     @try {
@@ -81,7 +82,6 @@
         [mainView addSubview:remoteView];
     } @catch (id) {
     }
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(nowPlayingUpdate:) name:@"Now Playing Data" object:nil];
 }
 
 - (void)navigationBar:(UINavigationBar*)navbar buttonClicked:(int)button 

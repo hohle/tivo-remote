@@ -130,6 +130,7 @@ static TiVoNPLConnection *instance = NULL;
     NSString *mak = [[TiVoDefaults sharedDefaults] getMediaAccessKey];
     if (mak == NULL || [mak length] == 0) {
         state = NPL_NO_CONNECTION;
+        [self performSelectorOnMainThread: @selector(finishedOrganizing:) withObject:NULL waitUntilDone:NO];
         return;
     }
    

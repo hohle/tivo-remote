@@ -183,8 +183,13 @@ int SAVE_ROW = 6;
         row -= SAVE_ROW + 2;
         if (row >= 0 && row < [detectedCells count]) {
             NSDictionary *dict = [[detectedCells objectAtIndex:row] value];
-            [SimpleDialog showDialog:@"Detected TiVo" :
-              [NSString stringWithFormat:@"TiVo is version %@ %@, TiVoRemote requires Series3 9.1 or higher.",[dict objectForKey:@"platform"], [dict objectForKey:@"swversion"]]];
+            NSString *warnStr;
+            if ([dict objectForKey:@"swversion"] != NULL) {
+                warnStr =[NSString stringWithFormat:@"TiVo is version %@ %@, TiVoRemote requires Series3 9.1 or higher.",[dict objectForKey:@"platform"], [dict objectForKey:@"swversion"]];
+            } else {
+                warnStr =[NSString stringWithFormat:@"TiVo version is unknown, TiVoRemote requires Series3 9.1 or higher."];
+            }
+            [SimpleDialog showDialog:@"Detected TiVo" : warnStr];
             [self setData:[[detectedCells objectAtIndex:row] value]];
         }
     }
