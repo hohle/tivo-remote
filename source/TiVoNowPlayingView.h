@@ -27,6 +27,16 @@
 #import <UIKit/UIImageAndTextTableCell.h>
 #import <UIKit/UITable.h>
 
+@interface TiVoContainerItemTableCell:UIImageAndTextTableCell
+{
+    id value;
+    id parent;
+}
+-(void)setParent:(id) parent;
+-(void)setValue:(id) value;
+-(id)getValue;
+@end
+
 @interface TiVoNowPlayingView: UIView
 {
     UINavigationBar *navBar;
@@ -41,13 +51,7 @@
 
 - (id)initWithFrame:(struct CGRect)rect;
 - (void) refresh:(id) param;
+- (void) showDetails:(TiVoContainerItemTableCell *) cell;
 
 @end
 
-@interface TiVoContainerItemTableCell:UIImageAndTextTableCell
-{
-    id value;
-}
--(void)setValue:(id) value;
--(id)getValue;
-@end

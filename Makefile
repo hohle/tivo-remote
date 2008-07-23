@@ -5,15 +5,16 @@
 ##		  -framework UIKit -framework LayerKit -framework Coregraphics -framework OfficeImport
 
 
-CC=arm-apple-darwin-gcc
-CFLAGS=-O3
+CC=arm-apple-darwin9-gcc
+CFLAGS=-O3 -I/var/include 
 CPPFLAGS=-I/usr/local/arm-apple-darwin/include
 LD=$(CC)
 LDFLAGS=-L$(HEAVENLY)/usr/lib -L/usr/local/lib/gcc/arm-apple-darwin/4.0.1 \
+        -F${HEAVENLY}/System/Library/Frameworks -F${HEAVENLY}/System/Library/PrivateFrameworks \
 	-lz -lobjc -lgcc -framework CoreFoundation -framework Foundation \
-	-framework UIKit -framework LayerKit -framework CoreGraphics \
-	-framework GraphicsServices -framework OfficeImport \
-	-framework CFNetwork -lcrypto
+	-framework UIKit -framework CoreGraphics \
+	-framework CFNetwork -lcrypto \
+	-bind_at_load
 
 SOURCES=$(wildcard source/*.m)
 OBJECTS=$(patsubst source/%,obj/%, \
@@ -26,7 +27,7 @@ IMAGES=$(wildcard images/*.png)
 METADATA=$(wildcard metadata/*.xml)
 
 
-QUIET=true
+#QUIET=true
 
 ifeq ($(QUIET),true)
 	QC	= @echo "Compiling [$@]";
@@ -80,8 +81,8 @@ clean:
 
 
 obj/Info.plist: Info.plist.tmpl
-	@echo "Building Info.plist for version 0.23."
-	@sed -e 's|__VERSION__|0.23|g' < $< > $@
+	@echo "Building Info.plist for version 0.24."
+	@sed -e 's|__VERSION__|0.24|g' < $< > $@
 
 //TiVoRemote.app: obj/TiVoRemote obj/Info.plist $(IMAGES)
 TiVoRemote.app: obj/TiVoRemote obj/Info.plist $(IMAGES) $(METADATA)

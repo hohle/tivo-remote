@@ -24,6 +24,7 @@
 
 -(id) init
 {
+NSLog(@"going to read settings");
     [super init];
     NSMutableDictionary *temp;
     defaults = [[NSUserDefaults standardUserDefaults] retain];
@@ -40,6 +41,7 @@
     [temp release];
 
     NSString * path = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"remote.xml"];
+NSLog(@"path = %@", path);
     @try {
 // this crashes things?
 //        dictionary = [NSDictionary dictionaryWithContentsOfFile:path];
@@ -51,6 +53,7 @@
         NSString *alertStr = [NSString stringWithFormat:@"Unable to parse file %@", path];
         [SimpleDialog showDialog:@"Parse Error":alertStr];
     }
+NSLog(@"we totally read %d things!", [dictionary count]);
 
     return self;
 }

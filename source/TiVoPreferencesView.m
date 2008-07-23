@@ -58,7 +58,8 @@ int SAVE_ROW = 6;
     [[ipCell textField] setText:[defaults getIpAddr]];
     [ipCell setEnabled:YES];
     [ipCell setTarget:self];
-    [[ipCell textField] setPreferredKeyboardType: 1];
+//2.0
+//    [[ipCell textField] setPreferredKeyboardType: 1];
     [ipCell setAction:@selector(ipEdited)];
 //    [ipCell setReturnAction:@selector(ipEdited)];
     makCell = [[UIPreferencesTextTableCell alloc] init];
@@ -67,7 +68,8 @@ int SAVE_ROW = 6;
     [makCell setEnabled:YES];
     [makCell setTarget:self];
     [makCell setAction:@selector(makEdited)];
-    [[makCell textField] setPreferredKeyboardType: 1];
+//2.0
+//    [[makCell textField] setPreferredKeyboardType: 1];
     nameCell = [[UIPreferencesTextTableCell alloc] init];
     [nameCell setTitle:@"Name"];
     [[nameCell textField] setText:[defaults getTiVoName]];
@@ -163,7 +165,8 @@ int SAVE_ROW = 6;
             }
             // need to reset focus so the table doesn't get messed up
             [preferencesTable _setEditingCell:NULL];
-            [preferencesTable setKeyboardVisible:NO];
+//2.0
+//            [preferencesTable setKeyboardVisible:NO];
             NSString *name = [[nameCell textField] text];
             NSString *ip = [[ipCell textField] text];
             NSString *mak  = [[makCell textField] text];
@@ -185,7 +188,7 @@ int SAVE_ROW = 6;
             NSDictionary *dict = [[detectedCells objectAtIndex:row] value];
             NSString *warnStr;
             if ([dict objectForKey:@"swversion"] != NULL) {
-                warnStr =[NSString stringWithFormat:@"TiVo is version %@ %@, TiVoRemote requires Series3 9.1 or higher.",[dict objectForKey:@"platform"], [dict objectForKey:@"swversion"]];
+                warnStr =[NSString stringWithFormat:@"TiVo is version %@ %@, TiVoRemote requires Series3 9.1 or higher.  \n\n(For version 9.4 or higher, make sure that Messages & Settings > Remote, CableCARD, & Devices > Network Remote Control is enabled.)",[dict objectForKey:@"platform"], [dict objectForKey:@"swversion"]];
             } else {
                 warnStr =[NSString stringWithFormat:@"TiVo version is unknown, TiVoRemote requires Series3 9.1 or higher."];
             }
@@ -207,7 +210,8 @@ int SAVE_ROW = 6;
 
 - (void) nameEdited
 {
-    [preferencesTable setKeyboardVisible:NO];
+//2.0
+//    [preferencesTable setKeyboardVisible:NO];
 }
 
 - (void) ipEdited

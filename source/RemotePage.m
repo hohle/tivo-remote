@@ -21,6 +21,7 @@
 #import <CoreGraphics/CoreGraphics.h>
 #import <GraphicsServices/GraphicsServices.h>
 #import <UIKit/CDStructures.h>
+#import <UIKit/UIColor.h>
 #import <UIKit/UIView.h>
 #import <UIKit/UIImageView.h>
 #import <UIKit/UIImage.h>
@@ -42,9 +43,11 @@
     title = @"";
     background = [[UIImageView alloc] 
         initWithFrame:rect];
-    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-    float backParts[4] = {0, 0, 0, 1};
-    [background  setBackgroundColor:CGColorCreate( colorSpace, backParts)];
+//    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+//    float backParts[4] = {0, 0, 0, 1};
+//    [background  setBackgroundColor:CGColorCreate( colorSpace, backParts)];
+//2.0
+    [background  setBackgroundColor:[UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0]];
     [self addSubview:background];
     return self;
 }

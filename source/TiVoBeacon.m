@@ -23,7 +23,9 @@
 #import <stdlib.h>
 #import <stdio.h>
 #import "TiVoBeacon.h"
+#if 1
 #import "CFBonjour.h"
+#endif
 #import "SimpleDialog.h"
 
 @implementation TiVoBeacon
@@ -44,6 +46,7 @@ static TiVoBeacon *instance = NULL;
 {
     detected = [[NSMutableDictionary alloc] init];
 
+#if 1
     CFBonjour *bonjour = [[CFBonjour alloc] init];
     [bonjour CFBonjourStartBrowsingForServices:@"_tivo-videos._tcp." inDomain:@""];
     [[NSNotificationCenter defaultCenter]
@@ -51,10 +54,12 @@ static TiVoBeacon *instance = NULL;
            selector:@selector(bonjourClientAdded:)
                name:@"bonjourClientAdded"
              object:nil];
+#endif
 /*     
-    NSNetService does not appear to be available.
+    NSNetService is not resolving my TiVo
 */
-/*
+
+#if 0
     NSNetServiceBrowser *browser = [[NSNetServiceBrowser alloc] init];
 
     [browser setDelegate:self];
@@ -63,7 +68,9 @@ static TiVoBeacon *instance = NULL;
     // with IANA, and it should be listed at <http://www.iana.org/assignments/port-numbers>.
     // At minimum, the service type should be registered at <http://www.dns-sd.org/ServiceTypes.html>
     [browser searchForServicesOfType:@"_tivo-videos._tcp." inDomain:@""];
-*/
+#endif
+
+
 
     [NSThread detachNewThreadSelector:@selector(run:) toTarget:self withObject:nil];
     return self;
@@ -74,9 +81,46 @@ static TiVoBeacon *instance = NULL;
     return detected;
 }
 
+- (void)netServiceDidResolveAddress:(NSNetService *)sender
+{
+    NSLog(@"resolved = %@", [sender hostName]);
+}
+
+- (void)netService:(NSNetService *)sender didNotResolve:(NSDictionary *)errorDict
+{
+    NSLog(@"did not resolve = %@", sender);
+    NSLog(@"did not = %@", errorDict);
+}
+
 // This object is the delegate of its NSNetServiceBrowser object. We're only interested in services-related methods,
 // so that's what we'll call.
 - (void)netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser didFindService:(NSNetService *)aNetService moreComing:(BOOL)moreComing {
+    NSLog(@"more? = %@", moreComing);
+    [aNetServiceBrowser stop];
+    [aNetService setDelegate:self];
+    [aNetService resolveWithTimeout:0];
+    NSLog(@"host = %@", [aNetService hostName]);
+    NSLog(@"name = %@", [aNetService name]);
+    NSLog(@"type = %@", [aNetService type]);
+    NSLog(@"domain = %@", [aNetService domain]);
+    NSLog(@"addresses = %d", [[aNetService addresses] count]);
+    NSLog(@"obj = %@", aNetService);
+    NSLog(@"data = %@", [aNetService TXTRecordData]);
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+#if 0
+    NSString *ipAddr = [[notification userInfo] objectForKey:@"resolvedIP"];
+    [dict setObject:[[notification userInfo] objectForKey:@"serviceName"] forKey:@"TiVo Name"];
+    [dict setObject:ipAddr forKey:@"IP Address"];
+    @synchronized (detected) {
+        if ([detected objectForKey:ipAddr] == NULL) {
+            [detected setObject:dict forKey:ipAddr];
+            [self performSelectorOnMainThread: @selector(newTiVo:) withObject: NULL waitUntilDone:NO];
+        } else {
+            [dict release];
+            [ipAddr release];
+        }
+    }
+#endif
 }
 
 - (void) run:(id) param

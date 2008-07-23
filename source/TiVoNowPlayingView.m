@@ -41,8 +41,6 @@
 {
     [super initWithFrame:rect];
 
-    disclosure = NO;
-
     struct CGRect navRect = CGRectMake(rect.origin.x, rect.origin.y, rect.size.width, 48);
     navBar = [[UINavigationBar alloc] initWithFrame: navRect];
     [navBar showButtonsWithLeftTitle:@"Remote" rightTitle:@"Settings" leftBack:YES];
@@ -95,9 +93,19 @@
     }
 }
 
-- (void)showDetails
+- (void)showDetails:(TiVoContainerItemTableCell *) cell
 {
-    disclosure = YES;
+NSLog(@"showDetails -- disclosure! %@", [views lastObject]);
+NSLog(@"disclosure -- opening programView");
+     // Open a detailed view for the recorded show
+     TiVoProgramView *programView = 
+            [[TiVoProgramView alloc] initWithFrame:bodyRect 
+                 :[cell getValue]];
+     UINavigationItem *navItem = [[UINavigationItem alloc] initWithTitle:[cell title]];
+     [navBar pushNavigationItem:[navItem autorelease]];
+     [body transition:1 toView:programView];
+     [views addObject: programView];
+     [bottomNavBar setButton:1 enabled:YES];
 }
 
 - (void)tableRowSelected:(NSNotification *)notification
@@ -106,28 +114,16 @@
             [[notification object] cellAtRow: 
                     [[notification object]selectedRow] column:0];
     if ([[cell getValue] isKindOfClass:[TiVoContainerItem class]]) {
-        if (disclosure) {
-            disclosure = NO;
-            // Open a detailed view for the recorded show
-            TiVoProgramView *programView = 
-                   [[TiVoProgramView alloc] initWithFrame:bodyRect 
-                        :[cell getValue]];
-            UINavigationItem *navItem = [[UINavigationItem alloc] initWithTitle:[cell title]];
-            [navBar pushNavigationItem:[navItem autorelease]];
-            [body transition:1 toView:programView];
-            [views addObject: programView];
-            [bottomNavBar setButton:1 enabled:YES];
-        } else {
-            // play the show
-            @try {
-                TiVoContainerItem *item = [cell getValue];
-                NSMutableArray *commands = [item getCommands];
-                [commands addObject:@"TiVo Play"];
-                id<RemoteConnection> conn = [[ConnectionManager getInstance] getConnection:@"TiVo"];
-                [conn batchSend:commands];
-            } @catch (NSString *exc) {
-                [SimpleDialog showDialog:@"Connection Error" :exc];
-            }
+NSLog(@"not a disclosure -- playing");
+        // play the show
+        @try {
+            TiVoContainerItem *item = [cell getValue];
+            NSMutableArray *commands = [item getCommands];
+            [commands addObject:@"TiVo Play"];
+            id<RemoteConnection> conn = [[ConnectionManager getInstance] getConnection:@"TiVo"];
+            [conn batchSend:commands];
+        } @catch (NSString *exc) {
+            [SimpleDialog showDialog:@"Connection Error" :exc];
         }
     } else {
         // open the group
@@ -173,10 +169,11 @@
             [cell setTitle: [item getDetail:@"Title"]];
             [cell setEnabled:YES];
             [cell setValue:item];
+            [cell setParent:self];
             [cell setDisclosureStyle: 1];
             [cell setShowDisclosure: YES];
             [cell setDisclosureClickable: YES];
-            [[cell _disclosureView] addTarget:self action:@selector(showDetails) forEvents:64];
+            [[cell _disclosureView] addTarget:cell action:@selector(showDetails) forEvents:64];
 
             if (group == NULL && !suggested) {
                 group = [[NSMutableArray alloc] init];
@@ -358,7 +355,13 @@
 {
     [super init];
     value = NULL;
+    parent = NULL;
     return self;
+}
+
+-(void)setParent:(id) val
+{
+    parent = val;
 }
 
 -(void)setValue:(id) val
@@ -373,5 +376,12 @@
 - (void)dealloc
 {
     [super dealloc];
+}
+
+- (void)showDetails
+{
+    if (parent != NULL) {
+        [parent showDetails: self];
+    }
 }
 @end

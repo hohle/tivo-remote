@@ -21,6 +21,7 @@
 #import <CoreGraphics/CoreGraphics.h>
 #import <GraphicsServices/GraphicsServices.h>
 #import <UIKit/CDStructures.h>
+#import <UIKit/UIColor.h>
 #import <UIKit/UIView.h>
 #import <UIKit/UIImageView.h>
 #import <UIKit/UIImage.h>
@@ -49,9 +50,11 @@ static UIPushButton * buttonImg = NULL;
     functionKey = [buttonProps objectForKey:@"function"];
     confirm = [buttonProps objectForKey:@"confirm"];
 
-    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-    float backParts[4] = {0, 0, 0, .9};
-    [self setTitleColor : CGColorCreate( colorSpace, backParts) forState:0];
+//    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+//    float backParts[4] = {0, 0, 0, .9};
+//    [self setTitleColor : CGColorCreate( colorSpace, backParts) forState:0];
+//2.0
+    [self setTitleColor : [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.9]];
 
     [self setDrawContentsCentered: YES];
     [self setBackground:buttonImg forState:0];

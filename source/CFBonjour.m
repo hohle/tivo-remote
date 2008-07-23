@@ -129,7 +129,7 @@ MyResolveService(CFStringRef name, CFStringRef type, CFStringRef domain)
     CFNetServiceSetClient(gServiceBeingResolved, MyResolveCallback, &context);
     CFNetServiceScheduleWithRunLoop(gServiceBeingResolved, CFRunLoopGetCurrent(), kCFRunLoopCommonModes);
     
-    if (CFNetServiceResolve(gServiceBeingResolved, &error) == false) {
+    if (CFNetServiceResolveWithTimeout(gServiceBeingResolved, 0, &error) == false) {
     
         // Something went wrong so lets clean up.
         CFNetServiceUnscheduleFromRunLoop(gServiceBeingResolved, CFRunLoopGetCurrent(), kCFRunLoopCommonModes);
