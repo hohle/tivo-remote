@@ -1,0 +1,410 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1D3623260D0F684500981E51 /* tivo_remoteAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* tivo_remoteAppDelegate.m */; };
+		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
+		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		280E754D0DD40C5E005A515E /* FlipsideView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 280E754A0DD40C5E005A515E /* FlipsideView.xib */; };
+		280E754E0DD40C5E005A515E /* MainView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 280E754B0DD40C5E005A515E /* MainView.xib */; };
+		280E754F0DD40C5E005A515E /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 280E754C0DD40C5E005A515E /* MainWindow.xib */; };
+		288765590DF743DE002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765580DF743DE002DB57D /* CoreGraphics.framework */; };
+		289233A60DB2D0840083E9F9 /* FlipsideView.m in Sources */ = {isa = PBXBuildFile; fileRef = 289233A30DB2D0840083E9F9 /* FlipsideView.m */; };
+		289233A70DB2D0840083E9F9 /* MainView.m in Sources */ = {isa = PBXBuildFile; fileRef = 289233A50DB2D0840083E9F9 /* MainView.m */; };
+		289233AE0DB2D0DB0083E9F9 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 289233A90DB2D0DB0083E9F9 /* MainViewController.m */; };
+		289233AF0DB2D0DB0083E9F9 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 289233AB0DB2D0DB0083E9F9 /* RootViewController.m */; };
+		289233B00DB2D0DB0083E9F9 /* FlipsideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 289233AD0DB2D0DB0083E9F9 /* FlipsideViewController.m */; };
+		B41C42120F0F2698006DA621 /* ConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B41C41F10F0F2698006DA621 /* ConnectionManager.m */; };
+		B41C42130F0F2698006DA621 /* mainapp.m in Sources */ = {isa = PBXBuildFile; fileRef = B41C41F20F0F2698006DA621 /* mainapp.m */; };
+		B41C42140F0F2698006DA621 /* RemotePage.m in Sources */ = {isa = PBXBuildFile; fileRef = B41C41F40F0F2698006DA621 /* RemotePage.m */; };
+		B41C42150F0F2698006DA621 /* SimpleDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = B41C41F60F0F2698006DA621 /* SimpleDialog.m */; };
+		B41C42160F0F2698006DA621 /* TiVoBeacon.m in Sources */ = {isa = PBXBuildFile; fileRef = B41C41F80F0F2698006DA621 /* TiVoBeacon.m */; };
+		B41C42170F0F2698006DA621 /* TiVoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = B41C41FA0F0F2698006DA621 /* TiVoBrowser.m */; };
+		B41C42180F0F2698006DA621 /* TiVoButton.m in Sources */ = {isa = PBXBuildFile; fileRef = B41C41FC0F0F2698006DA621 /* TiVoButton.m */; };
+		B41C42190F0F2698006DA621 /* TiVoConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = B41C41FE0F0F2698006DA621 /* TiVoConnection.m */; };
+		B41C421A0F0F2698006DA621 /* TiVoContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = B41C42000F0F2698006DA621 /* TiVoContainer.m */; };
+		B41C421B0F0F2698006DA621 /* TiVoContainerItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B41C42020F0F2698006DA621 /* TiVoContainerItem.m */; };
+		B41C421C0F0F2698006DA621 /* TiVoDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = B41C42040F0F2698006DA621 /* TiVoDefaults.m */; };
+		B41C421D0F0F2698006DA621 /* TiVoNowPlayingView.m in Sources */ = {isa = PBXBuildFile; fileRef = B41C42060F0F2698006DA621 /* TiVoNowPlayingView.m */; };
+		B41C421E0F0F2698006DA621 /* TiVoNPLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = B41C42080F0F2698006DA621 /* TiVoNPLConnection.m */; };
+		B41C421F0F0F2698006DA621 /* TiVoPreferencesView.m in Sources */ = {isa = PBXBuildFile; fileRef = B41C420A0F0F2698006DA621 /* TiVoPreferencesView.m */; };
+		B41C42200F0F2698006DA621 /* TiVoProgramView.m in Sources */ = {isa = PBXBuildFile; fileRef = B41C420C0F0F2698006DA621 /* TiVoProgramView.m */; };
+		B41C42210F0F2698006DA621 /* TiVoRemoteApp.m in Sources */ = {isa = PBXBuildFile; fileRef = B41C420E0F0F2698006DA621 /* TiVoRemoteApp.m */; };
+		B41C42220F0F2698006DA621 /* TiVoRemoteView.m in Sources */ = {isa = PBXBuildFile; fileRef = B41C42100F0F2698006DA621 /* TiVoRemoteView.m */; };
+		B41C43180F0FE6F0006DA621 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B41C43170F0FE6F0006DA621 /* CFNetwork.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		1D3623240D0F684500981E51 /* tivo_remoteAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tivo_remoteAppDelegate.h; sourceTree = "<group>"; };
+		1D3623250D0F684500981E51 /* tivo_remoteAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = tivo_remoteAppDelegate.m; sourceTree = "<group>"; };
+		1D6058910D05DD3D006BFB54 /* tivo-remote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tivo-remote.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		280E754A0DD40C5E005A515E /* FlipsideView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FlipsideView.xib; sourceTree = "<group>"; };
+		280E754B0DD40C5E005A515E /* MainView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainView.xib; sourceTree = "<group>"; };
+		280E754C0DD40C5E005A515E /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
+		288765580DF743DE002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		289233A20DB2D0840083E9F9 /* FlipsideView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlipsideView.h; path = Classes/FlipsideView.h; sourceTree = "<group>"; };
+		289233A30DB2D0840083E9F9 /* FlipsideView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlipsideView.m; path = Classes/FlipsideView.m; sourceTree = "<group>"; };
+		289233A40DB2D0840083E9F9 /* MainView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainView.h; path = Classes/MainView.h; sourceTree = "<group>"; };
+		289233A50DB2D0840083E9F9 /* MainView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MainView.m; path = Classes/MainView.m; sourceTree = "<group>"; };
+		289233A80DB2D0DB0083E9F9 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainViewController.h; path = Classes/MainViewController.h; sourceTree = "<group>"; };
+		289233A90DB2D0DB0083E9F9 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MainViewController.m; path = Classes/MainViewController.m; sourceTree = "<group>"; };
+		289233AA0DB2D0DB0083E9F9 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
+		289233AB0DB2D0DB0083E9F9 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
+		289233AC0DB2D0DB0083E9F9 /* FlipsideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlipsideViewController.h; path = Classes/FlipsideViewController.h; sourceTree = "<group>"; };
+		289233AD0DB2D0DB0083E9F9 /* FlipsideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlipsideViewController.m; path = Classes/FlipsideViewController.m; sourceTree = "<group>"; };
+		32CA4F630368D1EE00C91783 /* tivo_remote_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tivo_remote_Prefix.pch; sourceTree = "<group>"; };
+		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B41C41F00F0F2698006DA621 /* ConnectionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConnectionManager.h; path = source/ConnectionManager.h; sourceTree = "<group>"; };
+		B41C41F10F0F2698006DA621 /* ConnectionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConnectionManager.m; path = source/ConnectionManager.m; sourceTree = "<group>"; };
+		B41C41F20F0F2698006DA621 /* mainapp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = mainapp.m; path = source/mainapp.m; sourceTree = "<group>"; };
+		B41C41F30F0F2698006DA621 /* RemotePage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RemotePage.h; path = source/RemotePage.h; sourceTree = "<group>"; };
+		B41C41F40F0F2698006DA621 /* RemotePage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RemotePage.m; path = source/RemotePage.m; sourceTree = "<group>"; };
+		B41C41F50F0F2698006DA621 /* SimpleDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SimpleDialog.h; path = source/SimpleDialog.h; sourceTree = "<group>"; };
+		B41C41F60F0F2698006DA621 /* SimpleDialog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SimpleDialog.m; path = source/SimpleDialog.m; sourceTree = "<group>"; };
+		B41C41F70F0F2698006DA621 /* TiVoBeacon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TiVoBeacon.h; path = source/TiVoBeacon.h; sourceTree = "<group>"; };
+		B41C41F80F0F2698006DA621 /* TiVoBeacon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TiVoBeacon.m; path = source/TiVoBeacon.m; sourceTree = "<group>"; };
+		B41C41F90F0F2698006DA621 /* TiVoBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TiVoBrowser.h; path = source/TiVoBrowser.h; sourceTree = "<group>"; };
+		B41C41FA0F0F2698006DA621 /* TiVoBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TiVoBrowser.m; path = source/TiVoBrowser.m; sourceTree = "<group>"; };
+		B41C41FB0F0F2698006DA621 /* TiVoButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TiVoButton.h; path = source/TiVoButton.h; sourceTree = "<group>"; };
+		B41C41FC0F0F2698006DA621 /* TiVoButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TiVoButton.m; path = source/TiVoButton.m; sourceTree = "<group>"; };
+		B41C41FD0F0F2698006DA621 /* TiVoConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TiVoConnection.h; path = source/TiVoConnection.h; sourceTree = "<group>"; };
+		B41C41FE0F0F2698006DA621 /* TiVoConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TiVoConnection.m; path = source/TiVoConnection.m; sourceTree = "<group>"; };
+		B41C41FF0F0F2698006DA621 /* TiVoContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TiVoContainer.h; path = source/TiVoContainer.h; sourceTree = "<group>"; };
+		B41C42000F0F2698006DA621 /* TiVoContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TiVoContainer.m; path = source/TiVoContainer.m; sourceTree = "<group>"; };
+		B41C42010F0F2698006DA621 /* TiVoContainerItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TiVoContainerItem.h; path = source/TiVoContainerItem.h; sourceTree = "<group>"; };
+		B41C42020F0F2698006DA621 /* TiVoContainerItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TiVoContainerItem.m; path = source/TiVoContainerItem.m; sourceTree = "<group>"; };
+		B41C42030F0F2698006DA621 /* TiVoDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TiVoDefaults.h; path = source/TiVoDefaults.h; sourceTree = "<group>"; };
+		B41C42040F0F2698006DA621 /* TiVoDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TiVoDefaults.m; path = source/TiVoDefaults.m; sourceTree = "<group>"; };
+		B41C42050F0F2698006DA621 /* TiVoNowPlayingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TiVoNowPlayingView.h; path = source/TiVoNowPlayingView.h; sourceTree = "<group>"; };
+		B41C42060F0F2698006DA621 /* TiVoNowPlayingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TiVoNowPlayingView.m; path = source/TiVoNowPlayingView.m; sourceTree = "<group>"; };
+		B41C42070F0F2698006DA621 /* TiVoNPLConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TiVoNPLConnection.h; path = source/TiVoNPLConnection.h; sourceTree = "<group>"; };
+		B41C42080F0F2698006DA621 /* TiVoNPLConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TiVoNPLConnection.m; path = source/TiVoNPLConnection.m; sourceTree = "<group>"; };
+		B41C42090F0F2698006DA621 /* TiVoPreferencesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TiVoPreferencesView.h; path = source/TiVoPreferencesView.h; sourceTree = "<group>"; };
+		B41C420A0F0F2698006DA621 /* TiVoPreferencesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TiVoPreferencesView.m; path = source/TiVoPreferencesView.m; sourceTree = "<group>"; };
+		B41C420B0F0F2698006DA621 /* TiVoProgramView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TiVoProgramView.h; path = source/TiVoProgramView.h; sourceTree = "<group>"; };
+		B41C420C0F0F2698006DA621 /* TiVoProgramView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TiVoProgramView.m; path = source/TiVoProgramView.m; sourceTree = "<group>"; };
+		B41C420D0F0F2698006DA621 /* TiVoRemoteApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TiVoRemoteApp.h; path = source/TiVoRemoteApp.h; sourceTree = "<group>"; };
+		B41C420E0F0F2698006DA621 /* TiVoRemoteApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TiVoRemoteApp.m; path = source/TiVoRemoteApp.m; sourceTree = "<group>"; };
+		B41C420F0F0F2698006DA621 /* TiVoRemoteView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TiVoRemoteView.h; path = source/TiVoRemoteView.h; sourceTree = "<group>"; };
+		B41C42100F0F2698006DA621 /* TiVoRemoteView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TiVoRemoteView.m; path = source/TiVoRemoteView.m; sourceTree = "<group>"; };
+		B41C43170F0FE6F0006DA621 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1D60588F0D05DD3D006BFB54 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
+				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
+				288765590DF743DE002DB57D /* CoreGraphics.framework in Frameworks */,
+				B41C43180F0FE6F0006DA621 /* CFNetwork.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		080E96DDFE201D6D7F000001 /* Application Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				289233AA0DB2D0DB0083E9F9 /* RootViewController.h */,
+				289233AB0DB2D0DB0083E9F9 /* RootViewController.m */,
+				1D3623240D0F684500981E51 /* tivo_remoteAppDelegate.h */,
+				1D3623250D0F684500981E51 /* tivo_remoteAppDelegate.m */,
+			);
+			name = "Application Controllers";
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		19C28FACFE9D520D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1D6058910D05DD3D006BFB54 /* tivo-remote.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		281C6CD70DB2D82200F60ACC /* Flipside View */ = {
+			isa = PBXGroup;
+			children = (
+				289233A20DB2D0840083E9F9 /* FlipsideView.h */,
+				289233A30DB2D0840083E9F9 /* FlipsideView.m */,
+				289233AC0DB2D0DB0083E9F9 /* FlipsideViewController.h */,
+				289233AD0DB2D0DB0083E9F9 /* FlipsideViewController.m */,
+			);
+			name = "Flipside View";
+			sourceTree = "<group>";
+		};
+		289233A00DB2D0730083E9F9 /* Main View */ = {
+			isa = PBXGroup;
+			children = (
+				289233A40DB2D0840083E9F9 /* MainView.h */,
+				289233A50DB2D0840083E9F9 /* MainView.m */,
+				289233A80DB2D0DB0083E9F9 /* MainViewController.h */,
+				289233A90DB2D0DB0083E9F9 /* MainViewController.m */,
+			);
+			name = "Main View";
+			sourceTree = "<group>";
+		};
+		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
+			isa = PBXGroup;
+			children = (
+				B41C42230F0F26BB006DA621 /* Classes */,
+				289233A00DB2D0730083E9F9 /* Main View */,
+				281C6CD70DB2D82200F60ACC /* Flipside View */,
+				080E96DDFE201D6D7F000001 /* Application Controllers */,
+				29B97315FDCFA39411CA2CEA /* Other Sources */,
+				29B97317FDCFA39411CA2CEA /* Resources */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				19C28FACFE9D520D11CA2CBB /* Products */,
+			);
+			name = CustomTemplate;
+			sourceTree = "<group>";
+		};
+		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				B41C41F20F0F2698006DA621 /* mainapp.m */,
+				32CA4F630368D1EE00C91783 /* tivo_remote_Prefix.pch */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		29B97317FDCFA39411CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				280E754A0DD40C5E005A515E /* FlipsideView.xib */,
+				280E754B0DD40C5E005A515E /* MainView.xib */,
+				280E754C0DD40C5E005A515E /* MainWindow.xib */,
+				8D1107310486CEB800E47090 /* Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B41C43170F0FE6F0006DA621 /* CFNetwork.framework */,
+				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
+				1D30AB110D05D00D00671497 /* Foundation.framework */,
+				288765580DF743DE002DB57D /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B41C42230F0F26BB006DA621 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				B41C41F00F0F2698006DA621 /* ConnectionManager.h */,
+				B41C41F10F0F2698006DA621 /* ConnectionManager.m */,
+				B41C41F30F0F2698006DA621 /* RemotePage.h */,
+				B41C41F40F0F2698006DA621 /* RemotePage.m */,
+				B41C41F50F0F2698006DA621 /* SimpleDialog.h */,
+				B41C41F60F0F2698006DA621 /* SimpleDialog.m */,
+				B41C41F70F0F2698006DA621 /* TiVoBeacon.h */,
+				B41C41F80F0F2698006DA621 /* TiVoBeacon.m */,
+				B41C41F90F0F2698006DA621 /* TiVoBrowser.h */,
+				B41C41FA0F0F2698006DA621 /* TiVoBrowser.m */,
+				B41C41FB0F0F2698006DA621 /* TiVoButton.h */,
+				B41C41FC0F0F2698006DA621 /* TiVoButton.m */,
+				B41C41FD0F0F2698006DA621 /* TiVoConnection.h */,
+				B41C41FE0F0F2698006DA621 /* TiVoConnection.m */,
+				B41C41FF0F0F2698006DA621 /* TiVoContainer.h */,
+				B41C42000F0F2698006DA621 /* TiVoContainer.m */,
+				B41C42010F0F2698006DA621 /* TiVoContainerItem.h */,
+				B41C42020F0F2698006DA621 /* TiVoContainerItem.m */,
+				B41C42030F0F2698006DA621 /* TiVoDefaults.h */,
+				B41C42040F0F2698006DA621 /* TiVoDefaults.m */,
+				B41C42050F0F2698006DA621 /* TiVoNowPlayingView.h */,
+				B41C42060F0F2698006DA621 /* TiVoNowPlayingView.m */,
+				B41C42070F0F2698006DA621 /* TiVoNPLConnection.h */,
+				B41C42080F0F2698006DA621 /* TiVoNPLConnection.m */,
+				B41C42090F0F2698006DA621 /* TiVoPreferencesView.h */,
+				B41C420A0F0F2698006DA621 /* TiVoPreferencesView.m */,
+				B41C420B0F0F2698006DA621 /* TiVoProgramView.h */,
+				B41C420C0F0F2698006DA621 /* TiVoProgramView.m */,
+				B41C420D0F0F2698006DA621 /* TiVoRemoteApp.h */,
+				B41C420E0F0F2698006DA621 /* TiVoRemoteApp.m */,
+				B41C420F0F0F2698006DA621 /* TiVoRemoteView.h */,
+				B41C42100F0F2698006DA621 /* TiVoRemoteView.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1D6058900D05DD3D006BFB54 /* tivo-remote */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "tivo-remote" */;
+			buildPhases = (
+				1D60588D0D05DD3D006BFB54 /* Resources */,
+				1D60588E0D05DD3D006BFB54 /* Sources */,
+				1D60588F0D05DD3D006BFB54 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "tivo-remote";
+			productName = "tivo-remote";
+			productReference = 1D6058910D05DD3D006BFB54 /* tivo-remote.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		29B97313FDCFA39411CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "tivo-remote" */;
+			compatibilityVersion = "Xcode 3.1";
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+				en,
+			);
+			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1D6058900D05DD3D006BFB54 /* tivo-remote */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1D60588D0D05DD3D006BFB54 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				280E754D0DD40C5E005A515E /* FlipsideView.xib in Resources */,
+				280E754E0DD40C5E005A515E /* MainView.xib in Resources */,
+				280E754F0DD40C5E005A515E /* MainWindow.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1D60588E0D05DD3D006BFB54 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D3623260D0F684500981E51 /* tivo_remoteAppDelegate.m in Sources */,
+				289233A60DB2D0840083E9F9 /* FlipsideView.m in Sources */,
+				289233A70DB2D0840083E9F9 /* MainView.m in Sources */,
+				289233AE0DB2D0DB0083E9F9 /* MainViewController.m in Sources */,
+				289233AF0DB2D0DB0083E9F9 /* RootViewController.m in Sources */,
+				289233B00DB2D0DB0083E9F9 /* FlipsideViewController.m in Sources */,
+				B41C42120F0F2698006DA621 /* ConnectionManager.m in Sources */,
+				B41C42130F0F2698006DA621 /* mainapp.m in Sources */,
+				B41C42140F0F2698006DA621 /* RemotePage.m in Sources */,
+				B41C42150F0F2698006DA621 /* SimpleDialog.m in Sources */,
+				B41C42160F0F2698006DA621 /* TiVoBeacon.m in Sources */,
+				B41C42170F0F2698006DA621 /* TiVoBrowser.m in Sources */,
+				B41C42180F0F2698006DA621 /* TiVoButton.m in Sources */,
+				B41C42190F0F2698006DA621 /* TiVoConnection.m in Sources */,
+				B41C421A0F0F2698006DA621 /* TiVoContainer.m in Sources */,
+				B41C421B0F0F2698006DA621 /* TiVoContainerItem.m in Sources */,
+				B41C421C0F0F2698006DA621 /* TiVoDefaults.m in Sources */,
+				B41C421D0F0F2698006DA621 /* TiVoNowPlayingView.m in Sources */,
+				B41C421E0F0F2698006DA621 /* TiVoNPLConnection.m in Sources */,
+				B41C421F0F0F2698006DA621 /* TiVoPreferencesView.m in Sources */,
+				B41C42200F0F2698006DA621 /* TiVoProgramView.m in Sources */,
+				B41C42210F0F2698006DA621 /* TiVoRemoteApp.m in Sources */,
+				B41C42220F0F2698006DA621 /* TiVoRemoteView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1D6058940D05DD3E006BFB54 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = tivo_remote_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				PRODUCT_NAME = "tivo-remote";
+			};
+			name = Debug;
+		};
+		1D6058950D05DD3E006BFB54 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = tivo_remote_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				PRODUCT_NAME = "tivo-remote";
+			};
+			name = Release;
+		};
+		C01FCF4F08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PREBINDING = NO;
+				SDKROOT = iphoneos2.2;
+			};
+			name = Debug;
+		};
+		C01FCF5008A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = iphoneos2.2;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "tivo-remote" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1D6058940D05DD3E006BFB54 /* Debug */,
+				1D6058950D05DD3E006BFB54 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "tivo-remote" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4F08A954540054247B /* Debug */,
+				C01FCF5008A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+}
