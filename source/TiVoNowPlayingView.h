@@ -17,17 +17,9 @@
 
 */
 #import <Foundation/Foundation.h>
-#import <UIKit/UIView.h>
-#import <UIKit/UIView-Hierarchy.h>
-#import <UIKit/UITextView.h>
-#import <UIKit/UINavigationBar.h>
-#import <UIKit/UINavigationItem.h>
-#import <UIKit/UITransitionView.h>
-#import <UIKit/UIProgressHUD.h>
-#import <UIKit/UIImageAndTextTableCell.h>
-#import <UIKit/UITable.h>
+#import <UIKit/UIKit.h>
 
-@interface TiVoContainerItemTableCell:UIImageAndTextTableCell
+@interface TiVoContainerItemTableCell : UITableViewCell
 {
     id value;
     id parent;
@@ -41,8 +33,8 @@
 {
     UINavigationBar *navBar;
     UINavigationBar *bottomNavBar;
-    UITransitionView *body;
-    UIProgressHUD   *progress;
+    // UITransitionView *body;
+    UIProgressView   *progress;
     NSMutableArray  *views;
     NSMutableArray  *model;
     struct CGRect    bodyRect;

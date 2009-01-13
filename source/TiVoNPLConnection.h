@@ -17,6 +17,8 @@
 
 */
 
+#include <Foundation/Foundation.h>
+
 enum {
         NPL_NO_CONNECTION = -2,
         NPL_ERROR = -1,

@@ -17,21 +17,7 @@
 
 #import <CoreFoundation/CoreFoundation.h>
 #import <Foundation/Foundation.h>
-#import <UIKit/UIWindow.h>
-#import <UIKit/UIView-Hierarchy.h>
-#import <UIKit/UIAlertSheet.h>
-#import <UIKit/UIView-Geometry.h>
-#import <UIKit/UIHardware.h>
 #import <UIKit/UIKit.h>
-#import <UIKit/UIApplication.h>
-#import <UIKit/UITextView.h>
-#import <UIKit/UIView.h>
-#import <UIKit/UIKeyboard.h>
-#import <UIKit/UITransitionView.h>
-#import <UIKit/UINavigationItem.h>
-#import <UIKit/UINavBarButton.h>
-#import <UIKit/UIFontChooser.h>
-#import <UIKit/UIProgressHUD.h>
 
 #import "TiVoRemoteApp.h"
 #import "TiVoRemoteView.h"
@@ -48,20 +34,20 @@
 - (void) applicationDidFinishLaunching: (id) unused
 {
     UIWindow *window;
-    struct CGRect rect = [UIHardware fullScreenApplicationContentRect];
+    struct CGRect rect = [[UIScreen mainScreen] bounds];
     rect.origin.x = rect.origin.y = 0.0f;
 
-    window = [[UIWindow alloc] initWithContentRect: rect];
+    window = [[UIWindow alloc] initWithFrame: rect];
     mainView = [[UIView alloc] initWithFrame: rect];
 
     struct CGRect navRect = CGRectMake(rect.origin.x, rect.origin.y, rect.size.width, 48);
     navBar = [[UINavigationBar alloc] initWithFrame: navRect];
     [navBar setBarStyle:5];
     [navBar setDelegate:self];
-    [window orderFront: self];
-    [window makeKey: self];
-    [window _setHidden: NO];
-    [window setContentView: mainView];
+    [window makeKeyAndVisible];
+    [window setHidden: NO];
+
+    [window addSubview: mainView];
     [mainView addSubview:navBar];
     [TiVoBeacon getInstance];
     [TiVoNPLConnection getInstance];
@@ -89,7 +75,7 @@
     switch(button) {
     case 0: // settings
     {
-        struct CGRect rect = [UIHardware fullScreenApplicationContentRect];
+        struct CGRect rect = [[UIScreen mainScreen] bounds];
         TiVoPreferencesView *newView;
         if ([[TiVoNPLConnection getInstance] getState] != NPL_NO_CONNECTION) {
             TiVoNowPlayingView *newView= [[TiVoNowPlayingView alloc] initWithFrame:

@@ -18,18 +18,7 @@
 
 #import <CoreFoundation/CoreFoundation.h>
 #import <Foundation/Foundation.h>
-#import <Foundation/NSDictionary.h>
-#import <Foundation/NSEnumerator.h>
 #import <CoreGraphics/CoreGraphics.h>
-#import <GraphicsServices/GraphicsServices.h>
-#import <UIKit/CDStructures.h>
-#import <UIKit/UIImageView.h>
-#import <UIKit/UIImage.h>
-#import <UIKit/UISwitchControl.h>
-#import <UIKit/UIViewTapInfo.h>
-#import <UIKit/UIView-Geometry.h>
-#import <UIKit/UIPreferencesTable.h>
-#import <UIKit/UIPreferencesTextTableCell.h>
 
 #import "TiVoDefaults.h"
 #import "TiVoPreferencesView.h"
@@ -53,7 +42,7 @@ int SAVE_ROW = 6;
     [navBar setDelegate:self];
 
     struct CGRect bodyRect = CGRectMake(rect.origin.x, rect.origin.y + 48, rect.size.width, rect.size.height - 48);
-    ipCell = [[UIPreferencesTextTableCell alloc] init];
+    ipCell = [[UITableViewCell alloc] init];
     [ipCell setTitle:@"IP Address"];
     [[ipCell textField] setText:[defaults getIpAddr]];
     [ipCell setEnabled:YES];
@@ -62,7 +51,7 @@ int SAVE_ROW = 6;
 //    [[ipCell textField] setPreferredKeyboardType: 1];
     [ipCell setAction:@selector(ipEdited)];
 //    [ipCell setReturnAction:@selector(ipEdited)];
-    makCell = [[UIPreferencesTextTableCell alloc] init];
+    makCell = [[UITableViewCell alloc] init];
     [makCell setTitle:@"Media Access Key"];
     [[makCell textField] setText:[defaults getMediaAccessKey]];
     [makCell setEnabled:YES];
@@ -70,7 +59,7 @@ int SAVE_ROW = 6;
     [makCell setAction:@selector(makEdited)];
 //2.0
 //    [[makCell textField] setPreferredKeyboardType: 1];
-    nameCell = [[UIPreferencesTextTableCell alloc] init];
+    nameCell = [[UITableViewCell alloc] init];
     [nameCell setTitle:@"Name"];
     [[nameCell textField] setText:[defaults getTiVoName]];
     [nameCell setEnabled:YES];
@@ -78,22 +67,22 @@ int SAVE_ROW = 6;
     [nameCell setAction:@selector(nameEdited)];
 //    [nameCell setReturnAction:@selector(nameEdited)];
 
-    groupCell = [[UIPreferencesControlTableCell alloc] init];
+    groupCell = [[UITableViewCell alloc] init];
     [groupCell setTitle:@"Uses Groups"];
-    UISwitchControl *groupControl = [[UISwitchControl alloc] initWithFrame:CGRectMake(bodyRect.size.width - 114.0, 11.0f, 114.0f, 48.0f)];
+    UISwitch *groupControl = [[UISwitch alloc] initWithFrame:CGRectMake(bodyRect.size.width - 114.0, 11.0f, 114.0f, 48.0f)];
     [groupControl setValue: [defaults useGroups]];
     [groupCell setControl:groupControl];
 
-    sortCell = [[UIPreferencesControlTableCell alloc] init];
+    sortCell = [[UITableViewCell alloc] init];
     [sortCell setTitle:@"Sorts By Date"];
-    UISwitchControl *sortControl = [[UISwitchControl alloc] initWithFrame:CGRectMake(bodyRect.size.width - 114.0, 11.0f, 114.0f, 48.0f)];
+    UISwitch *sortControl = [[UISwitch alloc] initWithFrame:CGRectMake(bodyRect.size.width - 114.0, 11.0f, 114.0f, 48.0f)];
     [sortControl setValue: [defaults sortByDate]];
     [sortCell setControl:sortControl];
     [self makEdited];
 
-    standbyCell = [[UIPreferencesControlTableCell alloc] init];
+    standbyCell = [[UITableViewCell alloc] init];
     [standbyCell setTitle:@"Show Standby"];
-    UISwitchControl *standbyControl = [[UISwitchControl alloc] initWithFrame:CGRectMake(bodyRect.size.width - 114.0, 11.0f, 114.0f, 48.0f)];
+    UISwitch *standbyControl = [[UISwitch alloc] initWithFrame:CGRectMake(bodyRect.size.width - 114.0, 11.0f, 114.0f, 48.0f)];
     [standbyControl setValue: [defaults showStandby]];
     [standbyCell setControl:standbyControl];
     [standbyCell setEnabled:YES];
@@ -116,14 +105,14 @@ int SAVE_ROW = 6;
     }
 
 
-    delete = [[UIPreferencesTableCell alloc] init];
+    delete = [[UITableViewCell alloc] init];
     [delete setTitle:@"Delete"];
     [delete setEnabled:([savedCells count] > 0)];
 
-    add = [[UIPreferencesTableCell alloc] init];
+    add = [[UITableViewCell alloc] init];
     [add setTitle:@"Save"];
 
-    preferencesTable = [[UIPreferencesTable alloc] initWithFrame:bodyRect];
+    preferencesTable = [[UITableView alloc] initWithFrame:bodyRect];
     [preferencesTable setDataSource:self];
     [preferencesTable setDelegate:self];
     [preferencesTable reloadData];
@@ -198,7 +187,7 @@ int SAVE_ROW = 6;
     }
 }
 
-- (void) table:(UITable *) table deleteRow:(int) row 
+- (void) table:(UITableView *) table deleteRow:(int) row 
 {
     row -= SAVED_ROW_START;
     if (row >= 0 && row < [savedCells count]) {
@@ -229,7 +218,7 @@ int SAVE_ROW = 6;
     }
 }
 
-- (BOOL) table:(UITable *) table canDeleteRow:(int) row 
+- (BOOL) table:(UITableView *) table canDeleteRow:(int) row 
 {
     row -= SAVED_ROW_START;
     if (row >= 0 && row < [savedCells count]) {
@@ -409,7 +398,7 @@ int SAVE_ROW = 6;
         }
     }
     // or add
-    UIPreferencesTableCell *savedCell = [[UIPreferencesTableCell alloc] init];
+    UITableViewCell *savedCell = [[UITableViewCell alloc] init];
     [savedCell setValue:connInfo];
     NSString *title = [NSString stringWithFormat:@"%@ : %@", [connInfo objectForKey:@"TiVo Name"], [connInfo objectForKey:@"IP Address"]];
     [savedCell setTitle:title];
@@ -419,7 +408,7 @@ int SAVE_ROW = 6;
 
 - (void) refresh:(id) param
 {
-    UIPreferencesTableCell *detectedCell;
+    UITableViewCell *detectedCell;
     NSEnumerator *enumerator = [detectedCells  objectEnumerator];
     while ((detectedCell = [enumerator nextObject]) != NULL) {
         [detectedCell release];
@@ -442,7 +431,7 @@ int SAVE_ROW = 6;
 - (void) addDetected:(NSDictionary *) connInfo
 {
     NSString *title = [NSString stringWithFormat:@"%@ : %@", [connInfo objectForKey:@"TiVo Name"], [connInfo objectForKey:@"IP Address"]];
-    UIPreferencesTableCell *detectedCell = [[UIPreferencesTableCell alloc] init];
+    UITableViewCell *detectedCell = [[UITableViewCell alloc] init];
     [detectedCell setValue:connInfo];
     [detectedCell setTitle:title];
     [detectedCell setEnabled:YES];
@@ -497,9 +486,9 @@ int SAVE_ROW = 6;
     [nameCell release];
     [ipCell release];
     [makCell release];
-    [[groupCell control] release];
+    // [[groupCell control] release];
     [groupCell release];
-    [[sortCell control] release];
+    // [[sortCell control] release];
     [sortCell release];
     [add release];
     // loop through savedCells
@@ -509,7 +498,7 @@ int SAVE_ROW = 6;
     }
     [savedCells release];
     [delete release];
-    [[standbyCell control] release];
+    // [[standbyCell control] release];
     [standbyCell release];
     [preferencesTable release];
     [super dealloc];

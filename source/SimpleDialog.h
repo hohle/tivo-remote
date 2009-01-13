@@ -18,12 +18,12 @@
 */
 #import <Foundation/NSObject.h>
 #import <Foundation/NSDictionary.h>
-#import <UIKit/UIAlertSheet.h>
+#import <UIKit/UIKit.h>
 
 
 @interface SimpleDialog: NSObject
 {
-    UIAlertSheet *alertSheet;
+    UIActionSheet *alertSheet;
 }
 + (void)showDialog:(NSString *)title: (NSString *)text;
 @end

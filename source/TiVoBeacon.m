@@ -20,12 +20,10 @@
 #import <sys/types.h>
 #import <netinet/in.h>
 #import <sys/socket.h>
+#include <arpa/inet.h>
 #import <stdlib.h>
 #import <stdio.h>
 #import "TiVoBeacon.h"
-#if 1
-#import "CFBonjour.h"
-#endif
 #import "SimpleDialog.h"
 
 @implementation TiVoBeacon
@@ -47,8 +45,8 @@ static TiVoBeacon *instance = NULL;
     detected = [[NSMutableDictionary alloc] init];
 
 #if 1
-    CFBonjour *bonjour = [[CFBonjour alloc] init];
-    [bonjour CFBonjourStartBrowsingForServices:@"_tivo-videos._tcp." inDomain:@""];
+    NSNetServiceBrowser *bonjour = [[NSNetServiceBrowser alloc] init];
+    [bonjour searchForServicesOfType:@"_tivo-videos._tcp." inDomain:@""];
     [[NSNotificationCenter defaultCenter]
         addObserver:self
            selector:@selector(bonjourClientAdded:)

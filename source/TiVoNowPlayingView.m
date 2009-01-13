@@ -18,12 +18,7 @@
 
 #import <CoreFoundation/CoreFoundation.h>
 #import <Foundation/Foundation.h>
-#import <Foundation/NSDictionary.h>
-#import <Foundation/NSEnumerator.h>
 #import <CoreGraphics/CoreGraphics.h>
-#import <GraphicsServices/GraphicsServices.h>
-#import <UIKit/CDStructures.h>
-#import <UIKit/UIHardware.h>
 
 #import "TiVoDefaults.h"
 #import "TiVoNowPlayingView.h"
@@ -58,15 +53,15 @@
     [bottomNavBar setButton:1 enabled:NO];
     [bottomNavBar setButton:0 enabled:NO];
 
-    bodyRect = CGRectMake(rect.origin.x, rect.origin.y + 48, rect.size.width, rect.size.height - 2 * 48);
-    body = [[UITransitionView alloc] initWithFrame:bodyRect];
-    bodyRect.origin.x = 0;
-    bodyRect.origin.y = 0;
+    // bodyRect = CGRectMake(rect.origin.x, rect.origin.y + 48, rect.size.width, rect.size.height - 2 * 48);
+    // body = [[UITransitionView alloc] initWithFrame:bodyRect];
+    // bodyRect.origin.x = 0;
+    // bodyRect.origin.y = 0;
 
     float progX = (rect.origin.x + 10);
     float progY = (rect.origin.y + 100);
     struct CGRect progRect = CGRectMake(progX, progY, rect.size.width - progX - 10, 150);
-    progress = [[UIProgressHUD alloc] initWithFrame:progRect];
+    progress = [[UIProgressView alloc] initWithFrame:progRect];
     [progress setText:@"Loading Now Playing Data"];
     [progress show:YES];
 
@@ -76,7 +71,7 @@
 
     [self addSubview:navBar];
     [self addSubview:bottomNavBar];
-    [self addSubview:body];
+    // [self addSubview:body];
     [self addSubview:progress];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(makChange:) name:@"Media Access Key" object:nil];
@@ -97,13 +92,12 @@
 {
 NSLog(@"showDetails -- disclosure! %@", [views lastObject]);
 NSLog(@"disclosure -- opening programView");
-     // Open a detailed view for the recorded show
-     TiVoProgramView *programView = 
-            [[TiVoProgramView alloc] initWithFrame:bodyRect 
-                 :[cell getValue]];
-     UINavigationItem *navItem = [[UINavigationItem alloc] initWithTitle:[cell title]];
-     [navBar pushNavigationItem:[navItem autorelease]];
-     [body transition:1 toView:programView];
+    // Open a detailed view for the recorded show
+    TiVoProgramView *programView =  [[TiVoProgramView alloc] initWithFrame:bodyRect :[cell getValue]];
+    UINavigationItem *navItem = [[UINavigationItem alloc] initWithTitle:[cell title]];
+    [navBar pushNavigationItem: navItem animated: YES];
+    [navItem release];
+     // [body transition:1 toView:programView];
      [views addObject: programView];
      [bottomNavBar setButton:1 enabled:YES];
 }
@@ -128,10 +122,11 @@ NSLog(@"not a disclosure -- playing");
     } else {
         // open the group
         UINavigationItem *navItem = [[UINavigationItem alloc] initWithTitle:[cell title]];
-        [navBar pushNavigationItem:[navItem autorelease]];
+        [navBar pushNavigationItem: navItem animated: YES];
+        [navItem release];
         [bottomNavBar setButton:1 enabled:YES];
         TiVoBrowser *browser = [[TiVoBrowser alloc] initWithFrame:bodyRect :[cell getValue]];
-        [body transition:1 toView:browser];
+        // [body transition:1 toView:browser];
         [browser refresh:NULL];
         [[browser getTable] setDelegate: self];
         [views addObject: browser];
@@ -227,9 +222,9 @@ NSLog(@"not a disclosure -- playing");
         TiVoBrowser *browser = [[TiVoBrowser alloc] initWithFrame:bodyRect :model];
         [views addObject: browser];
         [[browser getTable] setDelegate: self];
-        [body transition:0 toView:browser];
+        // [body transition:0 toView:browser];
         UINavigationItem *navItem = [[UINavigationItem alloc] initWithTitle:@"Now Playing"];
-        [navBar pushNavigationItem:[navItem autorelease]];
+        [navBar pushNavigationItem: [navItem autorelease] animated: YES];
         [bottomNavBar setButton:1 enabled:NO];
     } else {
         NSString *text = @"";
@@ -239,7 +234,7 @@ NSLog(@"not a disclosure -- playing");
         UITextView *flatView = [[UITextView alloc] initWithFrame:bodyRect];
         [flatView setEnabled:NO];
         [flatView setText:text];
-        [body transition:0 toView:flatView];
+        // [body transition:0 toView:flatView];
     }
     switch ([[TiVoNPLConnection getInstance] getState]) {
     case NPL_ERROR:
@@ -263,7 +258,7 @@ NSLog(@"not a disclosure -- playing");
         switch(button) {
         case 0: // settings
         {
-            struct CGRect rect = [UIHardware fullScreenApplicationContentRect];
+            struct CGRect rect = [[UIScreen mainScreen] bounds];
             TiVoPreferencesView *prefs = 
                    [[TiVoPreferencesView alloc] initWithFrame:
                        CGRectMake(0, 0, rect.size.width, rect.size.height)];
@@ -291,7 +286,8 @@ NSLog(@"not a disclosure -- playing");
             [views removeLastObject];
             UIView *newView = [views lastObject];
             [navBar popNavigationItem];
-            [body transition:2 toView:newView];
+            [navBar popNavigationItemAnimated: YES];
+            // [body transition:2 toView:newView];
             [bottomNavBar setButton:1 enabled:[views count] > 1];
             [oldView release];
             break;
@@ -341,8 +337,8 @@ NSLog(@"not a disclosure -- playing");
         [view release];
     }
     [views release];
-    [body removeFromSuperview];
-    [body dealloc];
+    // [body removeFromSuperview];
+    // [body dealloc];
     [model release];
     [super dealloc];
 }

@@ -19,32 +19,21 @@
 #import <CoreFoundation/CoreFoundation.h>
 #import <Foundation/Foundation.h>
 #import <CoreGraphics/CoreGraphics.h>
-#import <GraphicsServices/GraphicsServices.h>
-#import <UIKit/CDStructures.h>
-#import <UIKit/UIColor.h>
-#import <UIKit/UIView.h>
-#import <UIKit/UIImageView.h>
-#import <UIKit/UIImage.h>
-#import <UIKit/UIViewTapInfo.h>
-#import <UIKit/UIView-Geometry.h>
 
 #import "TiVoButton.h"
 #import "TiVoDefaults.h"
 #import "ConnectionManager.h"
 #import "SimpleDialog.h"
 
-
-static UIPushButton * buttonImg = NULL;
-
 @implementation TiVoButton
 - (id)initButton:(NSDictionary *) buttonProps
 {
     [super initWithTitle: [buttonProps objectForKey:@"title"] autosizesToFit:NO];
-    UIImage *buttonImg = [UIImage applicationImageNamed:[buttonProps objectForKey:@"icon"]];
+    UIImage *buttonImg = [UIImage imageNamed:[buttonProps objectForKey:@"icon"]];
     UIImage *pressedImg = buttonImg;
     NSString *pressedIcon = [buttonProps objectForKey:@"pressed-icon"];
     if (pressedIcon != NULL) {
-        pressedImg = [UIImage applicationImageNamed:[buttonProps objectForKey:@"pressed-icon"]];
+        pressedImg = [UIImage imageNamed:[buttonProps objectForKey:@"pressed-icon"]];
     }
 
     functionKey = [buttonProps objectForKey:@"function"];
@@ -86,8 +75,8 @@ static UIPushButton * buttonImg = NULL;
 - (void)showConfirm:(NSString *) alert
 {
     NSString *bodyText = [NSString stringWithFormat:alert];
-    CGRect rect = [[UIWindow keyWindow] bounds];
-    alertSheet = [[UIAlertSheet alloc] initWithFrame:CGRectMake(0,rect.size.height - 240, rect.size.width,240)];
+    CGRect rect = [[UIScreen mainScreen] bounds];
+    alertSheet = [[UIActionSheet alloc] initWithFrame:CGRectMake(0,rect.size.height - 240, rect.size.width,240)];
     [alertSheet setTitle:@"Alert!"];
     [alertSheet setBodyText:bodyText];
     [alertSheet addButtonWithTitle:@"Cancel"];
@@ -96,7 +85,7 @@ static UIPushButton * buttonImg = NULL;
     [alertSheet popupAlertAnimated:YES];
 }
 
-- (void)alertSheet:(UIAlertSheet *)sheet buttonClicked:(int) button
+- (void)alertSheet:(UIActionSheet *)sheet buttonClicked:(int) button
 {
     [sheet dismissAnimated:YES];
     if (button == 2) {

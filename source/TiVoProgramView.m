@@ -18,19 +18,7 @@
 
 #import <CoreFoundation/CoreFoundation.h>
 #import <Foundation/Foundation.h>
-#import <Foundation/NSDictionary.h>
-#import <Foundation/NSEnumerator.h>
 #import <CoreGraphics/CoreGraphics.h>
-#import <GraphicsServices/GraphicsServices.h>
-#import <UIKit/CDStructures.h>
-#import <UIKit/UITextView.h>
-#import <UIKit/UITable.h>
-#import <UIKit/UIHardware.h>
-#import <UIKit/UITableColumn.h>
-#import <UIKit/UITextLabel.h>
-#import <UIKit/UIImageAndTextTableCell.h>
-#import <UIKit/UIAlertSheet.h>
-#import <UIKit/UIView-Geometry.h>
 
 #import "TiVoProgramView.h"
 #import "ConnectionManager.h"
@@ -44,43 +32,43 @@
 {
     [super initWithFrame:rect];
 
-    detailTable = [[UIPreferencesTable alloc] initWithFrame:rect];
+    detailTable = [[UITableView alloc] initWithFrame:rect];
     [detailTable setDataSource:self];
     [detailTable setDelegate:self];
 
     item = theItem;
 
-    descriptionCell = [[UIPreferencesTextTableCell alloc] init];
+    descriptionCell = [[UITableViewCell alloc] init];
     [descriptionCell setTitle:[item getDetail:@"Description"]];
     [[descriptionCell textField] setText:@""];
     [[descriptionCell titleTextLabel] setWrapsText:YES];
     [descriptionCell setEnabled:NO];
 
-    durationCell = [[UIPreferencesTextTableCell alloc] init];
+    durationCell = [[UITableViewCell alloc] init];
     [durationCell setTitle:@"Duration"];
     int minutes = [[item getDetail:@"Duration"] intValue] / (60 * 1000);
     [[durationCell textField] setText:[NSString stringWithFormat:@"%d minutes", minutes]];
     [durationCell setEnabled:NO];
 
-    hdCell = [[UIPreferencesTextTableCell alloc] init];
+    hdCell = [[UITableViewCell alloc] init];
     [hdCell setTitle:@"High Definition"];
     [[hdCell textField] setText:[item getDetail:@"HighDefinition"]];
     [hdCell setEnabled:NO];
 
-    stationCell = [[UIPreferencesTextTableCell alloc] init];
+    stationCell = [[UITableViewCell alloc] init];
     [stationCell setTitle:@"Station"];
     [[stationCell textField] setText:[item getDetail:@"SourceStation"]];
     [stationCell setEnabled:NO];
 
-    captureCell = [[UIPreferencesTextTableCell alloc] init];
+    captureCell = [[UITableViewCell alloc] init];
     [captureCell setTitle:@"Recorded"];
     [[captureCell textField] setText:[item getDetail:@"CaptureDate"]];
     [captureCell setEnabled:NO];
 
-    play = [[UIPreferencesTableCell alloc] init];
+    play = [[UITableViewCell alloc] init];
     [play setTitle:@"Play"];
 
-    delete = [[UIPreferencesTableCell alloc] init];
+    delete = [[UITableViewCell alloc] init];
     [delete setTitle:@"Delete"];
 
 
@@ -169,7 +157,7 @@
         }
     } else if (row == 8) {
         CGRect rect = [[UIWindow keyWindow] bounds];
-        alertSheet = [[UIAlertSheet alloc] initWithFrame:CGRectMake(0,rect.size.height - 240, rect.size.width,240)];
+        alertSheet = [[UIActionSheet alloc] initWithFrame:CGRectMake(0,rect.size.height - 240, rect.size.width,240)];
         [alertSheet setTitle:@"Alert!"];
         [alertSheet setBodyText:@"Deleting is not 100% reliable.  Are you sure?"];
         [alertSheet addButtonWithTitle:@"Cancel"];
@@ -180,9 +168,9 @@
     [[[notification object]cellAtRow:[[notification object]selectedRow]column:0] setSelected:FALSE withFade:TRUE];
 }
 
-- (void)alertSheet:(UIAlertSheet *)sheet buttonClicked:(int) button
+- (void)alertSheet:(UIActionSheet *)sheet buttonClicked:(int) button
 {
-    [sheet dismissAnimated:YES];
+    [sheet dismissWithClickedButtonIndex: button animated: YES];
     if (button == 2) {
         @try {
             NSMutableArray *commands = [item getCommands];

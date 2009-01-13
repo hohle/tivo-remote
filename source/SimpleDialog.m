@@ -15,8 +15,6 @@
    Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
-#import <UIKit/UIWindow.h>
-#import <UIKit/UIView-Geometry.h>
 #import "SimpleDialog.h"
 
 @implementation SimpleDialog
@@ -27,7 +25,7 @@
     return self;
 }
 
-- (void)alertSheet:(UIAlertSheet *)sheet buttonClicked:(int) button
+- (void)alertSheet:(UIActionSheet *)sheet buttonClicked:(int) button
 {
     [sheet dismissAnimated:YES];
     [sheet release];
@@ -37,7 +35,7 @@
 {
     NSString *bodyText = [NSString stringWithFormat:alert];
     CGRect rect = [[UIWindow keyWindow] bounds];
-    UIAlertSheet *alertSheet = [[UIAlertSheet alloc] initWithFrame:CGRectMake(0,rect.size.height - 240, rect.size.width,240)];
+    UIActionSheet *alertSheet = [[UIActionSheet alloc] initWithFrame:CGRectMake(0,rect.size.height - 240, rect.size.width,240)];
     [alertSheet setTitle:title];
     [alertSheet setBodyText:bodyText];
     [alertSheet addButtonWithTitle:@"OK"];

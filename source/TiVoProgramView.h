@@ -17,30 +17,22 @@
 
 */
 #import <Foundation/Foundation.h>
-#import <UIKit/UIView.h>
-#import <UIKit/UIView-Hierarchy.h>
-#import <UIKit/UITextView.h>
-#import <UIKit/UINavigationBar.h>
-#import <UIKit/UINavigationItem.h>
-#import <UIKit/UIPreferencesTable.h>
-#import <UIKit/UIPreferencesTextTableCell.h>
-#import <UIKit/UIImageAndTextTableCell.h>
-#import <UIKit/UIAlertSheet.h>
+#import <UIKit/UIKit.h>
 
 @class TiVoContainerItem;
 
-@interface TiVoProgramView: UIView
+@interface TiVoProgramView: UIView <UITableViewDataSource, UITableViewDelegate>
 {
     TiVoContainerItem *item;
-    UIPreferencesTable *detailTable;
-    UIPreferencesTextTableCell    *descriptionCell;
-    UIPreferencesTextTableCell    *durationCell;
-    UIPreferencesTextTableCell    *stationCell;
-    UIPreferencesTextTableCell    *hdCell;
-    UIPreferencesTextTableCell    *captureCell;
-    UIPreferencesTableCell    *play;
-    UIPreferencesTableCell    *delete;
-    UIAlertSheet              *alertSheet;
+    UITableView *detailTable;
+    UITableViewCell    *descriptionCell;
+    UITableViewCell    *durationCell;
+    UITableViewCell    *stationCell;
+    UITableViewCell    *hdCell;
+    UITableViewCell    *captureCell;
+    UITableViewCell    *play;
+    UITableViewCell    *delete;
+    UIActionSheet              *alertSheet;
 }
 
 - (id)initWithFrame:(struct CGRect)rect :(TiVoContainerItem*) item;

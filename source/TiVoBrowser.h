@@ -17,26 +17,18 @@
 
 */
 #import <Foundation/Foundation.h>
-#import <UIKit/UIView.h>
-#import <UIKit/UIView-Hierarchy.h>
-#import <UIKit/UITextView.h>
-#import <UIKit/UINavigationBar.h>
-#import <UIKit/UINavigationItem.h>
-#import <UIKit/UIProgressHUD.h>
-#import <UIKit/UIImageAndTextTableCell.h>
-#import <UIKit/UITable.h>
-#import <UIKit/UITableColumn.h>
+#import <UIKit/UIKit.h>
 
-@interface TiVoBrowser: UIView
+@interface TiVoBrowser : UIView<UITableViewDataSource>
 {
-    UITable       *browserTable;
-    UITableColumn *col;
+    UITableView       *browserTable;
+    // UITableColumn *col;
     NSArray       *cells;
 }
 
 - (id)initWithFrame:(struct CGRect)rect :(NSArray *) cells;
 - (void) refresh:(id) param;
-- (UITable *) getTable;
+- (UITableView *) getTable;
 - (void) setCells:(NSArray *)cells;
 
 @end

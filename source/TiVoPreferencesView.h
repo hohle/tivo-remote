@@ -17,13 +17,7 @@
 
 */
 #import <Foundation/Foundation.h>
-#import <UIKit/UIView.h>
-#import <UIKit/UIView-Hierarchy.h>
-#import <UIKit/UIAlertSheet.h>
-#import <UIKit/UINavigationBar.h>
-#import <UIKit/UIPreferencesTextTableCell.h>
-#import <UIKit/UIPreferencesControlTableCell.h>
-#import <UIKit/UIPreferencesTable.h>
+#import <UIKit/UIKit.h>
 
 @class TiVoDefaults;
 
@@ -31,17 +25,17 @@
 {
     TiVoDefaults                  *defaults;
     UINavigationBar               *navBar;
-    UIPreferencesTable            *preferencesTable;
-    UIPreferencesTextTableCell    *nameCell;
-    UIPreferencesTextTableCell    *ipCell;
-    UIPreferencesTextTableCell    *makCell;
-    UIPreferencesControlTableCell *groupCell;
-    UIPreferencesControlTableCell *sortCell;
-    UIPreferencesTableCell        *add;
-    UIPreferencesControlTableCell *standbyCell;
+    UITableView            *preferencesTable;
+    UITableViewCell    *nameCell;
+    UITableViewCell    *ipCell;
+    UITableViewCell    *makCell;
+    UITableViewCell *groupCell;
+    UITableViewCell *sortCell;
+    UITableViewCell        *add;
+    UITableViewCell *standbyCell;
     NSMutableArray                *savedCells;
     NSMutableArray                *detectedCells;
-    UIPreferencesTableCell        *delete;
+    UITableViewCell        *delete;
 }
 
 - (id)initWithFrame:(struct CGRect)rect;

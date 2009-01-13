@@ -18,14 +18,7 @@
 
 #import <CoreFoundation/CoreFoundation.h>
 #import <Foundation/Foundation.h>
-#import <Foundation/NSDictionary.h>
-#import <Foundation/NSEnumerator.h>
 #import <CoreGraphics/CoreGraphics.h>
-#import <GraphicsServices/GraphicsServices.h>
-#import <UIKit/CDStructures.h>
-#import <UIKit/UITable.h>
-#import <UIKit/UIHardware.h>
-#import <UIKit/UITableColumn.h>
 
 #import "TiVoBrowser.h"
 
@@ -35,12 +28,12 @@
 {
     [super initWithFrame:rect];
 
-    browserTable = [[UITable alloc] initWithFrame:rect];
+    browserTable = [[UITableView alloc] initWithFrame:rect];
     [browserTable setDataSource:self];
     [browserTable setSeparatorStyle:1];
 
-    col = [[UITableColumn alloc] initWithTitle:@"Browser" identifier:@"browser" width:rect.size.width];
-    [browserTable addTableColumn:col];
+    // col = [[UITableColumn alloc] initWithTitle:@"Browser" identifier:@"browser" width:rect.size.width];
+    // [browserTable addTableColumn:col];
 
     cells = theCells;
     [self refresh:NULL];
@@ -49,11 +42,11 @@
     return self;
 }
 
-- (void) table:(UITable *) table deleteRow:(int) row 
+- (void) table:(UITableView *) table deleteRow:(int) row 
 {
 }
 
-- (BOOL) table:(UITable *) table canDeleteRow:(int) row 
+- (BOOL) table:(UITableView *) table canDeleteRow:(int) row 
 {
     return NO;
 }
@@ -63,17 +56,17 @@
     [browserTable reloadData];
 }
 
--(UITableCell*)table:(UITable*)table cellForRow:(int)row column:(UITableColumn *)column
+-(UITableViewCell*)tableView:(UITableView*)table cellForRowAtIndexPath:(NSIndexPath*) indexPath
 {
-    return [cells objectAtIndex:row];
+    return [cells objectAtIndex: [indexPath row]];
 }
 
--(int)numberOfRowsInTable:(UITable *) table
+-(int)tableView:(UITableView*)table numberOfRowsInSection:(int)section
 {
     return [cells count];
 }
 
--(UITable *)getTable
+-(UITableView *)getTable
 {
     return browserTable;
 }
@@ -87,7 +80,7 @@
 - (void)dealloc
 {
     [browserTable release];
-    [col release];
+    // [col release];
     [super dealloc];
 }
 

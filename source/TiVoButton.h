@@ -18,16 +18,15 @@
 */
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import <UIKit/UIAlertSheet.h>
 #import "ConnectionManager.h"
 
 @class UIPushButton;
 
-@interface TiVoButton: UIPushButton
+@interface TiVoButton : UIButton
 {
 	NSString             *functionKey;
 	id <RemoteConnection> connection;
-	UIAlertSheet         *alertSheet;
+	UIActionSheet         *alertSheet;
         NSString             *confirm;
 }
 
