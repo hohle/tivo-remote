@@ -42,7 +42,7 @@
     mainView = [[UIView alloc] initWithFrame: rect];
 
     struct CGRect navRect = CGRectMake(rect.origin.x, rect.origin.y, rect.size.width, 48);
-    navBar = [[UINavigationController alloc] initWithRootViewController: self];
+    navBar = [[UINavigationController alloc] init]; // initWithRootViewController: self];
     // [navBar setBarStyle:5];
     [[navBar navigationBar] setBarStyle: 5]; // TOOD 5 is not defined in public API
     [navBar setDelegate:self];
@@ -72,6 +72,8 @@
     } @catch (id) {
     }
 }
+
+- (NSString*) title { return @"TiVo Remote"; }
 
 - (void)navigationBar:(UINavigationController*)navbar buttonClicked:(int)button 
 {
