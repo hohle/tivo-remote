@@ -39,37 +39,37 @@
     item = theItem;
 
     descriptionCell = [[UITableViewCell alloc] init];
-    [descriptionCell setTitle:[item getDetail:@"Description"]];
-    [[descriptionCell textField] setText:@""];
-    [[descriptionCell titleTextLabel] setWrapsText:YES];
-    [descriptionCell setEnabled:NO];
+    [descriptionCell setText:[item getDetail:@"Description"]];
+    //[[descriptionCell textField] setText:@""];
+    // [[descriptionCell titleTextLabel] setWrapsText:YES];
+    // TODO [descriptionCell setEnabled:NO];
 
     durationCell = [[UITableViewCell alloc] init];
-    [durationCell setTitle:@"Duration"];
+    [durationCell setText:@"Duration"];
     int minutes = [[item getDetail:@"Duration"] intValue] / (60 * 1000);
     [[durationCell textField] setText:[NSString stringWithFormat:@"%d minutes", minutes]];
-    [durationCell setEnabled:NO];
+    // TODO [durationCell setEnabled:NO];
 
     hdCell = [[UITableViewCell alloc] init];
-    [hdCell setTitle:@"High Definition"];
-    [[hdCell textField] setText:[item getDetail:@"HighDefinition"]];
-    [hdCell setEnabled:NO];
+    [hdCell setText:@"High Definition"];
+    //[[hdCell textField] setText:[item getDetail:@"HighDefinition"]];
+    // TODO [hdCell setEnabled:NO];
 
     stationCell = [[UITableViewCell alloc] init];
-    [stationCell setTitle:@"Station"];
-    [[stationCell textField] setText:[item getDetail:@"SourceStation"]];
-    [stationCell setEnabled:NO];
+    [stationCell setText:@"Station"];
+    //[[stationCell textField] setText:[item getDetail:@"SourceStation"]];
+    // TODO [stationCell setEnabled:NO];
 
     captureCell = [[UITableViewCell alloc] init];
-    [captureCell setTitle:@"Recorded"];
-    [[captureCell textField] setText:[item getDetail:@"CaptureDate"]];
-    [captureCell setEnabled:NO];
+    [captureCell setText:@"Recorded"];
+    //[[captureCell textField] setText:[item getDetail:@"CaptureDate"]];
+    // TODO [captureCell setEnabled:NO];
 
     play = [[UITableViewCell alloc] init];
-    [play setTitle:@"Play"];
+    [play setText:@"Play"];
 
     delete = [[UITableViewCell alloc] init];
-    [delete setTitle:@"Delete"];
+    [delete setText:@"Delete"];
 
 
     [self addSubview:detailTable];
@@ -78,24 +78,28 @@
     return self;
 }
 
-- (int)numberOfGroupsInPreferencesTable:(id)preferencesTable
+
+
+- (NSUInteger) numberOfGroupsInPreferencesTable:(id)preferencesTable
 {
     return 3;
 }
 
-- (int)preferencesTable:(id)preferencesTable numberOfRowsInGroup:(int)group
+
+-(NSInteger) tableView: (UITableView*) table numberOfRowsInSection: (int) section
 {
-    switch (group) {
-    case 0:
-        return 4;
-    case 1:
-        return 1;
-    case 2:
-        return 1;
+    switch (section) {
+        case 0:
+            return 4;
+        case 1:
+            return 1;
+        case 2:
+            return 1;
     }
+    return 0;
 }
 
-- (id)preferencesTable:(id)preferencesTable titleForGroup:(int)group
+- (NSString*) preferencesTable:(id)preferencesTable titleForGroup:(int)group
 {
     switch (group) {
     case 0:
@@ -109,6 +113,7 @@
     case 2:
         return @"";
     }
+    return nil;
 }
 
 - (float)preferencesTable:(id)preferencesTable heightForRow:(int)row inGroup:(int)group withProposedHeight:(float)proposedHeight
@@ -122,30 +127,32 @@
     return proposedHeight;
 }
 
-- (id)preferencesTable:(id)preferencesTable cellForRow:(int)row inGroup:(int)group
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    switch (group) {
-    case 0:
-        switch(row) {
+    switch ([indexPath section]) {
         case 0:
-            return descriptionCell;
+            switch([indexPath row]) {
+                case 0:
+                    return descriptionCell;
+                case 1:
+                    return durationCell;
+                case 2:
+                    return hdCell;
+                case 3:
+                    return stationCell;
+            }
         case 1:
-            return durationCell;
+            return play;
         case 2:
-            return hdCell;
-        case 3:
-            return stationCell;
-        }
-    case 1:
-        return play;
-    case 2:
-        return delete;
+            return delete;
     }
+    return nil;
 }
 
 - (void)tableRowSelected:(NSNotification *)notification
 {
-    int row = [detailTable selectedRow];
+    NSIndexPath* indexPath = [detailTable indexPathForSelectedRow];
+    NSUInteger row = [indexPath row];
     if (row == 6) {
         @try {
             NSMutableArray *commands = [item getCommands];
@@ -156,7 +163,7 @@
             [SimpleDialog showDialog:@"Connection Error" :exc];
         }
     } else if (row == 8) {
-        CGRect rect = [[UIWindow keyWindow] bounds];
+        CGRect rect = [[[UIApplication sharedApplication] keyWindow] bounds];
         alertSheet = [[UIActionSheet alloc] initWithFrame:CGRectMake(0,rect.size.height - 240, rect.size.width,240)];
         [alertSheet setTitle:@"Alert!"];
         [alertSheet setBodyText:@"Deleting is not 100% reliable.  Are you sure?"];
@@ -165,7 +172,8 @@
         [alertSheet setDelegate: self];
         [alertSheet popupAlertAnimated:YES];
     }
-    [[[notification object]cellAtRow:[[notification object]selectedRow]column:0] setSelected:FALSE withFade:TRUE];
+    UITableView* t = [notification object];
+    [[t cellForRowAtIndexPath: [t indexPathForSelectedRow]] setSelected: NO animated: YES];
 }
 
 - (void)alertSheet:(UIActionSheet *)sheet buttonClicked:(int) button
@@ -197,5 +205,6 @@
     [captureCell release];
     [super dealloc];
 }
+
 
 @end

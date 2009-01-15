@@ -22,6 +22,7 @@
 #import <stdlib.h>
 #import <stdio.h>
 #import <string.h>
+#include <sys/time.h>
 
 #import "TiVoDefaults.h"
 #import "TiVoConnection.h"

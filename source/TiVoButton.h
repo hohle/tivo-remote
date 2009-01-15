@@ -20,9 +20,7 @@
 #import <UIKit/UIKit.h>
 #import "ConnectionManager.h"
 
-@class UIPushButton;
-
-@interface TiVoButton : UIButton
+@interface TiVoButton : UIButton<UIActionSheetDelegate>
 {
 	NSString             *functionKey;
 	id <RemoteConnection> connection;
@@ -31,7 +29,7 @@
 }
 
 - (id) initButton: (NSDictionary *) buttonProps;
-- (void) buttonEvent:(UIPushButton *) button;
+- (void) buttonEvent:(UIButton *) button;
 - (void) showConfirm:(NSString *) alert;
 
 @end

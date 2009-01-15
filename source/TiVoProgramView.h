@@ -21,7 +21,7 @@
 
 @class TiVoContainerItem;
 
-@interface TiVoProgramView: UIView <UITableViewDataSource, UITableViewDelegate>
+@interface TiVoProgramView: UIView <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate>
 {
     TiVoContainerItem *item;
     UITableView *detailTable;

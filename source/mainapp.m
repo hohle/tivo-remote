@@ -19,10 +19,5 @@
 #import "TiVoRemoteApp.h"
 
 int main(int argc, char **argv) {
-  NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-  
   return UIApplicationMain(argc, argv, @"TiVoRemoteApp", @"TiVoRemoteApp");
-//  int ret = UIApplicationMain(argc, argv, [TiVoRemoteApp class]);
-//  [pool release];
-//  return ret;
 }

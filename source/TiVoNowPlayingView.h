@@ -29,7 +29,7 @@
 -(id)getValue;
 @end
 
-@interface TiVoNowPlayingView: UIView
+@interface TiVoNowPlayingView: UIView <UITableViewDelegate>
 {
     UINavigationBar *navBar;
     UINavigationBar *bottomNavBar;

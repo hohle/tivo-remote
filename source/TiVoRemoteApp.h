@@ -30,13 +30,14 @@
 
 enum PreferenceAnimationType;
 
-@interface TiVoRemoteApp : UIApplication{
-	UIView          *mainView;
-	UINavigationBar *navBar;
-	TiVoRemoteView  *remoteView;
-	int              page;
+@interface TiVoRemoteApp : UIApplication<UINavigationControllerDelegate>
+{
+    UIView* mainView;
+    UINavigationController* navBar;
+    TiVoRemoteView* remoteView;
+    int page;
 }
 
-- (void)navigationBar:(UINavigationBar*)navbar buttonClicked:(int)button;
+- (void)navigationBar:(UINavigationController*)navbar buttonClicked:(int)button;
 - (void)setNavBarButtons;
 @end

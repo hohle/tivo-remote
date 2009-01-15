@@ -27,20 +27,23 @@
 
 - (void)alertSheet:(UIActionSheet *)sheet buttonClicked:(int) button
 {
-    [sheet dismissAnimated:YES];
+    [sheet dismissWithClickedButtonIndex: button animated: YES];
     [sheet release];
 }
 
 + (void)showDialog:(NSString *) title: (NSString *)alert
 {
     NSString *bodyText = [NSString stringWithFormat:alert];
-    CGRect rect = [[UIWindow keyWindow] bounds];
+    CGRect rect = [[[UIApplication sharedApplication] keyWindow] bounds];
     UIActionSheet *alertSheet = [[UIActionSheet alloc] initWithFrame:CGRectMake(0,rect.size.height - 240, rect.size.width,240)];
     [alertSheet setTitle:title];
-    [alertSheet setBodyText:bodyText];
+    // TODO: create a UILabel for this text
+    // [alertSheet setBodyText:bodyText];
     [alertSheet addButtonWithTitle:@"OK"];
     [alertSheet setDelegate: [[SimpleDialog alloc] init]];
-    [alertSheet popupAlertAnimated:YES];
+    // TODO: verify
+    [alertSheet showInView: [[UIApplication sharedApplication] keyWindow]];
+    // [alertSheet popupAlertAnimated:YES];
 }
 
 @end

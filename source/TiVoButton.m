@@ -28,38 +28,48 @@
 @implementation TiVoButton
 - (id)initButton:(NSDictionary *) buttonProps
 {
-    [super initWithTitle: [buttonProps objectForKey:@"title"] autosizesToFit:NO];
-    UIImage *buttonImg = [UIImage imageNamed:[buttonProps objectForKey:@"icon"]];
-    UIImage *pressedImg = buttonImg;
-    NSString *pressedIcon = [buttonProps objectForKey:@"pressed-icon"];
-    if (pressedIcon != NULL) {
-        pressedImg = [UIImage imageNamed:[buttonProps objectForKey:@"pressed-icon"]];
+    if (self = [super init])
+    {
+        [self setTitle: [buttonProps objectForKey: @"title"] forState: UIControlStateNormal];
+        [self setAutoresizesSubviews: NO];
+        
+        UIImage *buttonImg = [UIImage imageNamed:[buttonProps objectForKey:@"icon"]];
+        UIImage *pressedImg = buttonImg;
+        NSString *pressedIcon = [buttonProps objectForKey:@"pressed-icon"];
+        if (pressedIcon != NULL) {
+            pressedImg = [UIImage imageNamed:[buttonProps objectForKey:@"pressed-icon"]];
+        }
+        
+        functionKey = [buttonProps objectForKey:@"function"];
+        confirm = [buttonProps objectForKey:@"confirm"];
+        
+        //    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+        //    float backParts[4] = {0, 0, 0, .9};
+        //    [self setTitleColor : CGColorCreate( colorSpace, backParts) forState:0];
+        //2.0
+        [self setTitleColor : [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.9]
+                    forState: UIControlStateNormal];
+        
+        // [self setDrawContentsCentered: YES];
+        [self setBackgroundImage: buttonImg forState: UIControlStateNormal];
+        // [self setBackground:buttonImg forState:0];
+        [self setBackgroundImage: pressedImg forState: UIControlStateSelected];
+        // [self setBackground:pressedImg forState:1];
+        [self addTarget: self action: @selector(buttonEvent:) forControlEvents: UIControlEventTouchDown];
+        // [self addTarget: self action:@selector(buttonEvent:) forEvents:1];
+        
+        int xCoord = [[buttonProps objectForKey:@"xCoord"] intValue];
+        int yCoord = [[buttonProps objectForKey:@"yCoord"] intValue];
+        [self setFrame:  CGRectMake(xCoord, yCoord,  [buttonImg size].width, [buttonImg size].height)];
+        
+        connection = [[ConnectionManager getInstance] getConnection: [buttonProps objectForKey:@"connection"]];
+        
+        
     }
-
-    functionKey = [buttonProps objectForKey:@"function"];
-    confirm = [buttonProps objectForKey:@"confirm"];
-
-//    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-//    float backParts[4] = {0, 0, 0, .9};
-//    [self setTitleColor : CGColorCreate( colorSpace, backParts) forState:0];
-//2.0
-    [self setTitleColor : [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.9]];
-
-    [self setDrawContentsCentered: YES];
-    [self setBackground:buttonImg forState:0];
-    [self setBackground:pressedImg forState:1];
-    [self addTarget: self action:@selector(buttonEvent:) forEvents:1];
-
-    int xCoord = [[buttonProps objectForKey:@"xCoord"] intValue];
-    int yCoord = [[buttonProps objectForKey:@"yCoord"] intValue];
-    [self setFrame:  CGRectMake(xCoord, yCoord,  [buttonImg size].width, [buttonImg size].height)];
-
-    connection = [[ConnectionManager getInstance] getConnection: [buttonProps objectForKey:@"connection"]];
-
     return self;
 }
 
-- (void) buttonEvent:(UIPushButton *) button
+- (void) buttonEvent:(UIButton *) button
 {
     if (confirm != NULL) {
         [self showConfirm:confirm];
@@ -78,16 +88,19 @@
     CGRect rect = [[UIScreen mainScreen] bounds];
     alertSheet = [[UIActionSheet alloc] initWithFrame:CGRectMake(0,rect.size.height - 240, rect.size.width,240)];
     [alertSheet setTitle:@"Alert!"];
-    [alertSheet setBodyText:bodyText];
+    // TODO add as UILabel
+    //[alertSheet setBodyText:bodyText];
     [alertSheet addButtonWithTitle:@"Cancel"];
     [alertSheet addButtonWithTitle:@"OK"];
     [alertSheet setDelegate: self];
-    [alertSheet popupAlertAnimated:YES];
+    // [alertSheet popupAlertAnimated:YES];
+    // TODO: Verify
+    [alertSheet showInView: [[UIApplication sharedApplication] keyWindow]];
 }
 
 - (void)alertSheet:(UIActionSheet *)sheet buttonClicked:(int) button
 {
-    [sheet dismissAnimated:YES];
+    [sheet dismissWithClickedButtonIndex: button animated: YES];
     if (button == 2) {
         @try {
             [connection sendCommand: functionKey];

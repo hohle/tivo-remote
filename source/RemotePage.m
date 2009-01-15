@@ -58,7 +58,7 @@
     // setbackground
     NSString *bgImage = [pageSettings objectForKey:@"background"];
     if (bgImage != NULL) {
-        [background setImage:[UIImage applicationImageNamed:bgImage]];
+        [background setImage:[UIImage imageNamed:bgImage]];
     }
 
     // load sections
