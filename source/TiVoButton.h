@@ -18,7 +18,8 @@
 */
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "ConnectionManager.h"
+
+@protocol RemoteConnection;
 
 @interface TiVoButton : UIButton<UIActionSheetDelegate>
 {

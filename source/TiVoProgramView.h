@@ -30,9 +30,9 @@
     UITableViewCell    *stationCell;
     UITableViewCell    *hdCell;
     UITableViewCell    *captureCell;
-    UITableViewCell    *play;
-    UITableViewCell    *delete;
-    UIActionSheet              *alertSheet;
+    UITableViewCell *play;
+    UITableViewCell* delete;
+    UIActionSheet* alertSheet;
 }
 
 - (id)initWithFrame:(struct CGRect)rect :(TiVoContainerItem*) item;

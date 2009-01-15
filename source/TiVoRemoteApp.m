@@ -19,6 +19,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+#import "ConnectionManager.h"
 #import "TiVoRemoteApp.h"
 #import "TiVoRemoteView.h"
 #import "TiVoPreferencesView.h"
@@ -78,13 +79,13 @@
     case 0: // settings
     {
         struct CGRect rect = [[UIScreen mainScreen] bounds];
-        TiVoPreferencesView *newView;
+        UIView* newView = nil;
         if ([[TiVoNPLConnection getInstance] getState] != NPL_NO_CONNECTION) {
-            TiVoNowPlayingView *newView= [[TiVoNowPlayingView alloc] initWithFrame:
+            newView= [[TiVoNowPlayingView alloc] initWithFrame:
                    CGRectMake(0, 0, rect.size.width, rect.size.height)];
             [mainView addSubview:newView];
         } else {
-            TiVoPreferencesView *newView= [[TiVoPreferencesView alloc] initWithFrame:
+            newView= [[TiVoPreferencesView alloc] initWithFrame:
                    CGRectMake(0, 0, rect.size.width, rect.size.height)];
             [mainView addSubview:newView];
         }

@@ -16,8 +16,9 @@
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
-#import "ConnectionManager.h"
+#import <Foundation/Foundation.h>
 
+@protocol RemoteConnection;
 @class TiVoDefaults;
 
 @interface TiVoConnection: NSObject <RemoteConnection>
